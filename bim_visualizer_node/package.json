@@ -1,0 +1,27 @@
+{
+  "name": "bim_visualizer_node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer.git"
+  },
+  "author": "Vinícius Cavalcanti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/issues"
+  },
+  "homepage": "https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer#readme",
+  "devDependencies": {
+    "jest": "^28.1.1"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.18.1",
+    "ws": "^8.8.0"
+  }
+}
