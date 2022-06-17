@@ -1,0 +1,6 @@
+framework module GZ_NMSSH {
+  umbrella header "GZ-NMSSH-umbrella.h"
+
+  export *
+  module * { export * }
+}

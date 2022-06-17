@@ -1,0 +1,53 @@
+dependencies: \
+  /Users/vinicius/development/flutter/.pub-cache/hosted/pub.dartlang.org/ssh2-2.2.3/ios/Classes/SshPlugin.m \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/build/Pods.build/Debug-iphonesimulator/ssh2.build/module.modulemap \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/Target\ Support\ Files/ssh2/ssh2-prefix.pch \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/kcdata.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/uuid.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/netinet6.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/machine.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/device.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/mach_debug.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/mach_machine.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/mach.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/bank.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/darwin_posix_sys_types.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/netinet.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/net.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/darwin_cdefs.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/mach-o/compact_unwind_encoding.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/usr/include/mach-o/dyld.modulemap \
+  /Users/vinicius/development/flutter/.pub-cache/hosted/pub.dartlang.org/ssh2-2.2.3/ios/Classes/SshPlugin.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Modules/module.modulemap \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterViewController.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterPluginAppLifeCycleDelegate.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterHeadlessDartRunner.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterEngineGroup.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterEngine.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterDartProject.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterCallbackCache.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterTexture.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterPlatformViews.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterCodecs.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterChannels.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterBinaryMessenger.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterPlugin.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterMacros.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/FlutterAppDelegate.h \
+  /Users/vinicius/development/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Headers/Flutter.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/build/Pods.build/Debug-iphonesimulator/GZ-NMSSH.build/module.modulemap \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH-iOS/libssh2/headers/libssh2_publickey.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH/Config/NMSSHLogger.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH/NMSSHHostConfig.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH/NMSSHConfig.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH/NMSFTPFile.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH/NMSSHChannel.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH/NMSSHSession.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH/Protocols/NMSSHChannelDelegate.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH/Protocols/NMSSHSessionDelegate.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH-iOS/libssh2/headers/libssh2_sftp.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH-iOS/libssh2/headers/libssh2.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH/NMSSH.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/GZ-NMSSH/NMSSH/NMSFTP.h \
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/ios/Pods/Target\ Support\ Files/GZ-NMSSH/GZ-NMSSH-umbrella.h \
+  /Users/vinicius/development/flutter/.pub-cache/hosted/pub.dartlang.org/ssh2-2.2.3/ios/Classes/SSHClient.h

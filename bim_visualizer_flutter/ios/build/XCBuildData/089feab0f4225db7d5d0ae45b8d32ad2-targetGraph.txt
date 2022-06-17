@@ -1,0 +1,18 @@
+Target dependency graph (6 targets)
+Flutter in Pods, no dependencies
+GZ-NMSSH in Pods, no dependencies
+shared_preferences_ios in Pods, depends on:
+Flutter in Pods (explicit)
+ssh2 in Pods, depends on:
+Flutter in Pods (explicit)
+GZ-NMSSH in Pods (explicit)
+Pods-Runner in Pods, depends on:
+Flutter in Pods (explicit)
+GZ-NMSSH in Pods (explicit)
+shared_preferences_ios in Pods (explicit)
+ssh2 in Pods (explicit)
+Runner in Runner, depends on:
+Pods-Runner in Pods (implicit dependency via file 'Pods_Runner.framework' in build phase 'Link Binary')
+GZ-NMSSH in Pods (implicit dependency via options '-framework GZ_NMSSH' in build setting 'OTHER_LDFLAGS')
+shared_preferences_ios in Pods (implicit dependency via options '-framework shared_preferences_ios' in build setting 'OTHER_LDFLAGS')
+ssh2 in Pods (implicit dependency via options '-framework ssh2' in build setting 'OTHER_LDFLAGS')
