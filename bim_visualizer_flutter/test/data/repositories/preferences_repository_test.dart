@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'dart:convert';
 
 void main () {
-  test("When no values are set, the default values should be returned", () async {
+  test('When no values are set, the default values should be returned', () async {
     // given
     SharedPreferences.setMockInitialValues({});
 
@@ -17,7 +17,7 @@ void main () {
     expect(prefs, Server.defaultValues());
   });
 
-  test("When values are set, the values should be returned", () async {
+  test('When values are set, the values should be returned', () async {
     // given
     const savedPrefs = Server(
       hostname: 'lg',

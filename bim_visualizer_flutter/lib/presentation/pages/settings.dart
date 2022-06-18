@@ -23,12 +23,12 @@ class Settings extends StatelessWidget {
             backgroundColor: secondaryColor,
             title: const Text('Settings'),
           ),
-          body: ListView(children: <Widget>[
-            Form(
+          body: SingleChildScrollView(
+            child: Form(
               key: formKey,
               child: _buildForm(context, hostname, ipAddress, password),
             )
-          ]),
+          ),
         )
     );
   }
@@ -62,6 +62,7 @@ class Settings extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           TextFormField(
+            obscureText: true,
             initialValue: server.password != '' ? server.password : '',
             cursorColor: secondaryColor,
             decoration: const InputDecoration(

@@ -36,23 +36,4 @@ dependencies: \
   /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/shared_preferences_ios/shared_preferences_ios.framework/Headers/FLTSharedPreferencesPlugin.h \
   /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/shared_preferences_ios/shared_preferences_ios.framework/Modules/module.modulemap \
   /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/shared_preferences_ios/shared_preferences_ios.framework/Headers/messages.g.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/shared_preferences_ios/shared_preferences_ios.framework/Headers/shared_preferences_ios-umbrella.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/ssh2/ssh2.framework/Headers/SshPlugin.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/ssh2/ssh2.framework/Modules/module.modulemap \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Modules/module.modulemap \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/libssh2_publickey.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/NMSSHLogger.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/NMSSHHostConfig.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/NMSSHConfig.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/NMSFTPFile.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/NMSSHChannel.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/NMSSHSession.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/NMSSHChannelDelegate.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/NMSSHSessionDelegate.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/libssh2_sftp.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/libssh2.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/NMSSH.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/NMSFTP.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/GZ-NMSSH/GZ_NMSSH.framework/Headers/GZ-NMSSH-umbrella.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/ssh2/ssh2.framework/Headers/SSHClient.h \
-  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/ssh2/ssh2.framework/Headers/ssh2-umbrella.h
+  /Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_flutter/build/ios/Debug-iphonesimulator/shared_preferences_ios/shared_preferences_ios.framework/Headers/shared_preferences_ios-umbrella.h
