@@ -39,6 +39,7 @@ dependencies:
   equatable: ^2.0.3
   dartssh2: ^2.7.1
   dartz: ^0.10.1
+  another_flushbar: ^1.10.29
 
 dev_dependencies:
   flutter_test:
