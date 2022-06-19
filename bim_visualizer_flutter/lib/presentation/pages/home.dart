@@ -89,8 +89,8 @@ class _HomeState extends State<Home> {
                       } else if (state is GalaxyConnectFailure) {
                         connected = false;
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Connection failed, please check the server preferences'),
+                           SnackBar(
+                            content: Text(state.error),
                             backgroundColor: errorColor,
                           )
                         );

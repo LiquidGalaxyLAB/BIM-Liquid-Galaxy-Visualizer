@@ -1,6 +1,5 @@
 import 'package:bim_visualizer_flutter/data/repositories/galaxy_repository.dart';
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
-import 'package:equatable/equatable.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:bloc/bloc.dart';
 
