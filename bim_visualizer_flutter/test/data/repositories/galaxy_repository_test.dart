@@ -8,11 +8,7 @@ import 'package:dartssh2/dartssh2.dart';
 void main () {
   test('When credentials are valid, should establish a connection', () async {
     // given
-    Server server = const Server(
-      hostname: 'root',
-      ipAddress: 'honeypot.terminal.studio',
-      password: 'random'
-    );
+    Server server = getTestServer();
     const port = 2022;
 
     // when
@@ -32,11 +28,7 @@ void main () {
 
   test('When credentials are invalid, should throw SSHAuthFailError', () async {
     // given
-    Server server = const Server(
-      hostname: 'root',
-      ipAddress: 'honeypot.terminal.studio',
-      password: 'random'
-    );
+    Server server = getTestServer();
     const port = 2023;
 
     // when
@@ -54,4 +46,34 @@ void main () {
       }
     );
   });
+
+  test('On close, should close client connection', () async {
+    // given
+    Server server = getTestServer();
+    const port = 2022;
+
+    final galaxyRepo = GalaxyRepository();
+    final client = await galaxyRepo.connect(server, port);
+
+    // when
+    client.fold(
+      (l) {
+        fail('Should have connect');
+      },
+      (r) async {
+        final closed = await galaxyRepo.close(r);
+
+        // then
+        expect(closed.isClosed, true);
+      }
+    );
+  });
+}
+
+Server getTestServer() {
+  return const Server(
+    hostname: 'root',
+    ipAddress: 'honeypot.terminal.studio',
+    password: 'random'
+  );
 }

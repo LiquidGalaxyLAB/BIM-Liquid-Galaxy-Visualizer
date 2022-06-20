@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.zero,
                         icon: const Icon(Icons.refresh, size: 40.0, color: primaryColor),
                         onPressed: () {
-                          if (connected) client.close();
+                          if (connected) _galaxyBloc.add(GalaxyClose(client));
                           _galaxyBloc.add(GalaxyConnect(server, 22));
                         },
                       )
@@ -109,6 +109,8 @@ class _HomeState extends State<Home> {
                           duration: const Duration(seconds: 5),
                           flushbarPosition: FlushbarPosition.TOP
                         ).show(context);
+                      } else if (state is GalaxyCloseSuccess) {
+                        connected = false;
                       }
                     },
                     builder: (blocContext, state) {
@@ -125,7 +127,7 @@ class _HomeState extends State<Home> {
                               if (state is PreferencesUpdateSuccess || state is PreferencesClearSuccess) {
                                 _preferencesBloc.add(PreferencesGet());
                               } else if (state is PreferencesGetSuccess) {
-                                if (connected) client.close();
+                                if (connected) _galaxyBloc.add(GalaxyClose(client));
                                 server = state.server;
                                 _galaxyBloc.add(GalaxyConnect(server, 22));
                               }

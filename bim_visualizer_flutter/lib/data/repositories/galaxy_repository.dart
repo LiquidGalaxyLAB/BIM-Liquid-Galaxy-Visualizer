@@ -5,6 +5,7 @@ import 'dart:io';
 
 abstract class GalaxyRepositoryImpl {
   Future<Either<SSHAuthFailError, SSHClient>> connect(Server server, int port);
+  Future<SSHClient> close(SSHClient client);
 }
 
 class GalaxyRepository implements GalaxyRepositoryImpl {
@@ -28,5 +29,11 @@ class GalaxyRepository implements GalaxyRepositoryImpl {
       // socket exception throwed (only on android) when server could not be reachable
       return Left(SSHAuthFailError(e.message + ": Please check if the server is reachable"));
     }
+  }
+
+  @override
+  Future<SSHClient> close(SSHClient client) async {
+    if (!client.isClosed) client.close();
+    return client;
   }
 }

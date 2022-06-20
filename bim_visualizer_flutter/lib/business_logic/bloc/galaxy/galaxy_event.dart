@@ -12,3 +12,9 @@ class GalaxyConnect extends GalaxyEvent {
 
   const GalaxyConnect(this.server, this.port);
 }
+
+class GalaxyClose extends GalaxyEvent {
+  final SSHClient client;
+
+  const GalaxyClose(this.client);
+}

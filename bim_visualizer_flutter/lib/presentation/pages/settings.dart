@@ -62,6 +62,7 @@ class Settings extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             TextFormField(
+              keyboardType: TextInputType.number,
               initialValue: server.ipAddress != '' ? server.ipAddress : '',
               cursorColor: secondaryColor,
               decoration: const InputDecoration(
