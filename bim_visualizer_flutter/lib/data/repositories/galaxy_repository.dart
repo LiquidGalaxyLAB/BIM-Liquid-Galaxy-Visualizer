@@ -6,6 +6,7 @@ import 'dart:io';
 abstract class GalaxyRepositoryImpl {
   Future<Either<SSHAuthFailError, SSHClient>> connect(Server server, int port);
   Future<SSHClient> close(SSHClient client);
+  Future<int> execute(SSHClient client, String command);
 }
 
 class GalaxyRepository implements GalaxyRepositoryImpl {
@@ -35,5 +36,21 @@ class GalaxyRepository implements GalaxyRepositoryImpl {
   Future<SSHClient> close(SSHClient client) async {
     if (!client.isClosed) client.close();
     return client;
+  }
+
+  @override
+  Future<int> execute(SSHClient client, String command) async {
+    final session = await client.execute(command);
+    await session.stdin.close();
+    await session.done;
+    
+    int? code = session.exitCode;
+    if (code != null) {
+      if (code == 0) return code;
+      return -1;
+    }
+
+    // command executed but script doesnt return an exit code so we assume it was successful
+    return 0;
   }
 }

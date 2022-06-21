@@ -18,3 +18,10 @@ class GalaxyClose extends GalaxyEvent {
 
   const GalaxyClose(this.client);
 }
+
+class GalaxyExecute extends GalaxyEvent {
+  final SSHClient client;
+  final String command;
+
+  const GalaxyExecute(this.client, this.command);
+}

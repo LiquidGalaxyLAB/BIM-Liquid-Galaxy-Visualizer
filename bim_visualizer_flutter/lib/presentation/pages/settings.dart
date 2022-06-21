@@ -19,20 +19,16 @@ class Settings extends StatelessWidget {
     return WillPopScope(
         onWillPop: () async => true,
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(100.0),
-            child: AppBar(
-              leading: IconButton(
-                color: primaryColor,
-                icon: const Icon(Icons.arrow_back, size: 40.0),
-                onPressed: () => {
-                  Navigator.pop(context)
-                },
-              ),
-              toolbarHeight: 100.0,
-              backgroundColor: secondaryColor,
-              title: const Text('Settings', style: TextStyle(fontSize: 40)),
-            )
+          appBar: AppBar(
+            leading: IconButton(
+              color: primaryColor,
+              icon: const Icon(Icons.arrow_back, size: 30.0),
+              onPressed: () => {
+                Navigator.pop(context)
+              },
+            ),
+            backgroundColor: secondaryColor,
+            title: const Text('Settings', style: TextStyle(fontSize: 24.0)),
           ),
           body: SingleChildScrollView(
             child: Form(
@@ -54,10 +50,9 @@ class Settings extends StatelessWidget {
             TextFormField(
               initialValue: hostname,
               decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(30.0),
                 enabled: false,
                 labelText: 'Hostname',
-                labelStyle: TextStyle(fontSize: 30.0)
+                labelStyle: TextStyle(fontSize: 24.0)
               )
             ),
             const SizedBox(height: 12),
@@ -66,12 +61,8 @@ class Settings extends StatelessWidget {
               initialValue: server.ipAddress != '' ? server.ipAddress : '',
               cursorColor: secondaryColor,
               decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(30.0),
                 labelText: 'IP Address',
-                labelStyle: TextStyle(fontSize: 30.0, color: secondaryColor),
-                focusedBorder: OutlineInputBorder(
-                  borderSide:  BorderSide(color: secondaryColor),
-                )
+                labelStyle: TextStyle(fontSize: 24.0, color: secondaryColor)
               ),
               onChanged: (value) => ipAddress = value,
             ),
@@ -81,12 +72,8 @@ class Settings extends StatelessWidget {
               initialValue: server.password != '' ? server.password : '',
               cursorColor: secondaryColor,
               decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(30.0),
                 labelText: 'Password',
-                labelStyle: TextStyle(fontSize: 30.0, color: secondaryColor),
-                focusedBorder: OutlineInputBorder(
-                  borderSide:  BorderSide(color: secondaryColor),
-                )
+                labelStyle: TextStyle(fontSize: 24.0, color: secondaryColor)
               ),
               onChanged: (value) => password = value,
             ),
@@ -95,7 +82,7 @@ class Settings extends StatelessWidget {
               child: const Text('SAVE'),
               style: ElevatedButton.styleFrom(
                 primary: accentColor,
-                padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                 textStyle: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold

@@ -36,3 +36,14 @@ class GalaxyCloseFailure extends GalaxyState {
   @override
   List<Object> get props => [error];
 }
+
+class GalaxyExecuteSuccess extends GalaxyState {}
+
+class GalaxyExecuteFailure extends GalaxyState {
+  final String error;
+
+  const GalaxyExecuteFailure(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

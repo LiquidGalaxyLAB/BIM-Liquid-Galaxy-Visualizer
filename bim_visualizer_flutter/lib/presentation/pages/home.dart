@@ -48,46 +48,42 @@ class _HomeState extends State<Home> {
               ),
             ],
             child: Scaffold(
-              appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(100.0),
-                child: AppBar(
-                  toolbarHeight: 100.0,
-                  backgroundColor: secondaryColor,
-                  title:  const Text(
-                    'LG BIM Visualizer',
-                    style: TextStyle(fontSize: 40, color: primaryColor)
+              appBar: AppBar(
+                backgroundColor: secondaryColor,
+                title:  const Text(
+                  'LG BIM Visualizer',
+                  style: TextStyle(fontSize: 24.0, color: primaryColor)
+                ),
+                elevation: 0,
+                actions: <Widget>[
+                  SizedBox(
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(Icons.refresh, size: 30.0, color: primaryColor),
+                      onPressed: () {
+                        if (connected) _galaxyBloc.add(GalaxyClose(client));
+                        _galaxyBloc.add(GalaxyConnect(server, 22));
+                      },
+                    )
                   ),
-                  elevation: 0,
-                  actions: <Widget>[
-                    SizedBox(
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        icon: const Icon(Icons.refresh, size: 40.0, color: primaryColor),
-                        onPressed: () {
-                          if (connected) _galaxyBloc.add(GalaxyClose(client));
-                          _galaxyBloc.add(GalaxyConnect(server, 22));
-                        },
-                      )
-                    ),
-                    SizedBox(
-                      width: 100.0,
-                      child: IconButton(
-                        icon: const Icon(Icons.settings, size: 40.0, color: primaryColor),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Settings(
-                                preferencesBloc: _preferencesBloc,
-                                server: server
-                              )
+                  SizedBox(
+                    width: 100.0,
+                    child: IconButton(
+                      icon: const Icon(Icons.settings, size: 30.0, color: primaryColor),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Settings(
+                              preferencesBloc: _preferencesBloc,
+                              server: server
                             )
-                          );
-                        },
-                      )
-                    ),
-                  ],
-                )
+                          )
+                        );
+                      },
+                    )
+                  ),
+                ],
               ),
               body: Column(
                 children: <Widget>[
@@ -103,19 +99,43 @@ class _HomeState extends State<Home> {
                           title: "Something goes wrong",
                           isDismissible: true,
                           flushbarStyle: FlushbarStyle.GROUNDED,
-                          titleSize: 26.0,
+                          titleSize: 20.0,
                           message: state.error,
-                          messageSize: 22.0,
+                          messageSize: 16.0,
                           duration: const Duration(seconds: 5),
                           flushbarPosition: FlushbarPosition.TOP
                         ).show(context);
                       } else if (state is GalaxyCloseSuccess) {
                         connected = false;
+                      } else if (state is GalaxyExecuteSuccess) {
+                        Flushbar(
+                          backgroundColor: successColor,
+                          title: "Success",
+                          isDismissible: true,
+                          flushbarStyle: FlushbarStyle.GROUNDED,
+                          titleSize: 20.0,
+                          message: 'Command successfully executed',
+                          messageSize: 16.0,
+                          duration: const Duration(seconds: 5),
+                          flushbarPosition: FlushbarPosition.TOP
+                        ).show(context);
+                      } else if (state is GalaxyExecuteFailure) {
+                        Flushbar(
+                          backgroundColor: errorColor,
+                          title: "Something goes wrong",
+                          isDismissible: true,
+                          flushbarStyle: FlushbarStyle.GROUNDED,
+                          titleSize: 20.0,
+                          message: state.error,
+                          messageSize: 16.0,
+                          duration: const Duration(seconds: 5),
+                          flushbarPosition: FlushbarPosition.TOP
+                        ).show(context);
                       }
                     },
                     builder: (blocContext, state) {
                       return SizedBox(
-                        height: 100.0,
+                        height: 75.0,
                         child: Card(
                           color: secondaryColor,
                           margin: EdgeInsets.zero,
@@ -142,7 +162,7 @@ class _HomeState extends State<Home> {
                                       child: Chip(
                                         label: Text(
                                           connected ? 'Connected' : 'Disconnected',
-                                          style: const TextStyle(fontSize: 22.0, color: primaryColor)
+                                          style: const TextStyle(fontSize: 18.0, color: primaryColor)
                                         ),
                                         backgroundColor: connected ? successColor : errorColor
                                       )
@@ -156,17 +176,48 @@ class _HomeState extends State<Home> {
                                         padding: const EdgeInsets.only(left: 20.0),
                                         child: Text(
                                           'Hostname: ' + server.hostname!,
-                                          style: const TextStyle(fontSize: 24.0, color: primaryColor)
+                                          style: const TextStyle(fontSize: 20.0, color: primaryColor)
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(left: 20.0),
                                         child: Text(
                                           'Address: ' + server.ipAddress!,
-                                          style: const TextStyle(fontSize: 20.0, color: primaryColor)
+                                          style: const TextStyle(fontSize: 16.0, color: primaryColor)
                                         )
                                       ),
                                     ]
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          child: IconButton(
+                                            padding: EdgeInsets.zero,
+                                            icon: const Icon(Icons.open_in_browser, size: 30.0, color: primaryColor),
+                                            onPressed: () {
+                                              if (connected) {
+                                                String command = 'bash projects/bim_visualizer_node/libs/open.sh';
+                                                _galaxyBloc.add(GalaxyExecute(client, command));
+                                              }
+                                            }
+                                          )
+                                        ),
+                                        SizedBox(
+                                        width: 100.0,
+                                        child: IconButton(
+                                          padding: EdgeInsets.zero,
+                                          icon: const Icon(Icons.close, size: 30.0, color: primaryColor),
+                                          onPressed: () {
+                                            if (connected) {
+                                              String command = 'bash projects/bim_visualizer_node/libs/close.sh';
+                                              _galaxyBloc.add(GalaxyExecute(client, command));
+                                            }
+                                          }
+                                        )),
+                                      ]
+                                    )
                                   )
                                 ]
                               );
