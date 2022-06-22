@@ -4,10 +4,11 @@ import 'package:bim_visualizer_flutter/business_logic/bloc/galaxy/galaxy_bloc.da
 import 'package:bim_visualizer_flutter/data/repositories/galaxy_repository.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/settings.dart';
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
+import 'package:bim_visualizer_flutter/utils/ui/snackbar.dart';
+import 'package:bim_visualizer_flutter/constants/colors.dart';
+import 'package:bim_visualizer_flutter/constants/sizes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bim_visualizer_flutter/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/material.dart';
 
@@ -52,14 +53,14 @@ class _HomeState extends State<Home> {
                 backgroundColor: secondaryColor,
                 title:  const Text(
                   'LG BIM Visualizer',
-                  style: TextStyle(fontSize: 24.0, color: primaryColor)
+                  style: TextStyle(fontSize: titleSize, color: primaryColor)
                 ),
                 elevation: 0,
                 actions: <Widget>[
                   SizedBox(
                     child: IconButton(
                       padding: EdgeInsets.zero,
-                      icon: const Icon(Icons.refresh, size: 30.0, color: primaryColor),
+                      icon: const Icon(Icons.refresh, size: iconSize, color: primaryColor),
                       onPressed: () {
                         if (connected) _galaxyBloc.add(GalaxyClose(client));
                         _galaxyBloc.add(GalaxyConnect(server, 22));
@@ -67,9 +68,9 @@ class _HomeState extends State<Home> {
                     )
                   ),
                   SizedBox(
-                    width: 100.0,
+                    width: biggerLeftSpacing,
                     child: IconButton(
-                      icon: const Icon(Icons.settings, size: 30.0, color: primaryColor),
+                      icon: const Icon(Icons.settings, size: iconSize, color: primaryColor),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -94,48 +95,33 @@ class _HomeState extends State<Home> {
                         client = state.client;
                       } else if (state is GalaxyConnectFailure) {
                         connected = false;
-                        Flushbar(
-                          backgroundColor: errorColor,
-                          title: "Something goes wrong",
-                          isDismissible: true,
-                          flushbarStyle: FlushbarStyle.GROUNDED,
-                          titleSize: 20.0,
+                        String title = 'Something goes wrong';
+                        CustomSnackbar.show(context: context,
+                          title: title,
                           message: state.error,
-                          messageSize: 16.0,
-                          duration: const Duration(seconds: 5),
-                          flushbarPosition: FlushbarPosition.TOP
-                        ).show(context);
+                          error: true
+                        );
                       } else if (state is GalaxyCloseSuccess) {
                         connected = false;
                       } else if (state is GalaxyExecuteSuccess) {
-                        Flushbar(
-                          backgroundColor: successColor,
-                          title: "Success",
-                          isDismissible: true,
-                          flushbarStyle: FlushbarStyle.GROUNDED,
-                          titleSize: 20.0,
-                          message: 'Command successfully executed',
-                          messageSize: 16.0,
-                          duration: const Duration(seconds: 5),
-                          flushbarPosition: FlushbarPosition.TOP
-                        ).show(context);
+                        String title = 'Success';
+                        String message = 'Command successfully executed';
+                        CustomSnackbar.show(context: context,
+                          title: title,
+                          message: message
+                        );
                       } else if (state is GalaxyExecuteFailure) {
-                        Flushbar(
-                          backgroundColor: errorColor,
-                          title: "Something goes wrong",
-                          isDismissible: true,
-                          flushbarStyle: FlushbarStyle.GROUNDED,
-                          titleSize: 20.0,
+                        String title = 'Something goes wrong';
+                        CustomSnackbar.show(context: context,
+                          title: title,
                           message: state.error,
-                          messageSize: 16.0,
-                          duration: const Duration(seconds: 5),
-                          flushbarPosition: FlushbarPosition.TOP
-                        ).show(context);
+                          error: true
+                        );
                       }
                     },
                     builder: (blocContext, state) {
                       return SizedBox(
-                        height: 75.0,
+                        height: sectionSize,
                         child: Card(
                           color: secondaryColor,
                           margin: EdgeInsets.zero,
@@ -156,13 +142,13 @@ class _HomeState extends State<Home> {
                               return Row(
                                 children: <Widget>[
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
+                                    padding: const EdgeInsets.only(left: smallLeftSpacing),
                                     child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: Chip(
                                         label: Text(
                                           connected ? 'Connected' : 'Disconnected',
-                                          style: const TextStyle(fontSize: 18.0, color: primaryColor)
+                                          style: const TextStyle(fontSize: chipSize, color: primaryColor)
                                         ),
                                         backgroundColor: connected ? successColor : errorColor
                                       )
@@ -173,17 +159,17 @@ class _HomeState extends State<Home> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 20.0),
+                                        padding: const EdgeInsets.only(left: smallLeftSpacing),
                                         child: Text(
                                           'Hostname: ' + server.hostname!,
-                                          style: const TextStyle(fontSize: 20.0, color: primaryColor)
+                                          style: const TextStyle(fontSize: smallTitleSize, color: primaryColor)
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 20.0),
+                                        padding: const EdgeInsets.only(left: smallLeftSpacing),
                                         child: Text(
                                           'Address: ' + server.ipAddress!,
-                                          style: const TextStyle(fontSize: 16.0, color: primaryColor)
+                                          style: const TextStyle(fontSize: smallSubtitleSize, color: primaryColor)
                                         )
                                       ),
                                     ]
@@ -195,7 +181,7 @@ class _HomeState extends State<Home> {
                                         SizedBox(
                                           child: IconButton(
                                             padding: EdgeInsets.zero,
-                                            icon: const Icon(Icons.open_in_browser, size: 30.0, color: primaryColor),
+                                            icon: const Icon(Icons.open_in_browser, size: iconSize, color: primaryColor),
                                             onPressed: () {
                                               if (connected) {
                                                 String command = 'bash projects/bim_visualizer_node/libs/open.sh';
@@ -205,10 +191,10 @@ class _HomeState extends State<Home> {
                                           )
                                         ),
                                         SizedBox(
-                                        width: 100.0,
+                                        width: biggerLeftSpacing,
                                         child: IconButton(
                                           padding: EdgeInsets.zero,
-                                          icon: const Icon(Icons.close, size: 30.0, color: primaryColor),
+                                          icon: const Icon(Icons.close, size: iconSize, color: primaryColor),
                                           onPressed: () {
                                             if (connected) {
                                               String command = 'bash projects/bim_visualizer_node/libs/close.sh';

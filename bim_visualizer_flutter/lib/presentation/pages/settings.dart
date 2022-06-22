@@ -1,6 +1,8 @@
 import 'package:bim_visualizer_flutter/business_logic/bloc/preferences/preferences_bloc.dart';
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
-import 'package:bim_visualizer_flutter/constants.dart';
+import 'package:bim_visualizer_flutter/utils/ui/form_field.dart';
+import 'package:bim_visualizer_flutter/constants/colors.dart';
+import 'package:bim_visualizer_flutter/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatelessWidget {
@@ -11,24 +13,30 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey formKey = GlobalKey<FormState>();
-    String hostname = 'lg';
-    String ipAddress = server.ipAddress!;
-    String password = server.password!;
-    
+  GlobalKey formKey = GlobalKey<FormState>();
+
+  TextEditingController hostname = TextEditingController();
+  hostname.text = 'lg';
+
+  TextEditingController ipAddress = TextEditingController();
+  ipAddress.text = server.ipAddress != '' ? server.ipAddress! : '';
+  
+  TextEditingController password = TextEditingController();
+  password.text = server.password != '' ? server.password! : '';
+
     return WillPopScope(
         onWillPop: () async => true,
         child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
               color: primaryColor,
-              icon: const Icon(Icons.arrow_back, size: 30.0),
+              icon: const Icon(Icons.arrow_back, size: iconSize),
               onPressed: () => {
                 Navigator.pop(context)
               },
             ),
             backgroundColor: secondaryColor,
-            title: const Text('Settings', style: TextStyle(fontSize: 24.0)),
+            title: const Text('Settings', style: TextStyle(fontSize: titleSize)),
           ),
           body: SingleChildScrollView(
             child: Form(
@@ -41,70 +49,53 @@ class Settings extends StatelessWidget {
   }
 
   Widget _buildForm(context, hostname, ipAddress, password) {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Padding(
-        padding: const EdgeInsets.all(45.0),
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              initialValue: hostname,
-              decoration: const InputDecoration(
-                enabled: false,
-                labelText: 'Hostname',
-                labelStyle: TextStyle(fontSize: 24.0)
+    return  Padding(
+      padding: const EdgeInsets.all(padding),
+      child: Column(
+        children: <Widget>[
+          CustomFormField.build(enabled: false,
+            fieldController: hostname,
+            labelText: 'Hostname',
+            textInputType: TextInputType.text
+          ),
+          const SizedBox(height: bottomSpacing),
+          CustomFormField.build(fieldController: ipAddress,
+            labelText: 'IP Address',
+            textInputType: TextInputType.number
+          ),
+          const SizedBox(height: bottomSpacing),
+          CustomFormField.build(obscureText: true,
+            fieldController: password,
+            labelText: 'Password',
+            textInputType: TextInputType.text
+          ),
+          const SizedBox(height: bottomSpacing),
+          ElevatedButton(
+            child: const Text('SAVE'),
+            style: ElevatedButton.styleFrom(
+              primary: accentColor,
+              padding: const EdgeInsets.symmetric(horizontal: buttonWidth, vertical: buttonHeight),
+              textStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold
               )
             ),
-            const SizedBox(height: 12),
-            TextFormField(
-              keyboardType: TextInputType.number,
-              initialValue: server.ipAddress != '' ? server.ipAddress : '',
-              cursorColor: secondaryColor,
-              decoration: const InputDecoration(
-                labelText: 'IP Address',
-                labelStyle: TextStyle(fontSize: 24.0, color: secondaryColor)
-              ),
-              onChanged: (value) => ipAddress = value,
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              obscureText: true,
-              initialValue: server.password != '' ? server.password : '',
-              cursorColor: secondaryColor,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                labelStyle: TextStyle(fontSize: 24.0, color: secondaryColor)
-              ),
-              onChanged: (value) => password = value,
-            ),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              child: const Text('SAVE'),
-              style: ElevatedButton.styleFrom(
-                primary: accentColor,
-                padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold
-                )
-              ),
-              onPressed: () {
-                // Instantiate a new server
-                Server server = Server(
-                  hostname: hostname,
-                  ipAddress: ipAddress,
-                  password: password
-                );
+            onPressed: () {
+              // Instantiate a new server
+              Server server = Server(
+                hostname: hostname.text.toString(),
+                ipAddress: ipAddress.text.toString(),
+                password: password.text.toString()
+              );
 
-                // emit preferences save state
-                preferencesBloc.add(PreferencesUpdate(server));
+              // emit preferences save state
+              preferencesBloc.add(PreferencesUpdate(server));
 
-                // navigate back
-                Navigator.pop(context);
-              },
-            )
-          ]
-        )
+              // navigate back
+              Navigator.pop(context);
+            },
+          )
+        ]
       )
     );
   }
