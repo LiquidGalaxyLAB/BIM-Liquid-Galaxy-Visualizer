@@ -184,7 +184,7 @@ class _HomeState extends State<Home> {
                                             icon: const Icon(Icons.open_in_browser, size: iconSize, color: primaryColor),
                                             onPressed: () {
                                               if (connected) {
-                                                String command = 'bash projects/bim_visualizer_node/libs/open.sh';
+                                                String command = 'bash projects/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_node/libs/open.sh';
                                                 _galaxyBloc.add(GalaxyExecute(client, command));
                                               }
                                             }
@@ -197,7 +197,7 @@ class _HomeState extends State<Home> {
                                           icon: const Icon(Icons.close, size: iconSize, color: primaryColor),
                                           onPressed: () {
                                             if (connected) {
-                                              String command = 'bash projects/bim_visualizer_node/libs/close.sh';
+                                              String command = 'bash projects/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_node/libs/close.sh';
                                               _galaxyBloc.add(GalaxyExecute(client, command));
                                             }
                                           }
