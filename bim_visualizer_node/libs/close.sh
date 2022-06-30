@@ -7,7 +7,7 @@ for lg in $LG_FRAMES ; do
         pkill chromium-browse
 		pkill chrome
 	else
-        ssh -Xnf lg@$lg " pkill chromium-browse; pkill chrome " 2> /dev/null || true
+        ssh -Xnf lg@$lg " pkill chromium-browse; " 2> /dev/null || true
 	fi
 done
 
