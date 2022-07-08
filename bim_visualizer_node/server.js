@@ -1,3 +1,4 @@
+global.__basedir = __dirname;
 const app = require('./app');
 const PORT = 3210;
 
