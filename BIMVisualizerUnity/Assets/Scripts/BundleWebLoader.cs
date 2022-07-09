@@ -11,7 +11,7 @@ public class BundleWebLoader : MonoBehaviour
 
     IEnumerator GetAssetBundle()
     {
-        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle("http://lg1:3210/bim/demo");
+        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle("http://lg1:3210/tmp/current");
         yield return www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success)

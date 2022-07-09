@@ -4,6 +4,8 @@ const uuid = require('node-uuid');
 const { exec } = require('child_process');
 const fs = require('fs');
 
+require('dotenv').config();
+
 class BimService {
     /**
      * 
@@ -97,17 +99,20 @@ class BimService {
 
     /**
      * 
+     * @param {string} name The model display name
      * @param {File} file The file to be converted
-     * @returns {string} converted file path
+     * @returns {Key} The unique identifier of the stored value
      */
-    async convertModel(file) {
+    async convertModel(name, file) {
         try {
-            // move file to Unity Assets/Models directory
+            const key = uuid.v1();
+
+            // move model to Unity Assets/Models directory
             const oldPath = `./${file.path}`;
-            const newPath = '';
+            const newPath = process.env.MODELS_LOCATION;
             if (!fs.existsSync(newPath)) fs.mkdirSync(newPath);
 
-            fs.rename(oldPath, `${newPath}/${file.originalname}`, function (err) {
+            fs.rename(oldPath, `${newPath}/${key}.fbx`, function (err) {
                 if (err) {
                     const error = new Error();
                     error.status = 500;
@@ -116,10 +121,10 @@ class BimService {
                 }
             });
 
-            // Add asset bundle tag to file
-            const unityPath = 'unity';
-            const projectPath = '~/projects/BIM-Liquid-Galaxy-Visualizer/BIMVisualizerUnity';
-            const bundleNameScript = `${unityPath} -batchmode -quit -projectPath ${projectPath} -executeMethod ChangeBundleName.Change -logFile log.txt`;
+            // Build asset bundle
+            const unityPath = process.env.UNITY_PATH;
+            const projectPath = process.env.UNITY_PROJECT_PATH;
+            const bundleNameScript = `${unityPath} -batchmode -quit -projectPath ${projectPath} -executeMethod CreateAssetBundles.BuildAllAssetBundles -logFile log.txt`;
             exec(bundleNameScript, (err, stdout, stderr) => {
                 if (err) {
                     const error = new Error();
@@ -129,9 +134,11 @@ class BimService {
                 }
             });
 
-            // Build the asset bundle
-            
-            // move asset bundle to public directory
+            const bimModel = new BimModel({ name: name, isDemo: true, modelPath: 'models/' + key });
+            const data = JSON.parse(JSON.stringify(bimModel));
+            await new BimRepository().put(key, data);
+
+            return key;
         } catch (err) {
             const error = new Error();
             error.status = err.status ? err.status : 500;

@@ -5,7 +5,7 @@ const bimRoutes = require('./routes/bim');
 
 appRouter.use(express.json());
 
-appRouter.use(express.static(__basedir + '/public'));
+appRouter.use('/tmp', express.static(__basedir + '/public/tmp'));
 
 appRouter.use('/galaxy', galaxyRoutes);
 appRouter.use('/bim', bimRoutes);
