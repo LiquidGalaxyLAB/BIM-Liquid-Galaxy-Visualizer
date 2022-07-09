@@ -127,4 +127,6 @@ dist
 # Local History for Visual Studio Code
 .history/
 
+tempDir/
+
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node,VisualStudioCode

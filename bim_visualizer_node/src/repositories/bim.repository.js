@@ -12,11 +12,22 @@ class BimRepository {
     }
 
     /**
+     * @returns {Array} Array of values
+     */
+    async getAll() {
+        const values = [];
+        for await (const value of db.values()) {
+            values.push(value);
+        }
+        return values;
+    }
+
+    /**
      * 
      * @param {Key} key The unique identifier of the value to be retrieved
      * @returns {Promise<string>} Promise
      */
-    async get(key) {
+    async getByKey(key) {
         return await db.get(key);
     }
 

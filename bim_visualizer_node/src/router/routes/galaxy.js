@@ -6,8 +6,6 @@ const wss = new WebSocketServer({ port: 3220 });
 
 const clients = [];
 
-router.use(express.static(__basedir + '/public'));
-
 router.use('/:screen/Build/client.framework.js.gz', (req, res) => {
     res.contentType('application/x-javascript');
     res.setHeader('Content-Encoding', 'gzip');
