@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:bim_visualizer_flutter/business_logic/bloc/preferences/preferences_bloc.dart';
 import 'package:bim_visualizer_flutter/data/repositories/preferences_repository.dart';
 import 'package:bim_visualizer_flutter/business_logic/bloc/galaxy/galaxy_bloc.dart';
+import 'package:bim_visualizer_flutter/data/repositories/node_api_repository.dart';
 import 'package:bim_visualizer_flutter/data/repositories/galaxy_repository.dart';
+import 'package:bim_visualizer_flutter/business_logic/bloc/bim/bim_bloc.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/settings.dart';
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
 import 'package:bim_visualizer_flutter/utils/ui/snackbar.dart';
@@ -19,15 +23,24 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late Server server = Server.defaultValues();
   late PreferencesBloc _preferencesBloc;
   late GalaxyBloc _galaxyBloc;
+  late BimBloc _bimBloc;
   late bool connected = false;
   late SSHClient client;
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 1, vsync: this);
+    super.initState();
+  }
 
   @override
   void dispose() {
+    _tabController.dispose();
     client.close();
     super.dispose();
   }
@@ -39,6 +52,7 @@ class _HomeState extends State<Home> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           _preferencesBloc.add(PreferencesGet());
+          _bimBloc.add(BimGet());
           return MultiBlocProvider(
             providers: [
               BlocProvider<PreferencesBloc>(
@@ -47,6 +61,9 @@ class _HomeState extends State<Home> {
               BlocProvider<GalaxyBloc>(
                 create: (context) => _galaxyBloc,
               ),
+              BlocProvider<BimBloc>(
+                create: (context) => _bimBloc,
+              )
             ],
             child: Scaffold(
               appBar: AppBar(
@@ -120,95 +137,150 @@ class _HomeState extends State<Home> {
                       }
                     },
                     builder: (blocContext, state) {
-                      return SizedBox(
-                        height: sectionSize,
-                        child: Card(
-                          color: secondaryColor,
-                          margin: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0)
-                          ),
-                          child: BlocConsumer<PreferencesBloc, PreferencesState>(
-                            listener: (context, state) {
-                              if (state is PreferencesUpdateSuccess || state is PreferencesClearSuccess) {
-                                _preferencesBloc.add(PreferencesGet());
-                              } else if (state is PreferencesGetSuccess) {
-                                if (connected) _galaxyBloc.add(GalaxyClose(client));
-                                server = state.server;
-                                _galaxyBloc.add(GalaxyConnect(server, 22));
-                              }
-                            },
-                            builder: (context, state) {
-                              return Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: smallLeftSpacing),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Chip(
-                                        label: Text(
-                                          connected ? 'Connected' : 'Disconnected',
-                                          style: const TextStyle(fontSize: chipSize, color: primaryColor)
-                                        ),
-                                        backgroundColor: connected ? successColor : errorColor
-                                      )
-                                    )
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: smallLeftSpacing),
-                                        child: Text(
-                                          'Hostname: ' + server.hostname!,
-                                          style: const TextStyle(fontSize: smallTitleSize, color: primaryColor)
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: smallLeftSpacing),
-                                        child: Text(
-                                          'Address: ' + server.ipAddress!,
-                                          style: const TextStyle(fontSize: smallSubtitleSize, color: primaryColor)
-                                        )
-                                      ),
-                                    ]
-                                  ),
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                      return Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            SizedBox(
+                              height: sectionSize,
+                              child: Card(
+                                color: secondaryColor,
+                                margin: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0)
+                                ),
+                                child: BlocConsumer<PreferencesBloc, PreferencesState>(
+                                  listener: (context, state) {
+                                    if (state is PreferencesUpdateSuccess || state is PreferencesClearSuccess) {
+                                      _preferencesBloc.add(PreferencesGet());
+                                    } else if (state is PreferencesGetSuccess) {
+                                      if (connected) _galaxyBloc.add(GalaxyClose(client));
+                                      server = state.server;
+                                      _galaxyBloc.add(GalaxyConnect(server, 22));
+                                    }
+                                  },
+                                  builder: (context, state) {
+                                    return Row(
                                       children: <Widget>[
-                                        SizedBox(
-                                          child: IconButton(
-                                            padding: EdgeInsets.zero,
-                                            icon: const Icon(Icons.open_in_browser, size: iconSize, color: primaryColor),
-                                            onPressed: () {
-                                              if (connected) {
-                                                String command = 'bash projects/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_node/libs/open.sh';
-                                                _galaxyBloc.add(GalaxyExecute(client, command));
-                                              }
-                                            }
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: smallLeftSpacing),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Chip(
+                                              label: Text(
+                                                connected ? 'Connected' : 'Disconnected',
+                                                style: const TextStyle(fontSize: chipSize, color: primaryColor)
+                                              ),
+                                              backgroundColor: connected ? successColor : errorColor
+                                            )
                                           )
                                         ),
-                                        SizedBox(
-                                        width: biggerLeftSpacing,
-                                        child: IconButton(
-                                          padding: EdgeInsets.zero,
-                                          icon: const Icon(Icons.close, size: iconSize, color: primaryColor),
-                                          onPressed: () {
-                                            if (connected) {
-                                              String command = 'bash projects/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_node/libs/close.sh';
-                                              _galaxyBloc.add(GalaxyExecute(client, command));
-                                            }
-                                          }
-                                        )),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: smallLeftSpacing),
+                                              child: Text(
+                                                'Hostname: ' + server.hostname!,
+                                                style: const TextStyle(fontSize: smallTitleSize, color: primaryColor)
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: smallLeftSpacing),
+                                              child: Text(
+                                                'Address: ' + server.ipAddress!,
+                                                style: const TextStyle(fontSize: smallSubtitleSize, color: primaryColor)
+                                              )
+                                            ),
+                                          ]
+                                        ),
+                                        Expanded(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              SizedBox(
+                                              width: biggerLeftSpacing,
+                                              child: IconButton(
+                                                padding: EdgeInsets.zero,
+                                                icon: const Icon(Icons.close, size: iconSize, color: primaryColor),
+                                                onPressed: () {
+                                                  if (connected) {
+                                                    String command = 'bash projects/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_node/libs/close.sh';
+                                                    _galaxyBloc.add(GalaxyExecute(client, command));
+                                                  }
+                                                }
+                                              )),
+                                            ]
+                                          )
+                                        )
                                       ]
-                                    )
-                                  )
-                                ]
-                              );
-                            },
-                          )
+                                    );
+                                  },
+                                )
+                              )
+                            ),
+                            SizedBox(
+                              height: sectionSize,
+                              child: Card(
+                                color: secondaryColor,
+                                margin: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0)
+                                ),
+                                child: TabBar(
+                                  controller: _tabController,
+                                  indicatorWeight: 5.0,
+                                  indicatorColor: accentColor,
+                                  tabs: const [ Tab(text: 'Demos') ]
+                                )
+                              )
+                            ),
+                            Expanded(
+                              child: BlocBuilder<BimBloc, BimState>(
+                                builder: (context, state) {
+                                  if (state is BimGetSuccess) {
+                                    return TabBarView(
+                                      controller: _tabController,
+                                      children: <Widget>[
+                                        GridView.count(
+                                          crossAxisCount: 4,
+                                          childAspectRatio: (2 / 1),
+                                          crossAxisSpacing: 5,
+                                          mainAxisSpacing: 5,
+                                          padding: const EdgeInsets.all(10.0),
+                                          children: state.bim.map((data) => 
+                                            InkWell(
+                                              onTap: () {
+                                                // if (connected) {
+                                                //   String command = 'bash projects/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_node/libs/open.sh';
+                                                //   _galaxyBloc.add(GalaxyExecute(client, command));
+                                                // }
+                                              },
+                                              child: Container(
+                                                color: accentColor,
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  children: [
+                                                    Text(data.name!,
+                                                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                                                      textAlign: TextAlign.center
+                                                    ),
+                                                    const Icon(Icons.open_in_new)
+                                                  ],
+                                                )
+                                              )
+                                            )
+                                          ).toList()
+                                        )
+                                      ]
+                                    );
+                                  }
+                                  return Container();
+                                }
+                              )
+                            )
+                          ]
                         )
                       );
                     }
@@ -232,6 +304,9 @@ class _HomeState extends State<Home> {
     // initialize galaxy bloc
     final galaxyRepo = GalaxyRepository();
     _galaxyBloc = GalaxyBloc(galaxyRepo);
+
+    final nodeAPIRepo = NodeAPIRepository();
+    _bimBloc = BimBloc(nodeAPIRepo);
 
     return true;
   }
