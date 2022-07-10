@@ -16,8 +16,8 @@ class BimRepository {
      */
     async getAll() {
         const values = [];
-        for await (const value of db.values()) {
-            values.push(value);
+        for await (const [key, value] of db.iterator()) {
+            values.push({ key, ...value });
         }
         return values;
     }

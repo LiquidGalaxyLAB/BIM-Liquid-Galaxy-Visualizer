@@ -14,7 +14,14 @@ class BimService {
      */
     async put(value) {
         try {
-            const key = uuid.v1();
+            const key = value.key;
+            
+            // if has key, update
+            if (key) {
+                await this.getByKey(key);
+            } else {
+                key = uuid.v1();
+            }
 
             const bimModel = new BimModel(value);
             const data = JSON.parse(JSON.stringify(bimModel));
@@ -24,8 +31,8 @@ class BimService {
             return key;
         } catch (err) {
             const error = new Error();
-            error.status = 500;
-            error.message = 'Error while storing the value';
+            error.status = err.status ? err.status : 500;
+            error.message = err.message ? err.message : 'Error while storing the value';
             throw error;
         }
     }
