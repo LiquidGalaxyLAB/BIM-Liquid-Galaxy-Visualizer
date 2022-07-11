@@ -7,6 +7,7 @@ abstract class GalaxyRepositoryImpl {
   Future<Either<SSHAuthFailError, SSHClient>> connect(Server server, int port);
   Future<SSHClient> close(SSHClient client);
   Future<int> execute(SSHClient client, String command);
+  Future<Either<SftpStatusError, int>> createLink(SSHClient client, String link, String target);
 }
 
 class GalaxyRepository implements GalaxyRepositoryImpl {
@@ -52,5 +53,20 @@ class GalaxyRepository implements GalaxyRepositoryImpl {
 
     // command executed but script doesnt return an exit code so we assume it was successful
     return 0;
+  }
+
+  @override
+  Future<Either<SftpStatusError, int>> createLink(SSHClient client, String link, String target) async {
+    final sftp = await client.sftp();
+    
+    try {
+      // remove previous link if it exists
+      sftp.remove(target).catchError((e) => {});
+
+      await sftp.link(link, target);
+      return const Right(0);
+    } on SftpStatusError catch (e) {
+      return Left(e);
+    }
   }
 }

@@ -25,3 +25,11 @@ class GalaxyExecute extends GalaxyEvent {
 
   const GalaxyExecute(this.client, this.command);
 }
+
+class GalaxyCreateLink extends GalaxyEvent {
+  final SSHClient client;
+  final String link;
+  final String target;
+
+  const GalaxyCreateLink(this.client, this.link, this.target);
+}

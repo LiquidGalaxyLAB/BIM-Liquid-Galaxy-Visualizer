@@ -13,6 +13,7 @@ class GalaxyBloc extends Bloc<GalaxyEvent, GalaxyState> {
     on<GalaxyConnect>(_mapGalaxyConnectToState);
     on<GalaxyClose>(_mapGalaxyCloseToState);
     on<GalaxyExecute>(_mapGalaxyExecuteToState);
+    on<GalaxyCreateLink>(_mapGalaxyCreateLinkToState);
   }
 
   Future<void> _mapGalaxyConnectToState(GalaxyConnect event, Emitter<GalaxyState> emit) async {
@@ -45,5 +46,18 @@ class GalaxyBloc extends Bloc<GalaxyEvent, GalaxyState> {
     } else {
       emit(const GalaxyExecuteFailure('Failed to execute the command'));
     }
+  }
+
+  Future<void> _mapGalaxyCreateLinkToState(GalaxyCreateLink event, Emitter<GalaxyState> emit) async {
+    final result = await _galaxyRepo.createLink(event.client, event.link, event.target);
+    
+    result.fold(
+      (l) {
+        emit(GalaxyCreateLinkFailure(l.message));
+      },
+      (r) {
+        emit(GalaxyCreateLinkSuccess());
+      }
+    );
   }
 }

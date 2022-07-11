@@ -47,3 +47,14 @@ class GalaxyExecuteFailure extends GalaxyState {
   @override
   List<Object> get props => [error];
 }
+
+class GalaxyCreateLinkSuccess extends GalaxyState {}
+
+class GalaxyCreateLinkFailure extends GalaxyState {
+  final String error;
+
+  const GalaxyCreateLinkFailure(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

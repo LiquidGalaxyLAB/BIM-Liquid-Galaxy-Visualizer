@@ -7,6 +7,11 @@ public class CreateAssetBundles
     [MenuItem("Assets/Build AssetBundles")]
     static void BuildAllAssetBundles()
     {
+        // clean previous data
+        if (Directory.Exists("Assets/AssetBundles")) {
+            Directory.Delete("Assets/AssetBundles", true);
+        }
+
         // find the model and tag it as an asset bundle
         string[] files = Directory.GetFiles("Assets/Models", "*.fbx", SearchOption.TopDirectoryOnly);
         string filename = Path.GetFileNameWithoutExtension(files[0]);
@@ -23,11 +28,10 @@ public class CreateAssetBundles
 
         // move the asset bundle to public/models dir on server
         string oldPath = "Assets/AssetBundles/" + filename;
-        string newPath = "public/models/" + filename;
+        string newPath = "/Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_node/public/models/" + filename;
         File.Move(oldPath, newPath);
 
-        // clean created directories
+        // clean data
         Directory.Delete("Assets/Models", true);
-        Directory.Delete("Assets/AssetBundles", true);
     }
 }

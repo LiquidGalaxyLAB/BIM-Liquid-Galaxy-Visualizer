@@ -14,7 +14,7 @@ class BimService {
      */
     async put(value) {
         try {
-            const key = value.key;
+            let key = value.key;
             
             // if has key, update
             if (key) {

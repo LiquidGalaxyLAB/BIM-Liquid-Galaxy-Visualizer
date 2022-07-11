@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bim_visualizer_flutter/business_logic/bloc/preferences/preferences_bloc.dart';
 import 'package:bim_visualizer_flutter/data/repositories/preferences_repository.dart';
 import 'package:bim_visualizer_flutter/business_logic/bloc/galaxy/galaxy_bloc.dart';
@@ -12,9 +10,12 @@ import 'package:bim_visualizer_flutter/utils/ui/snackbar.dart';
 import 'package:bim_visualizer_flutter/constants/colors.dart';
 import 'package:bim_visualizer_flutter/constants/sizes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/material.dart';
+
+import 'meta.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -134,6 +135,29 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           message: state.error,
                           error: true
                         );
+                      } else if (state is GalaxyCreateLinkFailure) {
+                        String title = 'Something goes wrong';
+                        String message = 'Model cannot be found on the server';
+                        CustomSnackbar.show(context: context,
+                          title: title,
+                          message: message,
+                          error: true)
+                        ;
+                      } else if (state is GalaxyCreateLinkSuccess) {
+                        if (connected) {
+                          // navigate to meta page and start opening scene
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Meta(
+                                galaxyBloc: _galaxyBloc,
+                                client: client
+                              )
+                            )
+                          );
+                          String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'open.sh';
+                          _galaxyBloc.add(GalaxyExecute(client, command));
+                        }
                       }
                     },
                     builder: (blocContext, state) {
@@ -194,25 +218,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                               )
                                             ),
                                           ]
-                                        ),
-                                        Expanded(
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              SizedBox(
-                                              width: biggerLeftSpacing,
-                                              child: IconButton(
-                                                padding: EdgeInsets.zero,
-                                                icon: const Icon(Icons.close, size: iconSize, color: primaryColor),
-                                                onPressed: () {
-                                                  if (connected) {
-                                                    String command = 'bash projects/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_node/libs/close.sh';
-                                                    _galaxyBloc.add(GalaxyExecute(client, command));
-                                                  }
-                                                }
-                                              )),
-                                            ]
-                                          )
                                         )
                                       ]
                                     );
@@ -251,11 +256,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                           padding: const EdgeInsets.all(10.0),
                                           children: state.bim.map((data) => 
                                             InkWell(
-                                              onTap: () {
-                                                // if (connected) {
-                                                //   String command = 'bash projects/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_node/libs/open.sh';
-                                                //   _galaxyBloc.add(GalaxyExecute(client, command));
-                                                // }
+                                              onTap: () async {
+                                                // create symlink to the model
+                                                if (connected) {
+                                                  String link = dotenv.env['SERVER_PUBLIC_PATH']! + 'models/' + data.key!;
+                                                  String target = dotenv.env['SERVER_PUBLIC_PATH']! + 'tmp/current';
+                                                  _galaxyBloc.add(GalaxyCreateLink(client, link, target));
+                                                }
                                               },
                                               child: Container(
                                                 color: accentColor,

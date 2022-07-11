@@ -1,8 +1,12 @@
-import 'package:bim_visualizer_flutter/constants/colors.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/home.dart';
+import 'package:bim_visualizer_flutter/constants/colors.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  // load dotenv
+  await dotenv.load(fileName: ".env");
+  
   runApp(const MyApp());
 }
 

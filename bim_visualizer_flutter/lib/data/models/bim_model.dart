@@ -1,3 +1,4 @@
+import 'package:bim_visualizer_flutter/data/models/meta_model.dart';
 import 'package:equatable/equatable.dart';
 
 class Bim extends Equatable {
@@ -5,7 +6,7 @@ class Bim extends Equatable {
   final String? name;
   final bool? isDemo;
   final String? modelPath;
-  final Map<String, dynamic>? meta;
+  final List<Meta>? meta;
 
   const Bim({
     this.key,
@@ -17,11 +18,11 @@ class Bim extends Equatable {
 
   factory Bim.fromJson(Map<String, dynamic> json) {
     return Bim(
-      key: json['key'],
-      name: json['name'],
-      isDemo: json['isDemo'],
-      modelPath: json['modelPath'],
-      meta: json['meta']
+      key: json['key'] as String?,
+      name: json['name'] as String?,
+      isDemo: json['isDemo'] as bool?,
+      modelPath: json['modelPath'] as String?,
+      meta: (json['meta'] as List<dynamic>).map((item) => Meta.fromJson(item)).toList()
     );
   }
 
