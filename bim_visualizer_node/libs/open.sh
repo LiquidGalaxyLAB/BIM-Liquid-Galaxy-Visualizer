@@ -10,7 +10,7 @@ for lg in $LG_FRAMES ; do
         nohup chromium-browser http://lg1:$port/galaxy/$screenNumber --start-fullscreen </dev/null >/dev/null 2>&1 &
     else
         ssh -Xnf lg@$lg " export DISPLAY=:0 ; chromium-browser http://lg1:$port/galaxy/$screenNumber --start-fullscreen </dev/null >/dev/null 2>&1 &" || true
-    sleep 3
+        sleep 3
     fi
 done
 

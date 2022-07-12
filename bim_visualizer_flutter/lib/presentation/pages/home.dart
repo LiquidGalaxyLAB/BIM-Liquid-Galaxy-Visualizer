@@ -113,7 +113,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         client = state.client;
                       } else if (state is GalaxyConnectFailure) {
                         connected = false;
-                        String title = 'Something goes wrong';
+                        String title = 'Something went wrong';
                         CustomSnackbar.show(context: context,
                           title: title,
                           message: state.error,
@@ -129,15 +129,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           message: message
                         );
                       } else if (state is GalaxyExecuteFailure) {
-                        String title = 'Something goes wrong';
+                        String title = 'Something went wrong';
                         CustomSnackbar.show(context: context,
                           title: title,
                           message: state.error,
                           error: true
                         );
                       } else if (state is GalaxyCreateLinkFailure) {
-                        String title = 'Something goes wrong';
-                        String message = 'Model cannot be found on the server';
+                        String title = 'Something went wrong';
+                        String message = state.error;
                         CustomSnackbar.show(context: context,
                           title: title,
                           message: message,
@@ -259,9 +259,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                               onTap: () async {
                                                 // create symlink to the model
                                                 if (connected) {
-                                                  String link = dotenv.env['SERVER_PUBLIC_PATH']! + 'models/' + data.key!;
                                                   String target = dotenv.env['SERVER_PUBLIC_PATH']! + 'tmp/current';
-                                                  _galaxyBloc.add(GalaxyCreateLink(client, link, target));
+                                                  _galaxyBloc.add(GalaxyCreateLink(client, data.key!, target));
                                                 }
                                               },
                                               child: Container(

@@ -49,7 +49,7 @@ class GalaxyBloc extends Bloc<GalaxyEvent, GalaxyState> {
   }
 
   Future<void> _mapGalaxyCreateLinkToState(GalaxyCreateLink event, Emitter<GalaxyState> emit) async {
-    final result = await _galaxyRepo.createLink(event.client, event.link, event.target);
+    final result = await _galaxyRepo.createLink(event.client, event.key, event.target);
     
     result.fold(
       (l) {

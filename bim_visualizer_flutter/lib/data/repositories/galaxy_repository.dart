@@ -1,4 +1,5 @@
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:dartz/dartz.dart';
 import 'dart:io';
@@ -7,7 +8,7 @@ abstract class GalaxyRepositoryImpl {
   Future<Either<SSHAuthFailError, SSHClient>> connect(Server server, int port);
   Future<SSHClient> close(SSHClient client);
   Future<int> execute(SSHClient client, String command);
-  Future<Either<SftpStatusError, int>> createLink(SSHClient client, String link, String target);
+  Future<Either<SftpStatusError, int>> createLink(SSHClient client, String key, String target);
 }
 
 class GalaxyRepository implements GalaxyRepositoryImpl {
@@ -56,17 +57,20 @@ class GalaxyRepository implements GalaxyRepositoryImpl {
   }
 
   @override
-  Future<Either<SftpStatusError, int>> createLink(SSHClient client, String link, String target) async {
+  Future<Either<SftpStatusError, int>> createLink(SSHClient client, String key, String target) async {
     final sftp = await client.sftp();
-    
-    try {
-      // remove previous link if it exists
-      sftp.remove(target).catchError((e) => {});
+    final link = dotenv.env['SERVER_MODELS_PATH']! + key;
 
-      await sftp.link(link, target);
-      return const Right(0);
-    } on SftpStatusError catch (e) {
-      return Left(e);
+    // remove previous link if it exists
+    sftp.remove(target).catchError((e) => {});
+
+    // check if model exists
+    final items = await sftp.listdir(dotenv.env['SERVER_MODELS_PATH']!);
+    if (!items.any((item) => item.filename == key)) {
+      return Left(SftpStatusError(2, "Model cannot be found on the server"));
     }
+
+    await sftp.link(link, target);
+    return const Right(0);
   }
 }
