@@ -151,11 +151,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             MaterialPageRoute(
                               builder: (context) => Meta(
                                 galaxyBloc: _galaxyBloc,
-                                client: client
+                                client: client,
+                                server: server
                               )
                             )
                           );
-                          String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'open.sh';
+                          String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'open.sh ' + server.password!;
                           _galaxyBloc.add(GalaxyExecute(client, command));
                         }
                       }

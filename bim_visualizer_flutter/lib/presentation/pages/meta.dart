@@ -1,4 +1,5 @@
 import 'package:bim_visualizer_flutter/business_logic/bloc/galaxy/galaxy_bloc.dart';
+import 'package:bim_visualizer_flutter/data/models/server_model.dart';
 import 'package:bim_visualizer_flutter/constants/colors.dart';
 import 'package:bim_visualizer_flutter/constants/sizes.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -6,10 +7,11 @@ import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/material.dart';
 
 class Meta extends StatefulWidget {
-  const Meta({Key? key, required this.galaxyBloc, required this.client}) : super(key: key);
+  const Meta({Key? key, required this.galaxyBloc, required this.client, required this.server}) : super(key: key);
 
   final GalaxyBloc galaxyBloc;
   final SSHClient client;
+  final Server server;
 
   @override
   State<Meta> createState() => _MetaState();
@@ -24,7 +26,7 @@ class _MetaState extends State<Meta> {
           color: primaryColor,
           icon: const Icon(Icons.arrow_back, size: iconSize),
           onPressed: () {
-            String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'close.sh';
+            String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'close.sh ' + widget.server.password!;
             widget.galaxyBloc.add(GalaxyExecute(widget.client, command));
             Navigator.pop(context);
           },
@@ -41,7 +43,7 @@ class _MetaState extends State<Meta> {
               padding: EdgeInsets.zero,
               icon: const Icon(Icons.close, size: iconSize, color: primaryColor),
               onPressed: () {
-                String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'close.sh';
+                String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'close.sh ' + widget.server.password!;
                 widget.galaxyBloc.add(GalaxyExecute(widget.client, command));
                 Navigator.pop(context);
               }
