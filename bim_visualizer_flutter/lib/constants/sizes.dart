@@ -23,3 +23,4 @@ const bottomSpacing = 12.0;
 
 // padding
 const padding = 57.0;
+const bodyPadding = 18.0;

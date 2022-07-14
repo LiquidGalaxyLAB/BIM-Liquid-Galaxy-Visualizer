@@ -9,12 +9,13 @@ class CustomSnackbar {
       backgroundColor: error ? errorColor : successColor,
       title: title,
       isDismissible: true,
-      flushbarStyle: FlushbarStyle.GROUNDED,
       titleSize: 20.0,
       message: message,
       messageSize: 16.0,
       duration: const Duration(seconds: 5),
-      flushbarPosition: FlushbarPosition.TOP
+      flushbarPosition: FlushbarPosition.TOP,
+      margin: const EdgeInsets.all(8.0),
+      borderRadius: BorderRadius.circular(8.0),
     ).show(context);
   }
 }

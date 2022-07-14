@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class Meta extends Equatable {
+class MetaModel extends Equatable {
   final int? elementID;
   final String? family;
   final String? type;
@@ -10,7 +10,7 @@ class Meta extends Equatable {
   final String? topLevel;
   final int? topOffset;
 
-  const Meta({
+  const MetaModel({
     this.elementID,
     this.family,
     this.type,
@@ -21,8 +21,8 @@ class Meta extends Equatable {
     this.topOffset,
   });
 
-  factory Meta.fromJson(Map<String, dynamic> json) {
-    return Meta(
+  factory MetaModel.fromJson(Map<String, dynamic> json) {
+    return MetaModel(
       elementID: json['elementID'] as int?,
       family: json['family'] as String?,
       type: json['type'] as String?,

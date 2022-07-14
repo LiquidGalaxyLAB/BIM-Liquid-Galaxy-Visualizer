@@ -6,6 +6,7 @@ import 'package:bim_visualizer_flutter/data/repositories/galaxy_repository.dart'
 import 'package:bim_visualizer_flutter/business_logic/bloc/bim/bim_bloc.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/settings.dart';
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
+import 'package:bim_visualizer_flutter/data/models/meta_model.dart';
 import 'package:bim_visualizer_flutter/utils/ui/snackbar.dart';
 import 'package:bim_visualizer_flutter/constants/colors.dart';
 import 'package:bim_visualizer_flutter/constants/sizes.dart';
@@ -14,7 +15,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/material.dart';
-
 import 'meta.dart';
 
 class Home extends StatefulWidget {
@@ -32,10 +32,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late bool connected = false;
   late SSHClient client;
   late TabController _tabController;
+  late List<MetaModel> meta;
 
   @override
   void initState() {
-    _tabController = TabController(length: 1, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -152,12 +153,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               builder: (context) => Meta(
                                 galaxyBloc: _galaxyBloc,
                                 client: client,
-                                server: server
+                                server: server,
+                                meta: meta
                               )
                             )
                           );
-                          String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'open.sh ' + server.password!;
-                          _galaxyBloc.add(GalaxyExecute(client, command));
+                          //String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'open.sh ' + server.password!;
+                          //_galaxyBloc.add(GalaxyExecute(client, command));
                         }
                       }
                     },
@@ -238,7 +240,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   controller: _tabController,
                                   indicatorWeight: 5.0,
                                   indicatorColor: accentColor,
-                                  tabs: const [ Tab(text: 'Demos') ]
+                                  tabs: const [
+                                    Tab(text: 'Demos'),
+                                    Tab(text: 'Uploaded')
+                                  ]
                                 )
                               )
                             ),
@@ -250,7 +255,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       controller: _tabController,
                                       children: <Widget>[
                                         GridView.count(
-                                          crossAxisCount: 4,
+                                          crossAxisCount: 3,
                                           childAspectRatio: (2 / 1),
                                           crossAxisSpacing: 5,
                                           mainAxisSpacing: 5,
@@ -258,6 +263,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                           children: state.bim.map((data) => 
                                             InkWell(
                                               onTap: () async {
+                                                meta = data.meta!;
                                                 // create symlink to the model
                                                 if (connected) {
                                                   String target = dotenv.env['SERVER_PUBLIC_PATH']! + 'tmp/current';
@@ -279,6 +285,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                               )
                                             )
                                           ).toList()
+                                        ),
+                                        const Center(
+                                          child: Text('Soon')
                                         )
                                       ]
                                     );

@@ -31,7 +31,7 @@ class _SettingsState extends State<Settings> {
             },
           ),
           backgroundColor: secondaryColor,
-          title: const Text('Server Connection', style: TextStyle(fontSize: titleSize)),
+          title: const Text('Settings', style: TextStyle(fontSize: titleSize)),
         ),
         body: SettingsList(
           sections: [
@@ -54,14 +54,14 @@ class _SettingsState extends State<Settings> {
                     );
                   },
                 ),
-                SettingsTile.navigation(
-                  leading: const Icon(Icons.install_desktop),
-                  title: const Text('Install'),
-                  value: const Text('Server installation'),
-                  onPressed: (context) {
-                    //
-                  }
-                ),
+                // SettingsTile.navigation(
+                //   leading: const Icon(Icons.install_desktop),
+                //   title: const Text('Install'),
+                //   value: const Text('Server installation'),
+                //   onPressed: (context) {
+                //     //
+                //   }
+                // ),
               ],
             ),
           ],

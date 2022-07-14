@@ -6,7 +6,7 @@ class Bim extends Equatable {
   final String? name;
   final bool? isDemo;
   final String? modelPath;
-  final List<Meta>? meta;
+  final List<MetaModel>? meta;
 
   const Bim({
     this.key,
@@ -22,7 +22,7 @@ class Bim extends Equatable {
       name: json['name'] as String?,
       isDemo: json['isDemo'] as bool?,
       modelPath: json['modelPath'] as String?,
-      meta: (json['meta'] as List<dynamic>).map((item) => Meta.fromJson(item)).toList()
+      meta: (json['meta'] as List<dynamic>).map((item) => MetaModel.fromJson(item)).toList()
     );
   }
 
