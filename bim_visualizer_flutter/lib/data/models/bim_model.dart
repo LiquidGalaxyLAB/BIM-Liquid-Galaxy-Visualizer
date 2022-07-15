@@ -22,7 +22,7 @@ class Bim extends Equatable {
       name: json['name'] as String?,
       isDemo: json['isDemo'] as bool?,
       modelPath: json['modelPath'] as String?,
-      meta: (json['meta'] as List<dynamic>).map((item) => MetaModel.fromJson(item)).toList()
+      meta: json['meta'] == null ? [] : (json['meta'] as List<dynamic>).map((item) => MetaModel.fromJson(item)).toList()
     );
   }
 

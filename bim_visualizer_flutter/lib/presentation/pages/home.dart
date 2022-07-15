@@ -54,7 +54,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           _preferencesBloc.add(PreferencesGet());
-          _bimBloc.add(BimGet());
           return MultiBlocProvider(
             providers: [
               BlocProvider<PreferencesBloc>(
@@ -182,6 +181,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       _preferencesBloc.add(PreferencesGet());
                                     } else if (state is PreferencesGetSuccess) {
                                       if (connected) _galaxyBloc.add(GalaxyClose(client));
+                                      _bimBloc.add(BimGet());
                                       server = state.server;
                                       _galaxyBloc.add(GalaxyConnect(server, 22));
                                     }
