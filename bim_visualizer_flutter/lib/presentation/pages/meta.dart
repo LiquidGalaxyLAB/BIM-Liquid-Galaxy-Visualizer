@@ -85,6 +85,14 @@ class _MetaState extends State<Meta> {
                               child: ListView(
                                 controller: controller,
                                 children: <Widget>[
+                                  const ListTile(
+                                    title: Text(
+                                      'Specifications',
+                                      style: TextStyle(
+                                        fontSize: 20.0
+                                      ),
+                                    )
+                                  ),
                                   ListTile(
                                     title: const Text(
                                       'Element ID'
