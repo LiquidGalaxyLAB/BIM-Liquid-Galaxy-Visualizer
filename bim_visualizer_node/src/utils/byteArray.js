@@ -6,7 +6,7 @@ module.exports = {
      */
     ByteArray: function (str) {
         const byteArray = [];
-        const buffer = Buffer.from(str, "utf16le");
+        const buffer = Buffer.from(str, 'utf8');
         for (var i = 0; i < buffer.length; i++) {
             byteArray.push(buffer[i]);
         }

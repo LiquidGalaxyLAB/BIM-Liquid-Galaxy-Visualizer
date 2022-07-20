@@ -8,7 +8,7 @@ module.exports = {
      * @returns {Promise<number>} The maximum number of frames in the galaxy or null if could not find it
      */
     FindMaxFrames: async function () {
-        const stream = fs.createReadStream('/Users/vinicius/test.txt');
+        const stream = fs.createReadStream('/home/lg/personavars.txt');
         const lineReader = stream.pipe(split2());
 
         let result = null;

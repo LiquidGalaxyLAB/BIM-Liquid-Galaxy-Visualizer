@@ -90,17 +90,17 @@ public class ProjectionPlane : MonoBehaviour
         networkManager = GameObject.Find("Network Manager").GetComponent<NetworkManager>();
         networkManager.websocket.OnMessage += (bytes) =>
         {
-            if (bytes.Length == 2)
+            Debug.Log("length " + bytes.Length);
+            if (bytes.Length == 1)
             {
                 string code = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
                 screen = int.Parse(code);
             }
-            else if (bytes.Length == 4)
+            else if (bytes.Length == 2)
             {
                 string code = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
                 int screensWithOffset = int.Parse(code);
                 int screens = Mathf.Abs(screensWithOffset - 10);
-                Debug.Log(screens);
 
                 int[] clients = Enumerable.Range(1, screens).ToArray();
                 int size = clients.Length;

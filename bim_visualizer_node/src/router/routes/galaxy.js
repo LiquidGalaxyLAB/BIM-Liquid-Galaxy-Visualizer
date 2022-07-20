@@ -5,7 +5,6 @@ const { WebSocketServer } = require("ws");
 const wss = new WebSocketServer({ port: 3220 });
 const { ByteArray } = require('../../utils/byteArray');
 const { FindMaxFrames } = require('../../utils/findMaxFrames');
-const maxFrames = ( async () => { await FindMaxFrames() } )();
 
 const clients = [];
 
@@ -34,14 +33,15 @@ router.route('/:screen').get((req, res, next) => {
 });
 router.use('/:screen', express.static(__basedir + '/public/client'));
 
-wss.on("connection", (ws) => {
+wss.on("connection", async (ws) => {
     console.log("a user connected");
 
     const encodedClientId = clients.shift();
     ws.send(encodedClientId);
 
-    const maxFramesWithOffset = maxFrames + 10;
-    const encodedMaxFrames = ByteArray(maxFramesWithOffset);
+    const maxFrames = await FindMaxFrames();
+    const maxFramesWithOffset = parseInt(maxFrames) + 10;
+    const encodedMaxFrames = ByteArray(maxFramesWithOffset.toString());
     ws.send(encodedMaxFrames);
 
     ws.on("close", () => {

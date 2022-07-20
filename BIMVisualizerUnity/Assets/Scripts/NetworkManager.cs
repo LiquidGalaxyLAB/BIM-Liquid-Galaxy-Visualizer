@@ -40,7 +40,6 @@ public class NetworkManager : MonoBehaviour
             if(bytes.Length == 2)
             {
                 string code = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-                Debug.Log(code);
                 if (int.Parse(code) == 1)
                 {
                     isMaster = true;
