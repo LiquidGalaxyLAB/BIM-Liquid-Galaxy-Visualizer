@@ -415,7 +415,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5233883873382624524, guid: 570844b7eb2b64089b3fb47197741692, type: 3}
       propertyPath: screens
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5233883873382624524, guid: 570844b7eb2b64089b3fb47197741692, type: 3}
       propertyPath: DrawGizmo

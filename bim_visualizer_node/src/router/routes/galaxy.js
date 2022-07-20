@@ -3,6 +3,9 @@ const router = express.Router();
 const path = require('path');
 const { WebSocketServer } = require("ws");
 const wss = new WebSocketServer({ port: 3220 });
+const { ByteArray } = require('../../utils/byteArray');
+const { FindMaxFrames } = require('../../utils/findMaxFrames');
+const maxFrames = ( async () => { await FindMaxFrames() } )();
 
 const clients = [];
 
@@ -25,11 +28,7 @@ router.use('/:screen/Build/client.wasm.gz', (req, res) => {
 });
 
 router.route('/:screen').get((req, res, next) => {
-    let byteArr = [];
-    const buffer = Buffer.from(req.params.screen, "utf16le");
-    for (var i = 0; i < buffer.length; i++) {
-        byteArr.push(buffer[i]);
-    }
+    const byteArr = ByteArray(req.params.screen);
     clients.push(byteArr);
     next();
 });
@@ -40,6 +39,10 @@ wss.on("connection", (ws) => {
 
     const encodedClientId = clients.shift();
     ws.send(encodedClientId);
+
+    const maxFramesWithOffset = maxFrames + 10;
+    const encodedMaxFrames = ByteArray(maxFramesWithOffset);
+    ws.send(encodedMaxFrames);
 
     ws.on("close", () => {
         console.log("client left");

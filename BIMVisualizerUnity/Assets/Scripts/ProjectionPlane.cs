@@ -44,7 +44,6 @@ public class ProjectionPlane : MonoBehaviour
 
     private NetworkManager networkManager;
 
-    public int screens = 5;
     private int median;
     private int screen;
 
@@ -88,11 +87,6 @@ public class ProjectionPlane : MonoBehaviour
 
         }
 
-        int[] clients = Enumerable.Range(1, screens).ToArray();
-        int size = clients.Length;
-        int mid = size / 2;
-        median = (size % 2 != 0) ? clients[mid] : (clients[mid] + clients[mid - 1]) / 2;
-
         networkManager = GameObject.Find("Network Manager").GetComponent<NetworkManager>();
         networkManager.websocket.OnMessage += (bytes) =>
         {
@@ -100,9 +94,21 @@ public class ProjectionPlane : MonoBehaviour
             {
                 string code = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
                 screen = int.Parse(code);
-                Debug.Log(screen);
+            }
+            else if (bytes.Length == 4)
+            {
+                string code = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+                int screensWithOffset = int.Parse(code);
+                int screens = Mathf.Abs(screensWithOffset - 10);
+                Debug.Log(screens);
+
+                int[] clients = Enumerable.Range(1, screens).ToArray();
+                int size = clients.Length;
+                int mid = size / 2;
+                median = (size % 2 != 0) ? clients[mid] : (clients[mid] + clients[mid - 1]) / 2;
             }
         };
+
 
         BottomLeft = transform.TransformPoint(new Vector3(-AspectRatio.x, -AspectRatio.y, 0));
         BottomRight = transform.TransformPoint(new Vector3(AspectRatio.x, -AspectRatio.y, 0));
