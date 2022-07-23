@@ -1,6 +1,11 @@
 const split2 = require('split2');
 const fs = require('fs');
 const { once } = require('events');
+const path = require('path');
+
+require('dotenv').config({
+    path: path.join(__basedir, `./.env.${process.env.NODE_ENV}`)
+});
 
 module.exports = {
     /**
@@ -8,7 +13,7 @@ module.exports = {
      * @returns {Promise<number>} The maximum number of frames in the galaxy or null if could not find it
      */
     FindMaxFrames: async function () {
-        const stream = fs.createReadStream('/home/lg/personavars.txt');
+        const stream = fs.createReadStream(process.env.PERSONAVARS_LOCATION);
         const lineReader = stream.pipe(split2());
 
         let result = null;

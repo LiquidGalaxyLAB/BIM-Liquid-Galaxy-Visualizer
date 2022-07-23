@@ -3,8 +3,11 @@ const BimModel = require('../models/bim.model');
 const uuid = require('node-uuid');
 const { exec } = require('child_process');
 const fs = require('fs');
+const path = require('path');
 
-require('dotenv').config();
+require('dotenv').config({
+    path: path.join(__basedir, `./.env.${process.env.NODE_ENV}`) 
+});
 
 class BimService {
     /**

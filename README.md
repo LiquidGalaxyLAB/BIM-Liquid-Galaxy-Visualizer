@@ -41,7 +41,7 @@ If it is the first time running the install script into the machine, the system 
 After the installation completion the server can be runned by typing
 
 ```
-node server.js
+npm start
 ```
 
 :warning: **Remember to always run the server before the app**

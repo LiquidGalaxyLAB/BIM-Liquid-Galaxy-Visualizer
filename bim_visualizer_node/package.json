@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "NODE_ENV=local node server"
   },
   "repository": {
     "type": "git",
