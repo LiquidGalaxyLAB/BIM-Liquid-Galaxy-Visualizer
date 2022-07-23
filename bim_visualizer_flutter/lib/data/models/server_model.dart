@@ -17,6 +17,14 @@ class Server extends Equatable {
       password: ''
     );
   }
+  
+  factory Server.testValues() {
+    return const Server(
+      hostname: 'test',
+      ipAddress: 'localhost',
+      password: '1111'
+    );
+  }
 
   factory Server.fromJson(Map<String, dynamic> json) {
     return Server(
