@@ -88,15 +88,20 @@ public class ProjectionPlane : MonoBehaviour
         }
 
         networkManager = GameObject.Find("Network Manager").GetComponent<NetworkManager>();
+        networkManager.websocket.OnOpen += () =>
+        {
+            string parameters = Application.absoluteURL.Substring(Application.absoluteURL.IndexOf("?") + 1);
+            string[] arguments = parameters.Split(new char[] { '&', '=' });
+            if (arguments[0] == "screen")
+            {
+                int screenValue = int.Parse(arguments[1]);
+                screen = screenValue;
+            }
+        };
+
         networkManager.websocket.OnMessage += (bytes) =>
         {
-            Debug.Log("length " + bytes.Length);
-            if (bytes.Length == 1)
-            {
-                string code = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-                screen = int.Parse(code);
-            }
-            else if (bytes.Length == 2)
+            if (bytes.Length == 2)
             {
                 string code = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
                 int screensWithOffset = int.Parse(code);

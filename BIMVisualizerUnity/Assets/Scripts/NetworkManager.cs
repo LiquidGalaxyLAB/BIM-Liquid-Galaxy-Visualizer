@@ -35,22 +35,6 @@ public class NetworkManager : MonoBehaviour
             Debug.Log("Connection closed!");
         };
 
-        websocket.OnMessage += (bytes) =>
-        {
-            if(bytes.Length == 2)
-            {
-                string code = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-                if (int.Parse(code) == 1)
-                {
-                    isMaster = true;
-                }
-                else
-                {
-                    isMaster = false;
-                }
-            }
-        };
-
         await websocket.Connect();
     }
 
