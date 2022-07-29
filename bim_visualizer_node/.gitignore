@@ -131,4 +131,6 @@ dist
 tempDir/
 log.txt
 
+nohup.out
+
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node,VisualStudioCode
