@@ -1,8 +1,10 @@
 # BIM Liquid Galaxy Visualizer
 
+[Releases](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/releases/) | [Wiki](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/wiki)
+
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/blob/main/LICENSE)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
-![GitHub repo size](https://img.shields.io/github/repo-size/LiquidGalaxyLAB/reforestation-assistant-simulator)
+[![GitHub release](https://img.shields.io/github/release/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer.svg)](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/releases/)
 ![Coverage](https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_flutter/coverage_badge.svg?sanitize=true)
 
 BIM Liquid Galaxy Visualizer is a tool that allows the visualization of demo or uploaded BIM models using the liquid galaxy rig system or using augmented reality, both with an android device
