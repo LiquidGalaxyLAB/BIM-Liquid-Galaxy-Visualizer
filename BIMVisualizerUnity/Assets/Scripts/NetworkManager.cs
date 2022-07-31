@@ -10,6 +10,7 @@ public class NetworkManager : MonoBehaviour
 {
     public WebSocket websocket;
     public bool isMaster { get; set; }
+    private ProjectionPlane projectionPlane;
 
     private void Awake()
     {
@@ -23,6 +24,22 @@ public class NetworkManager : MonoBehaviour
         websocket.OnOpen += () =>
         {
             Debug.Log("Connection Open");
+
+            string parameters = Application.absoluteURL.Substring(Application.absoluteURL.IndexOf("?") + 1);
+            string[] arguments = parameters.Split(new char[] { '&', '=' });
+            if (arguments[0] == "screen")
+            {
+                int screenValue = int.Parse(arguments[1]);
+                if (screenValue == 0)
+                {
+                    GameObject.Find("ProjectionPlane").SetActive(false);
+                }
+                else
+                {
+                    GameObject.Find("ControllerCamera").SetActive(false);
+                    projectionPlane.screen = screenValue;
+                }
+            }
         };
 
         websocket.OnError += (e) =>

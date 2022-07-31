@@ -23,6 +23,7 @@ public class BundleWebLoader : MonoBehaviour
             AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(www);
             string rootAssetPath = bundle.GetAllAssetNames()[0];
             GameObject obj = Instantiate(bundle.LoadAsset<GameObject>(rootAssetPath));
+            obj.tag = "Selectable";
             bundle.Unload(false);
         }
     }

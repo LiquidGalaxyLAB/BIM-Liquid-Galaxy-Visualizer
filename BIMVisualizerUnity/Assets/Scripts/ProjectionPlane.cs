@@ -45,7 +45,7 @@ public class ProjectionPlane : MonoBehaviour
     private NetworkManager networkManager;
 
     private int median;
-    private int screen;
+    public int screen;
 
     private void OnDrawGizmos()
     {
@@ -88,16 +88,6 @@ public class ProjectionPlane : MonoBehaviour
         }
 
         networkManager = GameObject.Find("Network Manager").GetComponent<NetworkManager>();
-        networkManager.websocket.OnOpen += () =>
-        {
-            string parameters = Application.absoluteURL.Substring(Application.absoluteURL.IndexOf("?") + 1);
-            string[] arguments = parameters.Split(new char[] { '&', '=' });
-            if (arguments[0] == "screen")
-            {
-                int screenValue = int.Parse(arguments[1]);
-                screen = screenValue;
-            }
-        };
 
         networkManager.websocket.OnMessage += (bytes) =>
         {
