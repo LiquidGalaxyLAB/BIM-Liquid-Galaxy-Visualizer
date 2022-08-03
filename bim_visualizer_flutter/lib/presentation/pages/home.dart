@@ -4,6 +4,7 @@ import 'package:bim_visualizer_flutter/business_logic/bloc/galaxy/galaxy_bloc.da
 import 'package:bim_visualizer_flutter/data/repositories/node_api_repository.dart';
 import 'package:bim_visualizer_flutter/data/repositories/galaxy_repository.dart';
 import 'package:bim_visualizer_flutter/business_logic/bloc/bim/bim_bloc.dart';
+import 'package:bim_visualizer_flutter/presentation/pages/about.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/settings.dart';
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
 import 'package:bim_visualizer_flutter/utils/ui/snackbar.dart';
@@ -33,7 +34,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 2);
     super.initState();
   }
 
@@ -73,9 +74,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 elevation: 0,
                 actions: <Widget>[
                   SizedBox(
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
+                    child: TextButton.icon(
                       icon: const Icon(Icons.refresh, size: iconSize, color: primaryColor),
+                      label: const Text('LG RECONNECT', style: TextStyle(color: primaryColor)),
                       onPressed: () {
                         if (connected) _galaxyBloc.add(GalaxyClose(client));
                         _galaxyBloc.add(GalaxyConnect(server, 22));
@@ -87,15 +88,32 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     child: IconButton(
                       icon: const Icon(Icons.settings, size: iconSize, color: primaryColor),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Settings(
-                              preferencesBloc: _preferencesBloc,
-                              server: server
+                        if (connected) {
+                           Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Settings(
+                                preferencesBloc: _preferencesBloc,
+                                galaxyBloc: _galaxyBloc,
+                                connected: connected,
+                                client: client,
+                                server: server
+                              )
                             )
-                          )
-                        );
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Settings(
+                                preferencesBloc: _preferencesBloc,
+                                galaxyBloc: _galaxyBloc,
+                                connected: connected,
+                                server: server
+                              )
+                            )
+                          );
+                        }
                       },
                     )
                   ),
@@ -214,7 +232,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   indicatorColor: accentColor,
                                   tabs: const [
                                     Tab(text: 'Demos'),
-                                    Tab(text: 'Uploaded')
+                                    Tab(text: 'Uploaded'),
+                                    Tab(text: 'About')
                                   ]
                                 )
                               )
@@ -268,11 +287,28 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                         ),
                                         const Center(
                                           child: Text('Soon')
+                                        ),
+                                        const Center(
+                                          child: About()
                                         )
                                       ]
                                     );
                                   }
-                                  return Container();
+
+                                  return TabBarView(
+                                    controller: _tabController,
+                                    children: const <Widget>[
+                                      Center(
+                                        child: Text('No demos found')
+                                      ),
+                                      Center(
+                                        child: Text('Soon')
+                                      ),
+                                      Center(
+                                        child: About()
+                                      )
+                                    ]
+                                  );
                                 }
                               )
                             )

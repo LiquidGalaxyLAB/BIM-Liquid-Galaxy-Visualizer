@@ -92,7 +92,7 @@ class ServerForm extends StatelessWidget {
               preferencesBloc.add(PreferencesUpdate(server));
 
               // navigate back
-              Navigator.pop(context);
+              Navigator.popUntil(context, (route) => route.isFirst);
             },
           )
         ]
