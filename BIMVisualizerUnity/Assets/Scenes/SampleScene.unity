@@ -621,6 +621,7 @@ MonoBehaviour:
   selectionMask:
     serializedVersion: 2
     m_Bits: 4294967291
+  selectionBox: {fileID: 96285437}
 --- !u!1 &1054575178
 GameObject:
   m_ObjectHideFlags: 0

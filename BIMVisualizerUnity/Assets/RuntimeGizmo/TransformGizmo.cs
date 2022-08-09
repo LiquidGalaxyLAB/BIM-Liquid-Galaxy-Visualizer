@@ -127,6 +127,10 @@ namespace RuntimeGizmos
 
 		Button moveTool, rotateTool, scaleTool;
 
+		private float touchZoomSpeed = 0.1f;
+		private float zoomOutMin = 0.1f;
+		private float zoomOutMax = 179.9f;
+
 		void Awake()
 		{
 			myCamera = GetComponent<Camera>();
@@ -156,6 +160,25 @@ namespace RuntimeGizmos
 
 		void Update()
 		{
+			if (Input.touchSupported)
+			{
+				if (Input.touchCount == 2)
+				{
+					Touch touchZero = Input.GetTouch(0);
+					Touch touchOne = Input.GetTouch(1);
+
+					Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+					Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+					float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+					float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
+
+					float difference = currentMagnitude - prevMagnitude;
+
+					Zoom(difference, touchZoomSpeed);
+				}
+			}
+
 			HandleUndoRedo();
 
 			SetSpaceAndType();
@@ -191,6 +214,12 @@ namespace RuntimeGizmos
 			{
 				SetLines();
 			}
+		}
+
+		private void Zoom(float increment, float speed)
+		{
+			myCamera.fieldOfView += increment * speed;
+			myCamera.fieldOfView = Mathf.Clamp(myCamera.fieldOfView, zoomOutMin, zoomOutMax);
 		}
 
 		void OnPostRender()

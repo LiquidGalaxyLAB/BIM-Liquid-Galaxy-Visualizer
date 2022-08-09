@@ -15,7 +15,7 @@ public class NetworkManager : MonoBehaviour
     private void Awake()
     {
         isMaster = false;
-        websocket = new WebSocket("ws://lg1:3220");
+        websocket = new WebSocket("ws://172.16.65.29:3220");
     }
 
     // Start is called before the first frame update
@@ -37,6 +37,7 @@ public class NetworkManager : MonoBehaviour
                 else
                 {
                     GameObject.Find("ControllerCamera").SetActive(false);
+                    GameObject.Find("Canvas").SetActive(false);
                     projectionPlane.screen = screenValue;
                 }
             }
