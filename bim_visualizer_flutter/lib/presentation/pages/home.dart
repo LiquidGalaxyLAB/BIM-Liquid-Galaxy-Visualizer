@@ -34,7 +34,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 2);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -83,40 +83,51 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       },
                     )
                   ),
+                  IconButton(
+                    icon: const Icon(Icons.settings, size: iconSize, color: primaryColor),
+                    onPressed: () {
+                      if (connected) {
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Settings(
+                              preferencesBloc: _preferencesBloc,
+                              galaxyBloc: _galaxyBloc,
+                              connected: connected,
+                              client: client,
+                              server: server
+                            )
+                          )
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Settings(
+                              preferencesBloc: _preferencesBloc,
+                              galaxyBloc: _galaxyBloc,
+                              connected: connected,
+                              server: server
+                            )
+                          )
+                        );
+                      }
+                    },
+                  ),
                   SizedBox(
                     width: biggerLeftSpacing,
                     child: IconButton(
-                      icon: const Icon(Icons.settings, size: iconSize, color: primaryColor),
+                      icon: const Icon(Icons.info, size: iconSize, color: primaryColor),
                       onPressed: () {
-                        if (connected) {
-                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Settings(
-                                preferencesBloc: _preferencesBloc,
-                                galaxyBloc: _galaxyBloc,
-                                connected: connected,
-                                client: client,
-                                server: server
-                              )
-                            )
-                          );
-                        } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Settings(
-                                preferencesBloc: _preferencesBloc,
-                                galaxyBloc: _galaxyBloc,
-                                connected: connected,
-                                server: server
-                              )
-                            )
-                          );
-                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const About()
+                          )
+                        );
                       },
                     )
-                  ),
+                  )
                 ],
               ),
               body: Column(
@@ -232,8 +243,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   indicatorColor: accentColor,
                                   tabs: const [
                                     Tab(text: 'Demos'),
-                                    Tab(text: 'Uploaded'),
-                                    Tab(text: 'About')
+                                    Tab(text: 'Uploaded')
                                   ]
                                 )
                               )
@@ -287,9 +297,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                         ),
                                         const Center(
                                           child: Text('Soon')
-                                        ),
-                                        const Center(
-                                          child: About()
                                         )
                                       ]
                                     );
@@ -303,9 +310,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       ),
                                       Center(
                                         child: Text('Soon')
-                                      ),
-                                      Center(
-                                        child: About()
                                       )
                                     ]
                                   );

@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Meta extends StatefulWidget {
   const Meta({Key? key, required this.galaxyBloc, required this.client, required this.server, required this.meta}) : super(key: key);
@@ -23,6 +24,7 @@ class Meta extends StatefulWidget {
 class _MetaState extends State<Meta> {
   @override
   Widget build(BuildContext context) {
+    final Uri _url = Uri.parse('http://' + widget.server.ipAddress! + ':3210/galaxy?screen=0');
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -38,7 +40,20 @@ class _MetaState extends State<Meta> {
         title: const Text(
           'Meta',
           style: TextStyle(fontSize: titleSize, color: primaryColor)
-        )
+        ),
+        actions: <Widget>[
+          SizedBox(
+            child: TextButton.icon(
+              icon: const Icon(Icons.open_in_browser, size: iconSize, color: primaryColor),
+              label: const Text('OPEN ON LG', style: TextStyle(color: primaryColor)),
+              onPressed: () async {
+                if (!await launchUrl(_url, mode: LaunchMode.inAppWebView)) {
+                  throw 'Could not launch $_url';
+                }
+              },
+            )
+          ),
+        ]
       ),
       body: Padding(
         padding: const EdgeInsets.all(bodyPadding),

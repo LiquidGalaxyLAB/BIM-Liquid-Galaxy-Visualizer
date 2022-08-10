@@ -17,7 +17,7 @@ const buttonWidth = 35.0;
 const buttonHeight = 10.0;
 
 // spacing
-const biggerLeftSpacing = 100.0;
+const biggerLeftSpacing = 80.0;
 const smallLeftSpacing = 20.0;
 const bottomSpacing = 12.0;
 
