@@ -137,6 +137,8 @@ namespace RuntimeGizmos
 			SetMaterial();
 
 			moveTool = GameObject.Find("MoveTool").GetComponent<Button>();
+			moveTool.image.color = new Color32(200, 200, 200, 128);
+
 			rotateTool = GameObject.Find("RotateTool").GetComponent<Button>();
 			scaleTool = GameObject.Find("ScaleTool").GetComponent<Button>();
 		}
@@ -339,13 +341,20 @@ namespace RuntimeGizmos
 			return length;
 		}
 
+		private void Clear()
+        {
+			moveTool.image.color = new Color32(255, 255, 255, 255);
+			rotateTool.image.color = new Color32(255, 255, 255, 255);
+			scaleTool.image.color = new Color32(255, 255, 255, 255);
+		}
+
 		void SetSpaceAndType()
 		{
 			if(Input.GetKey(ActionKey)) return;
 
-			moveTool.onClick.AddListener(() => transformType = TransformType.Move);
-			rotateTool.onClick.AddListener(() => transformType = TransformType.Rotate);
-			scaleTool.onClick.AddListener(() => transformType = TransformType.Scale);
+			moveTool.onClick.AddListener(() => { transformType = TransformType.Move; Clear(); moveTool.image.color = new Color32(200, 200, 200, 128); });
+			rotateTool.onClick.AddListener(() => { transformType = TransformType.Rotate; Clear(); rotateTool.image.color = new Color32(200, 200, 200, 128); });
+			scaleTool.onClick.AddListener(() => { transformType = TransformType.Scale; Clear(); scaleTool.image.color = new Color32(200, 200, 200, 128); });
 
 			//if(Input.GetKeyDown(SetMoveType)) transformType = TransformType.Move;
 			//else if(Input.GetKeyDown(SetRotateType)) transformType = TransformType.Rotate;

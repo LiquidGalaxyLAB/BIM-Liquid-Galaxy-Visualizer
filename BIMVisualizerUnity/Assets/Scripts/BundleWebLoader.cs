@@ -4,6 +4,7 @@ using System.Collections;
 using System;
 using System.Text;
 using System.Linq;
+using UnityEngine.UI;
 
 public class BundleWebLoader : MonoBehaviour
 {
@@ -11,9 +12,14 @@ public class BundleWebLoader : MonoBehaviour
     private Vector3 oldEulerAngles = Vector3.zero;
     private Vector3 oldPosition = Vector3.zero;
     private Vector3 oldScale = Vector3.zero;
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
+    private Vector3 originalScale = Vector3.zero;
     private NetworkManager networkManager;
 
     private int MASTER_MOV_LENGTH = 9;
+
+    private Button resetTool;
 
     [Serializable]
     public class Rotation
@@ -41,6 +47,7 @@ public class BundleWebLoader : MonoBehaviour
 
     private void Awake()
     {
+        resetTool = GameObject.Find("ResetTool").GetComponent<Button>();
         networkManager = GameObject.Find("Network Manager").GetComponent<NetworkManager>();
     }
 
@@ -48,6 +55,8 @@ public class BundleWebLoader : MonoBehaviour
     {
         StartCoroutine(GetAssetBundle());
 
+        resetTool.onClick.AddListener(() => Reset());
+        
         networkManager.websocket.OnMessage += (bytes) =>
         {
             if (!networkManager.isMaster)
@@ -125,7 +134,7 @@ public class BundleWebLoader : MonoBehaviour
 
     IEnumerator GetAssetBundle()
     {
-        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle("http://172.16.65.29:3210/tmp/current");
+        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle("http://172.16.65.169:3210/tmp/current");
         yield return www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success)
@@ -141,7 +150,18 @@ public class BundleWebLoader : MonoBehaviour
 
             model = obj;
 
+            originalPosition = model.transform.position;
+            originalRotation = model.transform.rotation;
+            originalScale = model.transform.localScale;
+
             bundle.Unload(false);
         }
+    }
+
+    private void Reset()
+    {
+        model.transform.position = originalPosition;
+        model.transform.rotation = originalRotation;
+        model.transform.localScale = originalScale;
     }
 }

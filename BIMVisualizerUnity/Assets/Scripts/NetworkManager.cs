@@ -15,7 +15,7 @@ public class NetworkManager : MonoBehaviour
     private void Awake()
     {
         isMaster = false;
-        websocket = new WebSocket("ws://172.16.65.29:3220");
+        websocket = new WebSocket("ws://172.16.65.169:3220");
         projectionPlane = GameObject.Find("ProjectionPlane").GetComponent<ProjectionPlane>();
     }
 
