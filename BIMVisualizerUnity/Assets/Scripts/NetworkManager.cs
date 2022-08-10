@@ -32,6 +32,7 @@ public class NetworkManager : MonoBehaviour
                 int screenValue = int.Parse(arguments[1]);
                 if (screenValue == 0)
                 {
+                    isMaster = true;
                     GameObject.Find("ProjectionPlane").SetActive(false);
                 }
                 else

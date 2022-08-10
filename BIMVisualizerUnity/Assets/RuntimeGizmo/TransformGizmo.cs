@@ -141,7 +141,7 @@ namespace RuntimeGizmos
 			scaleTool = GameObject.Find("ScaleTool").GetComponent<Button>();
 		}
 
-		void OnEnable()
+        void OnEnable()
 		{
 			forceUpdatePivotCoroutine = StartCoroutine(ForceUpdatePivotPointAtEndOfFrame());
 		}

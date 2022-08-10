@@ -36,6 +36,12 @@ wss.on('connection', async (ws, req) => {
     ws.on('close', () => {
         console.log("client left");
     });
+
+    ws.on('message', (message) => {
+        wss.clients.forEach(client => {
+            client.send(message);
+        });
+    });
 });
 
 module.exports = router;
