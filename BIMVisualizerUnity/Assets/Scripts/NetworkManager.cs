@@ -16,6 +16,7 @@ public class NetworkManager : MonoBehaviour
     {
         isMaster = false;
         websocket = new WebSocket("ws://172.16.65.29:3220");
+        projectionPlane = GameObject.Find("ProjectionPlane").GetComponent<ProjectionPlane>();
     }
 
     // Start is called before the first frame update
