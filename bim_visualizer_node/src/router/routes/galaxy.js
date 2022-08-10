@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const { WebSocketServer } = require("ws");
+const { WebSocket, WebSocketServer } = require('ws');
 const wss = new WebSocketServer({ port: 3220 });
 const { ByteArray } = require('../../utils/byteArray');
 const { FindMaxFrames } = require('../../utils/findMaxFrames');
@@ -39,7 +39,9 @@ wss.on('connection', async (ws, req) => {
 
     ws.on('message', (message) => {
         wss.clients.forEach(client => {
-            client.send(message);
+            if (client !== ws && client.readyState == WebSocket.OPEN) {
+                client.send(message);
+            }
         });
     });
 });
