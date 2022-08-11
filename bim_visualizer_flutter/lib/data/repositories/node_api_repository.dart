@@ -2,9 +2,11 @@ import 'package:bim_visualizer_flutter/data/dataproviders/node_api_provider.dart
 import 'package:bim_visualizer_flutter/data/models/bim_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:dartz/dartz.dart';
+import 'dart:io';
 
 abstract class NodeAPIRepositoryImpl {
   Future<Either<Exception, List<Bim>>> getAll(http.Client client);
+  Future<Either<Exception, String>> uploadModel(http.Client client, String name, File file);
 }
 
 class NodeAPIRepository implements NodeAPIRepositoryImpl {
@@ -16,6 +18,16 @@ class NodeAPIRepository implements NodeAPIRepositoryImpl {
       List<dynamic> jsonList = await nodeAPI.getAll(client);
       List<Bim> data = jsonList.map((item) => Bim.fromJson(item)).toList();
       return Right(data);
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  Future<Either<Exception, String>> uploadModel(http.Client client, String name, File file) async {
+    try {
+      Map<String, dynamic> response = await nodeAPI.uploadModel(client, name, file);
+      return Right(response['key']);
     } on Exception catch (e) {
       return Left(e);
     }

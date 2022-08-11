@@ -26,3 +26,23 @@ class BimGetFailure extends BimState {
   @override
   List<Object> get props => [error];
 }
+
+class BimUploadSuccess extends BimState {
+  final String id;
+
+  const BimUploadSuccess(this.id);
+
+  @override
+  List<Object> get props => [id];
+}
+
+class BimUploadFailure extends BimState {
+  final String error;
+
+  const BimUploadFailure(this.error);
+  
+  @override
+  List<Object> get props => [error];
+}
+
+class BimUploadInProgress extends BimState { }
