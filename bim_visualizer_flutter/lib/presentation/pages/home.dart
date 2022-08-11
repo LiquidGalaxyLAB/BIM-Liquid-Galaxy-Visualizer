@@ -4,13 +4,15 @@ import 'package:bim_visualizer_flutter/business_logic/bloc/galaxy/galaxy_bloc.da
 import 'package:bim_visualizer_flutter/data/repositories/node_api_repository.dart';
 import 'package:bim_visualizer_flutter/data/repositories/galaxy_repository.dart';
 import 'package:bim_visualizer_flutter/business_logic/bloc/bim/bim_bloc.dart';
-import 'package:bim_visualizer_flutter/presentation/pages/about.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/settings.dart';
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
+import 'package:bim_visualizer_flutter/presentation/pages/about.dart';
+import 'package:bim_visualizer_flutter/data/models/meta_model.dart';
 import 'package:bim_visualizer_flutter/utils/ui/snackbar.dart';
 import 'package:bim_visualizer_flutter/constants/colors.dart';
 import 'package:bim_visualizer_flutter/constants/sizes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late bool connected = false;
   late SSHClient client;
   late TabController _tabController;
+  late List<MetaModel> metas;
 
   @override
   void initState() {
@@ -137,6 +140,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       if (state is GalaxyConnectSuccess) {
                         connected = true;
                         client = state.client;
+                        _bimBloc.add(BimGet());
                       } else if (state is GalaxyConnectFailure) {
                         connected = false;
                         String title = 'Something went wrong';
@@ -161,6 +165,26 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           message: state.error,
                           error: true
                         );
+                      } else if (state is GalaxyCreateLinkSuccess) {
+                        // navigate to meta page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Meta(
+                              galaxyBloc: _galaxyBloc,
+                              client: client,
+                              server: server,
+                              meta: metas
+                            )
+                          )
+                        );
+                      } else if (state is GalaxyCreateLinkFailure) {
+                        String title = 'Something went wrong';
+                        CustomSnackbar.show(context: context,
+                          title: title,
+                          message: 'Could not find the model',
+                          error: true
+                        );
                       }
                     },
                     builder: (blocContext, state) {
@@ -182,7 +206,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       _preferencesBloc.add(PreferencesGet());
                                     } else if (state is PreferencesGetSuccess) {
                                       if (connected) _galaxyBloc.add(GalaxyClose(client));
-                                      _bimBloc.add(BimGet());
                                       server = state.server;
                                       _galaxyBloc.add(GalaxyConnect(server, 22));
                                     }
@@ -265,18 +288,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                             InkWell(
                                               onTap: () async {
                                                 if (connected) {
-                                                  // navigate to meta page
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => Meta(
-                                                        galaxyBloc: _galaxyBloc,
-                                                        client: client,
-                                                        server: server,
-                                                        meta: data.meta!
-                                                      )
-                                                    )
-                                                  );
+                                                  metas = data.meta!;
+                                                  String target = dotenv.env['SERVER_TMP_PATH']! + 'current';
+                                                  _galaxyBloc.add(GalaxyCreateLink(client, data.key!, target));
                                                 }
                                               },
                                               child: Container(

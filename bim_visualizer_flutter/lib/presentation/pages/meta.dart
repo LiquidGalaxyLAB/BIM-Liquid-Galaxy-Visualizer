@@ -1,16 +1,16 @@
 import 'package:bim_visualizer_flutter/business_logic/bloc/galaxy/galaxy_bloc.dart';
+import 'package:bim_visualizer_flutter/presentation/pages/controller.dart';
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
 import 'package:bim_visualizer_flutter/data/models/meta_model.dart';
 import 'package:bim_visualizer_flutter/constants/colors.dart';
 import 'package:bim_visualizer_flutter/constants/sizes.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/material.dart';
-import 'package:grouped_list/grouped_list.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Meta extends StatefulWidget {
-  const Meta({Key? key, required this.galaxyBloc, required this.client, required this.server, required this.meta}) : super(key: key);
+  const Meta({ Key? key, required this.galaxyBloc, required this.client, required this.server, required this.meta }) : super(key: key);
 
   final GalaxyBloc galaxyBloc;
   final SSHClient client;
@@ -24,18 +24,8 @@ class Meta extends StatefulWidget {
 class _MetaState extends State<Meta> {
   @override
   Widget build(BuildContext context) {
-    final Uri _url = Uri.parse('http://' + widget.server.ipAddress! + ':3210/galaxy?screen=0');
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          color: primaryColor,
-          icon: const Icon(Icons.close, size: iconSize),
-          onPressed: () {
-            String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'close.sh ' + widget.server.password!;
-            widget.galaxyBloc.add(GalaxyExecute(widget.client, command));
-            Navigator.pop(context);
-          },
-        ),
         backgroundColor: secondaryColor,
         title: const Text(
           'Meta',
@@ -46,10 +36,19 @@ class _MetaState extends State<Meta> {
             child: TextButton.icon(
               icon: const Icon(Icons.open_in_browser, size: iconSize, color: primaryColor),
               label: const Text('OPEN ON LG', style: TextStyle(color: primaryColor)),
-              onPressed: () async {
-                if (!await launchUrl(_url, mode: LaunchMode.inAppWebView)) {
-                  throw 'Could not launch $_url';
-                }
+              onPressed: () {
+                final String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'open.sh ' + widget.server.password!;
+                widget.galaxyBloc.add(GalaxyExecute(widget.client, command));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Controller(
+                      galaxyBloc: widget.galaxyBloc,
+                      client: widget.client,
+                      server: widget.server
+                    )
+                  )
+                );
               },
             )
           ),
