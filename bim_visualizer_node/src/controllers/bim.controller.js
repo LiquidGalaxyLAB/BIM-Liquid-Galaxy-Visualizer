@@ -94,13 +94,13 @@ class BimController {
      * @param {Response} res The response object
      * @returns {Response} The response object
      */
-    async convertModel(req, res) {
+    async uploadModel(req, res) {
         try {
             await upload(req, res);
 
             const file = req.file;
             const name = req.body.name;
-            const key = await new BimService().convertModel(name, file);
+            const key = await new BimService().uploadModel(name, file);
 
             res.status(200).json({
                 'success': true,

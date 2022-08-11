@@ -10,8 +10,8 @@ router.route('/').post(async (req, res) => {
     await new BimController().put(req, res);
 });
 
-router.route('/convert').post(async (req, res) => {
-    await new BimController().convertModel(req, res);
+router.route('/upload').post(async (req, res) => {
+    await new BimController().uploadModel(req, res);
 })
 
 router.route('/:key').get(async (req, res) => {

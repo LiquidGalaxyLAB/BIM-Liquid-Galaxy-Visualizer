@@ -1,7 +1,7 @@
 const BimRepository = require('../repositories/bim.repository');
 const BimModel = require('../models/bim.model');
 const uuid = require('node-uuid');
-const { exec } = require('child_process');
+// const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -113,16 +113,16 @@ class BimService {
      * @param {File} file The file to be converted
      * @returns {Key} The unique identifier of the stored value
      */
-    async convertModel(name, file) {
+    async uploadModel(name, file) {
         try {
             const key = uuid.v1();
 
-            // move model to Unity Assets/Models directory
+            // // move model to Unity Assets/Models directory
+            // const newPath = process.env.MODELS_LOCATION;
+            // if (!fs.existsSync(newPath)) fs.mkdirSync(newPath);
+
             const oldPath = `./${file.path}`;
-            const newPath = process.env.MODELS_LOCATION;
-            if (!fs.existsSync(newPath)) fs.mkdirSync(newPath);
-
-            fs.rename(oldPath, `${newPath}/${key}.fbx`, function (err) {
+            fs.rename(oldPath, `public/models/${key}`, function (err) {
                 if (err) {
                     const error = new Error();
                     error.status = 500;
@@ -131,20 +131,20 @@ class BimService {
                 }
             });
 
-            // Build asset bundle
-            const unityPath = process.env.UNITY_PATH;
-            const projectPath = process.env.UNITY_PROJECT_PATH;
-            const bundleNameScript = `${unityPath} -batchmode -quit -projectPath ${projectPath} -executeMethod CreateAssetBundles.BuildAllAssetBundles -logFile log.txt`;
-            exec(bundleNameScript, (err, stdout, stderr) => {
-                if (err) {
-                    const error = new Error();
-                    error.status = 500;
-                    error.message = err.message;
-                    throw error;
-                }
-            });
+            // // Build asset bundle
+            // const unityPath = process.env.UNITY_PATH;
+            // const projectPath = process.env.UNITY_PROJECT_PATH;
+            // const bundleNameScript = `${unityPath} -batchmode -quit -projectPath ${projectPath} -executeMethod CreateAssetBundles.BuildAllAssetBundles -logFile log.txt`;
+            // exec(bundleNameScript, (err, stdout, stderr) => {
+            //     if (err) {
+            //         const error = new Error();
+            //         error.status = 500;
+            //         error.message = err.message;
+            //         throw error;
+            //     }
+            // });
 
-            const bimModel = new BimModel({ name: name, isDemo: true, modelPath: 'models/' + key });
+            const bimModel = new BimModel({ name: name, isDemo: false, modelPath: 'models/' + key });
             const data = JSON.parse(JSON.stringify(bimModel));
             await new BimRepository().put(key, data);
 
