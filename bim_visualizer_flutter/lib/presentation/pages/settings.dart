@@ -118,6 +118,38 @@ class _SettingsState extends State<Settings> {
                       error: true
                     );
                   },
+                ),
+                SettingsTile.navigation(
+                  leading: const Icon(Icons.open_in_full),
+                  title: const Text('Open logos'),
+                  value: const Text('Open partners logos'),
+                  onPressed: widget.connected ? (context) {
+                    String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'open_logos.sh ' + widget.server.password!;
+                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
+                  } : (context) { 
+                    String title = 'Something went wrong';
+                    CustomSnackbar.show(context: context,
+                      title: title,
+                      message: 'Need to be connected with the galaxy',
+                      error: true
+                    );
+                  },
+                ),
+                SettingsTile.navigation(
+                  leading: const Icon(Icons.close),
+                  title: const Text('Clean logos'),
+                  value: const Text('Clean partners logos'),
+                  onPressed: widget.connected ? (context) {
+                    String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'clean_logos.sh ' + widget.server.password!;
+                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
+                  } : (context) { 
+                    String title = 'Something went wrong';
+                    CustomSnackbar.show(context: context,
+                      title: title,
+                      message: 'Need to be connected with the galaxy',
+                      error: true
+                    );
+                  },
                 )
               ],
             )
