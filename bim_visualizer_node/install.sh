@@ -13,7 +13,7 @@ echo "[$time] Installing Galaxy BIM Visualizer..." | tee -a ./logs/$filename
 
 time=$(date +%H:%M:%S)
 echo "[$time] Installing new packages..." | tee -a ./logs/$filename
-sudo apt-get install -yq chromium-browser sshpass npm > ./logs/$filename
+sudo apt-get install -yq feh npm > ./logs/$filename
 
 time=$(date +%H:%M:%S)
 echo "[$time] Installing node..." | tee -a ./logs/$filename

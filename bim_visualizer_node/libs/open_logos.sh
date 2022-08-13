@@ -1,0 +1,1 @@
+ssh lg@${LG_FRAMES[1]} " export DISPLAY=:0; feh -x -g 700x700 /home/lg/logos.png --zoom fill"

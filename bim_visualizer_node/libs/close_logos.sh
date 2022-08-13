@@ -1,0 +1,1 @@
+ssh lg@${LG_FRAMES[1]} " pkill feh"
