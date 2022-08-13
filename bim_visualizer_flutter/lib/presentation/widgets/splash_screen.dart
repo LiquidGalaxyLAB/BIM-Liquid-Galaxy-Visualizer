@@ -1,7 +1,5 @@
-import 'package:bim_visualizer_flutter/presentation/widgets/logos.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/home.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:bim_visualizer_flutter/constants/colors.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 
@@ -10,32 +8,10 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return AnimatedSplashScreen(
-      splash: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  child:  Image.asset(
-                    'assets/images/logo.png',
-                    fit: BoxFit.contain,
-                  ),
-                  width: screenSize.width / 3,
-                ),
-              ]
-            ),
-            const Logos()
-          ]
-        ),
-      ),
-      backgroundColor: primaryColor,
-      splashIconSize: 550,
+      splash: Image.asset('assets/images/logos.png', width: 700.0, height: 700.0),
+      splashIconSize: 700.0,
+      backgroundColor: Colors.white,
       nextScreen: const Home(),
       splashTransition: SplashTransition.slideTransition,
       pageTransitionType: PageTransitionType.leftToRightWithFade,

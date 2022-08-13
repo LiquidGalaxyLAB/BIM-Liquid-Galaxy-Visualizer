@@ -56,7 +56,7 @@ class GalaxyBloc extends Bloc<GalaxyEvent, GalaxyState> {
         emit(GalaxyCreateLinkFailure(l.message));
       },
       (r) {
-        emit(GalaxyCreateLinkSuccess());
+        emit(GalaxyCreateLinkSuccess(event.key));
       }
     );
   }

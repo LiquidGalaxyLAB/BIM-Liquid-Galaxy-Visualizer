@@ -3,18 +3,19 @@ import 'package:bim_visualizer_flutter/data/repositories/preferences_repository.
 import 'package:bim_visualizer_flutter/business_logic/bloc/galaxy/galaxy_bloc.dart';
 import 'package:bim_visualizer_flutter/data/repositories/node_api_repository.dart';
 import 'package:bim_visualizer_flutter/data/repositories/galaxy_repository.dart';
+import 'package:bim_visualizer_flutter/presentation/widgets/bottom_sheet.dart';
 import 'package:bim_visualizer_flutter/business_logic/bloc/bim/bim_bloc.dart';
+import 'package:bim_visualizer_flutter/presentation/widgets/home_card.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/settings.dart';
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/about.dart';
 import 'package:bim_visualizer_flutter/data/models/meta_model.dart';
+import 'package:bim_visualizer_flutter/data/models/bim_model.dart';
 import 'package:bim_visualizer_flutter/utils/ui/snackbar.dart';
 import 'package:bim_visualizer_flutter/constants/colors.dart';
 import 'package:bim_visualizer_flutter/constants/sizes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/material.dart';
 import 'meta.dart';
@@ -35,17 +36,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late bool connected = false;
   late SSHClient client;
   late TabController _tabController;
-  late List<MetaModel> metas;
+  late List<Bim> bim;
+  late bool isEmpty = false;
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
-    _tabController.addListener(_switchTabIndex);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
-  }
-
-  void _switchTabIndex() {
-    setState(() { });
   }
 
   @override
@@ -140,10 +137,21 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   )
                 ],
               ),
-              floatingActionButton: _tabController.index == 1 ? FloatingActionButton(
+              floatingActionButton: !isEmpty ?
+              FloatingActionButton(
                 backgroundColor: secondaryColor,
                 child: const Icon(Icons.add, color: primaryColor),
-                onPressed: () { }
+                onPressed: () async {
+                  final result = await showModalBottomSheet<dynamic>(
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (ctx) {
+                      return const ModelBottomSheet();
+                    }
+                  );
+
+                  if (result != null) _bimBloc.add(BimUpload(result['name'], File(result['filePath'])));
+                }
               ) : null,
               body: Column(
                 children: <Widget>[
@@ -178,6 +186,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           error: true
                         );
                       } else if (state is GalaxyCreateLinkSuccess) {
+                        List<MetaModel> meta = bim.firstWhere((bim) => bim.key == state.key).meta!;
                         // navigate to meta page
                         Navigator.push(
                           context,
@@ -186,7 +195,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               galaxyBloc: _galaxyBloc,
                               client: client,
                               server: server,
-                              meta: metas
+                              meta: meta
                             )
                           )
                         );
@@ -288,6 +297,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 listener: (context, state) {
                                   if (state is BimUploadSuccess) {
                                     _bimBloc.add(BimGet());
+                                  } else if (state is BimGetSuccess) {
+                                    bim = state.bim;
                                   }
                                 },
                                 builder: (context, state) {
@@ -295,6 +306,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                     return const Center(child: CircularProgressIndicator());
                                   } else if (state is BimGetSuccess) {
                                     if (state.bim.where((bim) => bim.isDemo == false).isEmpty) {
+                                      isEmpty = true;
                                       return TabBarView(
                                         controller: _tabController,
                                         children: <Widget>[
@@ -305,45 +317,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                             mainAxisSpacing: 5,
                                             padding: const EdgeInsets.all(10.0),
                                             children: state.bim.where((bim) => bim.isDemo == true).map((data) => 
-                                              Card(
-                                                color: accentColor,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    ListTile(
-                                                      trailing: TextButton(
-                                                        child: const Text(
-                                                          'VIEW',
-                                                          style: TextStyle(color: primaryColor)
-                                                        ),
-                                                        style: ButtonStyle(
-                                                          side: MaterialStateProperty.all(const BorderSide(width: 2, color: secondaryColor)),
-                                                          padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 30)),
-                                                        ),
-                                                        onPressed: () {
-                                                          if (connected) {
-                                                            metas = data.meta!;
-                                                            String target = dotenv.env['SERVER_TMP_PATH']! + 'current';
-                                                            _galaxyBloc.add(GalaxyCreateLink(client, data.key!, target));
-                                                          }
-                                                        },
-                                                      ),
-                                                      leading: const Icon(Icons.add_box_outlined, size: 72.0),
-                                                      title: Text(data.name!, style: const TextStyle(fontSize: 18.0)),
-                                                      subtitle: const Text('Jun 11th 2022', style: TextStyle(fontSize: 16.0))
-                                                    ),
-                                                  ]
-                                                )
+                                              HomeCard(
+                                                bim: data,
+                                                connected: connected,
+                                                galaxyBloc: _galaxyBloc,
+                                                client: client,
                                               )
                                             ).toList()
                                           ),
-                                           Column(
+                                          Column(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: <Widget>[
                                               const Text(
-                                                'Browse and choose the file\nyou want to upload',
+                                                'Press the button bellow to\nupload your first model',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(fontSize: 18)
                                               ),
@@ -354,15 +341,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                                   style: ElevatedButton.styleFrom(
                                                     shape: const CircleBorder(),
                                                     padding: const EdgeInsets.all(20),
-                                                    primary: accentColor, // <-- Button color
-                                                    onPrimary: secondaryColor, // <-- Splash color
+                                                    primary: secondaryColor, // <-- Button color
+                                                    onPrimary: accentColor, // <-- Splash color
                                                   ),
                                                   onPressed: () async {
-                                                    FilePickerResult? result = await FilePicker.platform.pickFiles();
-                                                    if (result != null) {
-                                                      File file = File(result.files.single.path!);
-                                                      _bimBloc.add(BimUpload('test', file));
-                                                    }
+                                                    final result = await showModalBottomSheet(
+                                                      isScrollControlled: true,
+                                                      context: context,
+                                                      builder: (ctx) {
+                                                        return const ModelBottomSheet();
+                                                      }
+                                                    );
+
+                                                    if (result != null) _bimBloc.add(BimUpload(result['name'], File(result['filePath'])));
                                                   }
                                                 )
                                               )
@@ -371,6 +362,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                         ]
                                       );
                                     } else {
+                                      isEmpty = false;
                                       return TabBarView(
                                         controller: _tabController,
                                         children: <Widget>[
@@ -381,100 +373,35 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                             mainAxisSpacing: 5,
                                             padding: const EdgeInsets.all(10.0),
                                             children: state.bim.where((bim) => bim.isDemo == true).map((data) => 
-                                              Card(
-                                                color: accentColor,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    ListTile(
-                                                      trailing: TextButton(
-                                                        child: const Text(
-                                                          'VIEW',
-                                                          style: TextStyle(color: primaryColor)
-                                                        ),
-                                                        style: ButtonStyle(
-                                                          side: MaterialStateProperty.all(const BorderSide(width: 2, color: secondaryColor)),
-                                                          padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 30)),
-                                                        ),
-                                                        onPressed: () {
-                                                          if (connected) {
-                                                            metas = data.meta!;
-                                                            String target = dotenv.env['SERVER_TMP_PATH']! + 'current';
-                                                            _galaxyBloc.add(GalaxyCreateLink(client, data.key!, target));
-                                                          }
-                                                        },
-                                                      ),
-                                                      leading: const Icon(Icons.add_box_outlined, size: 72.0),
-                                                      title: Text(data.name!, style: const TextStyle(fontSize: 18.0)),
-                                                      subtitle: const Text('Jun 11th 2022', style: TextStyle(fontSize: 16.0))
-                                                    ),
-                                                  ]
-                                                )
+                                              HomeCard(
+                                                bim: data,
+                                                connected: connected,
+                                                galaxyBloc: _galaxyBloc,
+                                                client: client,
                                               )
                                             ).toList()
                                           ),
-                                          GridView.builder(
+                                          GridView.count(
+                                            crossAxisCount: 2,
+                                            childAspectRatio: (3 / 1),
+                                            crossAxisSpacing: 5,
+                                            mainAxisSpacing: 5,
                                             padding: const EdgeInsets.all(10.0),
-                                            itemCount: state.bim.where((bim) => bim.isDemo == false).length,
-                                            itemBuilder: (context, i) {
-                                              final list = state.bim.where((bim) => bim.isDemo == false);
-                                              final bim = list.elementAt(i);
-                                              return Card(
-                                                color: accentColor,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    ListTile(
-                                                      trailing: TextButton(
-                                                        child: const Text(
-                                                          'VIEW',
-                                                          style: TextStyle(color: primaryColor)
-                                                        ),
-                                                        style: ButtonStyle(
-                                                          side: MaterialStateProperty.all(const BorderSide(width: 2, color: secondaryColor)),
-                                                          padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 30)),
-                                                        ),
-                                                        onPressed: () {
-                                                          if (connected) {
-                                                            //metas = bim.meta!;
-                                                            //String target = dotenv.env['SERVER_TMP_PATH']! + 'current';
-                                                            //_galaxyBloc.add(GalaxyCreateLink(client, bim.key!, target));
-                                                          }
-                                                        },
-                                                      ),
-                                                      leading: const Icon(Icons.view_carousel_outlined , size: 72.0),
-                                                      title: Text(bim.name!, style: const TextStyle(fontSize: 18.0)),
-                                                      subtitle: const Text('Jun 11th 2022', style: TextStyle(fontSize: 16.0))
-                                                    ),
-                                                  ]
-                                                )
-                                              );
-                                            },
-                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 2,
-                                              childAspectRatio: (3 / 1),
-                                              crossAxisSpacing: 5,
-                                              mainAxisSpacing: 5,
-                                            )
+                                            children: state.bim.where((bim) => bim.isDemo == false).map((data) => 
+                                              HomeCard(
+                                                bim: data,
+                                                connected: connected,
+                                                galaxyBloc: _galaxyBloc,
+                                                client: client,
+                                              )
+                                            ).toList()
                                           )
                                         ]
                                       );
                                     }
                                   }
 
-                                  return TabBarView(
-                                    controller: _tabController,
-                                    children: const <Widget>[
-                                      Center(
-                                        child: Text('Could not load models')
-                                      ),
-                                      Center(
-                                        child: Text('Could not load models')
-                                      )
-                                    ]
-                                  );
+                                  return const Center(child: CircularProgressIndicator());
                                 }
                               )
                             )

@@ -72,10 +72,30 @@ class About extends StatelessWidget {
                       }
                     ),
                     TextSpan(
-                      text: 'GitHub',
+                      text: 'GitHub\t\t',
                       style: const TextStyle(color: Colors.blue, fontSize: 16),
                       recognizer: TapGestureRecognizer()..onTap = () async {
                         final url = Uri.parse('https://github.com/hvini');
+                        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                          throw 'Could not launch $url';
+                        }
+                      }
+                    ),
+                    TextSpan(
+                      text: 'Repository\t\t',
+                      style: const TextStyle(color: Colors.blue, fontSize: 16),
+                      recognizer: TapGestureRecognizer()..onTap = () async {
+                        final url = Uri.parse('https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer');
+                        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                          throw 'Could not launch $url';
+                        }
+                      }
+                    ),
+                    TextSpan(
+                      text: 'Organization',
+                      style: const TextStyle(color: Colors.blue, fontSize: 16),
+                      recognizer: TapGestureRecognizer()..onTap = () async {
+                        final url = Uri.parse('https://github.com/LiquidGalaxyLAB');
                         if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
                           throw 'Could not launch $url';
                         }

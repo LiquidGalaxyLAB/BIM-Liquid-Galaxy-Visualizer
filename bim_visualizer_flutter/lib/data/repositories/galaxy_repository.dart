@@ -63,14 +63,18 @@ class GalaxyRepository implements GalaxyRepositoryImpl {
 
     // remove previous link if it exists
     sftp.remove(target).catchError((e) => {});
+    
+    try {
+      // check if model exists
+      final items = await sftp.listdir(dotenv.env['SERVER_MODELS_PATH']!);
+      if (!items.any((item) => item.filename == key)) {
+        return Left(SftpStatusError(2, "Model cannot be found on the server"));
+      }
 
-    // check if model exists
-    final items = await sftp.listdir(dotenv.env['SERVER_MODELS_PATH']!);
-    if (!items.any((item) => item.filename == key)) {
-      return Left(SftpStatusError(2, "Model cannot be found on the server"));
+      await sftp.link(link, target);
+      return const Right(0);
+    } on SftpStatusError catch (error) {
+      return Left(error);
     }
-
-    await sftp.link(link, target);
-    return const Right(0);
   }
 }
