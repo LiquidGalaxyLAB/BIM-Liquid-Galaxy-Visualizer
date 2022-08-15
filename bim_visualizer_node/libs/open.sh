@@ -5,7 +5,7 @@
 port=3210
 screenNumber=0;
 for lg in $LG_FRAMES ; do
-    screenNumber=${lg[@]:2}
+    screenNumber=${lg:2}
     if [ $lg == "lg1" ]; then
         export DISPLAY=:0
         nohup chromium-browser http://lg1:$port/galaxy?screen=$screenNumber --start-fullscreen </dev/null >/dev/null 2>&1 &
