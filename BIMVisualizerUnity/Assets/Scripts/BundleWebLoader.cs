@@ -134,7 +134,7 @@ public class BundleWebLoader : MonoBehaviour
 
     IEnumerator GetAssetBundle()
     {
-        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle("http://172.16.65.169:3210/tmp/current");
+        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle("https://bimlgvisualizer-server.loca.lt/tmp/current");
         yield return www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success)

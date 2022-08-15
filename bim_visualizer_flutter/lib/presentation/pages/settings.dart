@@ -106,22 +106,6 @@ class _SettingsState extends State<Settings> {
                   },
                 ),
                 SettingsTile.navigation(
-                  leading: const Icon(Icons.turn_right),
-                  title: const Text('Turn'),
-                  value: const Text('Turn galaxy displays to right'),
-                  onPressed: widget.connected ? (context) {
-                    String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'turn.sh right';
-                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
-                  } : (context) { 
-                    String title = 'Something went wrong';
-                    CustomSnackbar.show(context: context,
-                      title: title,
-                      message: 'Need to be connected with the galaxy',
-                      error: true
-                    );
-                  },
-                ),
-                SettingsTile.navigation(
                   leading: const Icon(Icons.open_in_full),
                   title: const Text('Open logos'),
                   value: const Text('Open partners logos'),

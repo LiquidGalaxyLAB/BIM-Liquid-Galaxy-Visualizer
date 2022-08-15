@@ -44,7 +44,7 @@ class _ControllerState extends State<Controller> {
 
   @override
   Widget build(BuildContext context) {
-    final String _url = 'http://' + widget.server.ipAddress! + ':3210/galaxy?screen=0';
+    const String _url = 'https://bimlgvisualizer-server.loca.lt/galaxy?screen=0';
     return WebviewScaffold(
       url: _url,
       withJavascript: true,

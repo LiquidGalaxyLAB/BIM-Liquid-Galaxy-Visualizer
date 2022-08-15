@@ -20,6 +20,8 @@ echo "[$time] Installing node..." | tee -a ./logs/$filename
 sudo npm install -g n > /dev/null 2>> ./logs/$filename
 sudo n stable > /dev/null
 
+sudo npm install -g localtunnel > /dev/null 2>> ./logs/$filename
+
 # Open port 3210
 
 LINE=`cat /etc/iptables.conf | grep "tcp" | grep "8111" | awk -F " -j" '{print $1}'`
