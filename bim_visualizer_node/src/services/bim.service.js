@@ -13,7 +13,7 @@ class BimService {
     /**
      * 
      * @param {Value} value The value to be stored
-     * @returns {Key} The unique identifier of the stored value
+     * @returns {Data} The stored values
      */
     async put(value) {
         try {
@@ -31,7 +31,7 @@ class BimService {
             
             await new BimRepository().put(key, data);
             
-            return key;
+            return data;
         } catch (err) {
             const error = new Error();
             error.status = err.status ? err.status : 500;

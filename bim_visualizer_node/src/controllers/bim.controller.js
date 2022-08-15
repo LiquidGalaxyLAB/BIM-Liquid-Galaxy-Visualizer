@@ -11,10 +11,10 @@ class BimController {
     async put(req, res) {
         try {
             const value = req.body;
-            const key = await new BimService().put(value);
+            const data = await new BimService().put(value);
             res.status(200).json({
                 'success': true,
-                'value': key
+                'values': data
             });
         } catch(err) {
             res.status(err.status).json({
