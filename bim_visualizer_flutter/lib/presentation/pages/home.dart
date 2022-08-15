@@ -9,7 +9,6 @@ import 'package:bim_visualizer_flutter/presentation/widgets/home_card.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/settings.dart';
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/about.dart';
-import 'package:bim_visualizer_flutter/data/models/meta_model.dart';
 import 'package:bim_visualizer_flutter/data/models/bim_model.dart';
 import 'package:bim_visualizer_flutter/utils/ui/snackbar.dart';
 import 'package:bim_visualizer_flutter/constants/colors.dart';
@@ -186,7 +185,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           error: true
                         );
                       } else if (state is GalaxyCreateLinkSuccess) {
-                        List<MetaModel> meta = bim.firstWhere((bim) => bim.key == state.key).meta!;
+                        Bim data = bim.firstWhere((bim) => bim.key == state.key);
                         // navigate to meta page
                         Navigator.push(
                           context,
@@ -195,10 +194,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               galaxyBloc: _galaxyBloc,
                               client: client,
                               server: server,
-                              meta: meta
+                              bim: data
                             )
                           )
-                        );
+                        ).whenComplete(() => _bimBloc.add(BimGet()));
                       } else if (state is GalaxyCreateLinkFailure) {
                         String title = 'Something went wrong';
                         CustomSnackbar.show(context: context,

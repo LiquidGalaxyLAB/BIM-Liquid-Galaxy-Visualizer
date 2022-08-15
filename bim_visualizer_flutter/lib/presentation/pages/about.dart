@@ -95,7 +95,7 @@ class About extends StatelessWidget {
                       text: 'Organization',
                       style: const TextStyle(color: Colors.blue, fontSize: 16),
                       recognizer: TapGestureRecognizer()..onTap = () async {
-                        final url = Uri.parse('https://github.com/LiquidGalaxyLAB');
+                        final url = Uri.parse('https://www.liquidgalaxy.eu/');
                         if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
                           throw 'Could not launch $url';
                         }

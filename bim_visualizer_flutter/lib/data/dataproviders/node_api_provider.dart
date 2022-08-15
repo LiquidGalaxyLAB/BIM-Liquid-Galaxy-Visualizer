@@ -41,4 +41,24 @@ class NodeAPIProvider {
     final response = await http.Response.fromStream(streamedResponse);
     return json.decode(response.body) as Map<String, dynamic>;
   }
+
+  Future<Map<String, dynamic>> updateMeta(http.Client client, Map<String, dynamic> body) async {
+    final prefs = await SharedPreferences.getInstance();
+    _preferencesRepo = PreferencesRepository(prefs);
+    final preferences = _preferencesRepo.get();
+
+    final baseUrl = 'http://' + preferences.ipAddress! + ':3210/';
+    final response = await client.post(Uri.parse(baseUrl + 'bim/'),
+      headers: {
+        "content-type": "application/json"
+      },
+      body: json.encode(body)
+    );
+    
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update data');
+    }
+
+    return json.decode(response.body)['values'] as Map<String, dynamic>;
+  }
 }

@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 class MetaModel extends Equatable {
-  final int? elementID;
+  final dynamic elementID;
   final String? family;
   final String? type;
-  final int? length;
+  final dynamic length;
   final String? baseLevel;
-  //final int? baseOffset;
+  //final dynamic? baseOffset;
   final String? topLevel;
-  final int? topOffset;
+  final dynamic topOffset;
 
   const MetaModel({
     this.elementID,
@@ -23,14 +23,14 @@ class MetaModel extends Equatable {
 
   factory MetaModel.fromJson(Map<String, dynamic> json) {
     return MetaModel(
-      elementID: json['elementID'] as int?,
+      elementID: json['elementID'] as dynamic,
       family: json['family'] as String?,
       type: json['type'] as String?,
-      length: json['length'] as int?,
+      length: json['length'] as dynamic,
       baseLevel: json['baseLevel'] as String?,
       //baseOffset: json['baseOffset'] as int,
       topLevel: json['topLevel'] as String?,
-      topOffset: json['topOffset'] as int?
+      topOffset: json['topOffset'] as dynamic
     );
   }
 

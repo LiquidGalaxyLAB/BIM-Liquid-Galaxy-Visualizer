@@ -78,6 +78,7 @@ class _SettingsState extends State<Settings> {
                   onPressed: widget.connected ? (context) {
                     String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'reboot.sh ' + widget.server.password!;
                     widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
+                    widget.galaxyBloc.add(GalaxyClose(widget.client!));
                   } : (context) { 
                     String title = 'Something went wrong';
                     CustomSnackbar.show(context: context,
@@ -94,6 +95,7 @@ class _SettingsState extends State<Settings> {
                   onPressed: widget.connected ? (context) {
                     String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'shutdown.sh ' + widget.server.password!;
                     widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
+                    widget.galaxyBloc.add(GalaxyClose(widget.client!));
                   } : (context) { 
                     String title = 'Something went wrong';
                     CustomSnackbar.show(context: context,
@@ -108,7 +110,7 @@ class _SettingsState extends State<Settings> {
                   title: const Text('Turn'),
                   value: const Text('Turn galaxy displays to right'),
                   onPressed: widget.connected ? (context) {
-                    String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'turn.sh right ' + widget.server.password!;
+                    String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'turn.sh right';
                     widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
                   } : (context) { 
                     String title = 'Something went wrong';
@@ -140,7 +142,7 @@ class _SettingsState extends State<Settings> {
                   title: const Text('Clean logos'),
                   value: const Text('Clean partners logos'),
                   onPressed: widget.connected ? (context) {
-                    String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'clean_logos.sh ' + widget.server.password!;
+                    String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'close_logos.sh ' + widget.server.password!;
                     widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
                   } : (context) { 
                     String title = 'Something went wrong';

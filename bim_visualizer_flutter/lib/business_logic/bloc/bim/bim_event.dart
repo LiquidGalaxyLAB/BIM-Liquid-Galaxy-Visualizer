@@ -17,3 +17,13 @@ class BimUpload extends BimEvent {
   @override
   List<Object> get props => [name, file];
 }
+
+class BimUpdateMeta extends BimEvent {
+  final Bim bim;
+  final File file;
+
+  const BimUpdateMeta(this.bim, this.file);
+
+  @override
+  List<Object> get props => [bim, file];
+}

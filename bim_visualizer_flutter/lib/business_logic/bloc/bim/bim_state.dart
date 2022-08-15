@@ -46,3 +46,23 @@ class BimUploadFailure extends BimState {
 }
 
 class BimUploadInProgress extends BimState { }
+
+class BimUpdateMetaSuccess extends BimState {
+  final Bim bim;
+
+  const BimUpdateMetaSuccess(this.bim);
+
+  @override
+  List<Object> get props => [bim];
+}
+
+class BimUpdateMetaInProgress extends BimState {}
+
+class BimUpdateMetaFailure extends BimState {
+  final String error;
+
+  const BimUpdateMetaFailure(this.error);
+  
+  @override
+  List<Object> get props => [error];
+}

@@ -14,6 +14,7 @@ class BimBloc extends Bloc<BimEvent, BimState> {
   BimBloc(this._nodeAPIRepo) : super(BimInitial()) {
     on<BimGet>(_mapBimGetToState);
     on<BimUpload>(_mapBimUploadToState);
+    on<BimUpdateMeta>(_mapBimUpdateMetaToState);
   }
 
   Future<void> _mapBimGetToState(BimGet event, Emitter<BimState> emit) async {
@@ -35,6 +36,18 @@ class BimBloc extends Bloc<BimEvent, BimState> {
     result.fold(
       (l) => emit(BimUploadFailure(l.toString())),
       (r) => emit(BimUploadSuccess(r)),
+    );
+  }
+
+  Future<void> _mapBimUpdateMetaToState(BimUpdateMeta event, Emitter<BimState> emit) async {
+    emit(BimUpdateMetaInProgress());
+
+    final http.Client client = http.Client();
+    final result = await _nodeAPIRepo.updateMeta(client, event.bim, event.file);
+
+    result.fold(
+      (l) => emit(BimUpdateMetaFailure(l.toString())),
+      (r) => emit(BimUpdateMetaSuccess(r))
     );
   }
 }

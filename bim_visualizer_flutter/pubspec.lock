@@ -225,6 +225,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
+  fast_csv:
+    dependency: "direct main"
+    description:
+      name: fast_csv
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.44"
   ffi:
     dependency: transitive
     description:
@@ -299,9 +306,11 @@ packages:
   flutter_webview_plugin:
     dependency: "direct main"
     description:
-      name: flutter_webview_plugin
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: acbc06335c79f8ddaa382aa4b409e5a7271a9109
+      url: "https://github.com/snoopdoggy322/flutter_webview_plugin"
+    source: git
     version: "0.4.0"
   frontend_server_client:
     dependency: transitive
