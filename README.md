@@ -60,6 +60,19 @@ npm start
 
 :warning: **Remember to always run the server before the app**
 
+### Local tunnel
+
+As we cant access the virtual interface of the galaxy (eth0:0 | lg1 | 10.42.42.1) from outside the system eg wifi network we need to expose this interface so we can access the controller from our tablet. A way founded to expose the url was by using an tunnel system.
+We have two ports: 3210 that is the server and 3220 that is the socket.
+With the following commands we can expose both ports to the `bimlgvisualizer-server` and `bimlgvisualizer-socket` subdomains.
+
+```
+lt --subdomain bimlgvisualizer-server --port 3210
+lt --subdomain bimlgvisualizer-socket --port 3220
+```
+
+:warning: ***Ensure that the generated links has the correct subdomain in other case the system will not work***
+
 ### Running the App Locally
 
 [(Back to Top)](#bim-liquid-galaxy-visualizer)
