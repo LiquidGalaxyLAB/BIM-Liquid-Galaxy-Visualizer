@@ -11,4 +11,9 @@ for lg in $LG_FRAMES ; do
 	fi
 done
 
+for lg in $LG_FRAMES; do
+    sshpass -p $1 ssh -Xnf lg@$lg " pkill feh"
+    break
+done
+
 exit 0

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ${HOME}/etc/shell.conf
+
 # Create logs directory if it doesnt exist yet
 mkdir -p ./logs
 
@@ -13,14 +15,26 @@ echo "[$time] Installing Galaxy BIM Visualizer..." | tee -a ./logs/$filename
 
 time=$(date +%H:%M:%S)
 echo "[$time] Installing new packages..." | tee -a ./logs/$filename
-sudo apt-get install -yq feh npm > ./logs/$filename
+sudo apt-get install -yq npm > ./logs/$filename
 
 time=$(date +%H:%M:%S)
 echo "[$time] Installing node..." | tee -a ./logs/$filename
 sudo npm install -g n > /dev/null 2>> ./logs/$filename
 sudo n stable > /dev/null
 
+time=$(date +%H:%M:%S)
+echo "[$time] Installing local tunnel..." | tee -a ./logs/$filename
 sudo npm install -g localtunnel > /dev/null 2>> ./logs/$filename
+
+time=$(date +%H:%M:%S)
+echo "[$time] Installing slave dependencies..." | tee -a ./logs/$filename
+for lg in $LG_FRAMES ; do
+  echo "Enter the $lg password"
+  read pass
+  sshpass -p $pass scp public/logos.png $lg:/home/lg/
+  sshpass -p $pass ssh lg@$lg "echo $pass | sudo -S apt-get install -yq feh"
+  break
+done
 
 # Open port 3210
 
