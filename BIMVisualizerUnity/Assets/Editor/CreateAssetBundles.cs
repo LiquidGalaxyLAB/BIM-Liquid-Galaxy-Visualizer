@@ -28,7 +28,7 @@ public class CreateAssetBundles
 
         // move the asset bundle to public/models dir on server
         string oldPath = "Assets/AssetBundles/" + filename;
-        string newPath = "/Users/vinicius/Projects/hvini/BIM-Liquid-Galaxy-Visualizer/bim_visualizer_node/public/models/" + filename;
+        string newPath = "public/models/" + filename;
         File.Move(oldPath, newPath);
 
         // clean data
