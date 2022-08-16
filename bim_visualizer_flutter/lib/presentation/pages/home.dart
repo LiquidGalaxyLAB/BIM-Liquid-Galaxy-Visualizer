@@ -36,7 +36,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late SSHClient client;
   late TabController _tabController;
   late List<Bim> bim;
-  late bool isEmpty = false;
 
   @override
   void initState() {
@@ -104,7 +103,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               server: server
                             )
                           )
-                        );
+                        ).whenComplete(() => _galaxyBloc.add(GalaxyConnect(server, 22)));
                       } else {
                         Navigator.push(
                           context,
@@ -136,8 +135,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   )
                 ],
               ),
-              floatingActionButton: !isEmpty ?
-              FloatingActionButton(
+              floatingActionButton: FloatingActionButton(
                 backgroundColor: secondaryColor,
                 child: const Icon(Icons.add, color: primaryColor),
                 onPressed: () async {
@@ -151,7 +149,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
                   if (result != null) _bimBloc.add(BimUpload(result['name'], File(result['filePath'])));
                 }
-              ) : null,
+              ),
               body: Column(
                 children: <Widget>[
                   BlocConsumer<GalaxyBloc, GalaxyState>(
@@ -305,7 +303,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                     return const Center(child: CircularProgressIndicator());
                                   } else if (state is BimGetSuccess) {
                                     if (state.bim.where((bim) => bim.isDemo == false).isEmpty) {
-                                      isEmpty = true;
                                       return TabBarView(
                                         controller: _tabController,
                                         children: <Widget>[
@@ -327,41 +324,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                           Column(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              const Text(
-                                                'Press the button bellow to\nupload your first model',
+                                            children: const <Widget>[
+                                              Text(
+                                                'Tap the plus button to\nupload your first model',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(fontSize: 18)
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.all(20.0),
-                                                child: ElevatedButton(
-                                                  child: const Icon(Icons.add, color: primaryColor),
-                                                  style: ElevatedButton.styleFrom(
-                                                    shape: const CircleBorder(),
-                                                    padding: const EdgeInsets.all(20),
-                                                    primary: secondaryColor, // <-- Button color
-                                                    onPrimary: accentColor, // <-- Splash color
-                                                  ),
-                                                  onPressed: () async {
-                                                    final result = await showModalBottomSheet(
-                                                      isScrollControlled: true,
-                                                      context: context,
-                                                      builder: (ctx) {
-                                                        return const ModelBottomSheet();
-                                                      }
-                                                    );
-
-                                                    if (result != null) _bimBloc.add(BimUpload(result['name'], File(result['filePath'])));
-                                                  }
-                                                )
-                                              )
                                             ]
                                           )
                                         ]
                                       );
                                     } else {
-                                      isEmpty = false;
                                       return TabBarView(
                                         controller: _tabController,
                                         children: <Widget>[

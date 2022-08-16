@@ -41,18 +41,6 @@ class About extends StatelessWidget {
                   ),
                 ]
               ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
-              //   child: Text(
-              //     'BIM Liquid Galaxy Visualizer',
-              //     textAlign: TextAlign.center,
-              //     style: TextStyle(
-              //       fontWeight: FontWeight.bold,
-              //       fontSize: 30,
-              //       color: Colors.grey.shade700
-              //     ),
-              //   ),
-              // ),
               const Text(
                 'Author: Vinícius Cavalcanti\n\nMentors: Karine Pistili & Marc Capdevila\n',
                 textAlign: TextAlign.center,
@@ -110,14 +98,45 @@ class About extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               const Logos(),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0),
-                child: Text(
-                  'BIM Liquid Galaxy Visualizer is a tool developed\nfor the Google Summer Of Code 2022 alongside the Liquid Galaxy organization.\n\nThe idea behind this tool is to visualize BIM 3D models and their metadata\non the liquid galaxy rig system using an android device.\n\nUsers can open their own uploaded 3D models alongside with their metadata or use the demo models. When a model is opened into the galaxy a controller is showed with some transform movements (rotation, translation and scale)',
-                  style: TextStyle(fontSize: 17),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                child: RichText(
                   textAlign: TextAlign.center,
-                ),
-              )
+                  text: TextSpan(
+                    style: const TextStyle(color: Colors.black, fontSize: 18.0),
+                    children: [
+                      const TextSpan(
+                        text: 'BIM Liquid Galaxy Visualizer is a tool developed\nfor the Google Summer Of Code 2022 alongside the Liquid Galaxy organization.\n\nThe idea behind this tool is to visualize BIM 3D models and their metadata\non the liquid galaxy rig system using an android device.\n\nUsers can open their own uploaded 3D models alongside with their metadata or use the demo models. When a model is opened into the galaxy a controller is showed with\nsome transform movements (rotation, translation and scale).\n\nThe house demo model can be found on the revit samples and\nthe truck at the ',
+                      ),
+                      TextSpan(
+                        text: 'bimobject platform',
+                        style: const TextStyle(color: Colors.blue),
+                        recognizer: TapGestureRecognizer()..onTap = () async {
+                          final url = Uri.parse('https://www.bimobject.com/pt-br/bimobject-th-x-thai-obayashi/product/BIMobjectTHxThaiObayashi_SmallTruckLoaderCrane');
+                          if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                            throw 'Could not launch $url';
+                          }
+                        }
+                      )
+                    ]
+                  ),
+                )
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 100 * 0.05, vertical: 30),
+                    child: SizedBox(
+                      child:  Image.asset(
+                        'assets/images/unity.png',
+                        fit: BoxFit.contain,
+                      ),
+                      width: screenSize.width / 3,
+                    ),
+                  ),
+                ]
+              ),
             ],
           ),
         ),

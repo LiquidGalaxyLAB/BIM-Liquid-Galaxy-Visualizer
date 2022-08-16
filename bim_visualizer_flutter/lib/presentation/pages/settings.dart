@@ -78,7 +78,6 @@ class _SettingsState extends State<Settings> {
                   onPressed: widget.connected ? (context) {
                     String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'reboot.sh ' + widget.server.password!;
                     widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
-                    widget.galaxyBloc.add(GalaxyClose(widget.client!));
                   } : (context) { 
                     String title = 'Something went wrong';
                     CustomSnackbar.show(context: context,
@@ -95,7 +94,6 @@ class _SettingsState extends State<Settings> {
                   onPressed: widget.connected ? (context) {
                     String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'shutdown.sh ' + widget.server.password!;
                     widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
-                    widget.galaxyBloc.add(GalaxyClose(widget.client!));
                   } : (context) { 
                     String title = 'Something went wrong';
                     CustomSnackbar.show(context: context,
