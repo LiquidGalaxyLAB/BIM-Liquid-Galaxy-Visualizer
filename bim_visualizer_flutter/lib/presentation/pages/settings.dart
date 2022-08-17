@@ -122,7 +122,20 @@ class _SettingsState extends State<Settings> {
                     String message = 'Need to be connected with the galaxy';
                     CustomSnackbar(context: context, title: title, message: message, error: true);
                   },
-                )
+                ),
+                SettingsTile.navigation(
+                  leading: const Icon(Icons.cleaning_services),
+                  title: const Text('Clean visualization'),
+                  value: const Text('Clean LG chromium sessions'),
+                  onPressed: widget.connected ? (context) {
+                    String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'close.sh ' + widget.server.password!;
+                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command, true));
+                  } : (context) {
+                    String title = 'Something went wrong';
+                    String message = 'Need to be connected with the galaxy';
+                    CustomSnackbar(context: context, title: title, message: message, error: true);
+                  },
+                ),
               ],
             )
           ],
