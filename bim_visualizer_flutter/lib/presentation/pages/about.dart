@@ -1,6 +1,5 @@
 import 'package:bim_visualizer_flutter/constants/colors.dart';
 import 'package:bim_visualizer_flutter/constants/sizes.dart';
-import 'package:bim_visualizer_flutter/presentation/widgets/logos.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -41,10 +40,27 @@ class About extends StatelessWidget {
                   ),
                 ]
               ),
-              const Text(
-                'Author: Vinícius Cavalcanti\n\nMentors: Karine Pistili & Marc Capdevila\n',
+              RichText(
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 17),
+                text: TextSpan(
+                  style: const TextStyle(color: Colors.black),
+                  children: [
+                    const TextSpan(
+                      text: 'Author: Vinícius Cavalcanti\nMentors: Karine Pistili & Marc Capdevila\nLleida Liquid Galaxy LAB Support: ',
+                      style: TextStyle(fontSize: 17),
+                    ),
+                    TextSpan(
+                      text: 'Pau Francino\n',
+                      style: const TextStyle(color: Colors.blue, fontSize: 17),
+                      recognizer: TapGestureRecognizer()..onTap = () async {
+                        final url = Uri.parse('mailto: paufrancino99@gmail.com');
+                        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                          throw 'Could not launch $url';
+                        }
+                      }
+                    ),
+                  ]
+                )
               ),
               RichText(
                 text: TextSpan(
@@ -92,21 +108,29 @@ class About extends StatelessWidget {
                   ]
                 )
               ),
-              const Text(
-                '\nOur partners',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(
+                  '\nOur partners',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
               ),
-              const Logos(),
+              Center(
+                child: Image.asset(
+                  'assets/images/logos2.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                padding: const EdgeInsets.all(20.0),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     style: const TextStyle(color: Colors.black, fontSize: 18.0),
                     children: [
                       const TextSpan(
-                        text: 'BIM Liquid Galaxy Visualizer is a tool developed\nfor the Google Summer Of Code 2022 alongside the Liquid Galaxy organization.\n\nThe idea behind this tool is to visualize BIM 3D models and their metadata\non the liquid galaxy rig system using an android device.\n\nUsers can open their own uploaded 3D models alongside with their metadata or use the demo models. When a model is opened into the galaxy a controller is showed with\nsome transform movements (rotation, translation and scale).\n\nThe house demo model can be found on the revit samples and\nthe truck at the ',
+                        text: 'BIM Liquid Galaxy Visualizer is a tool developed\nfor the Google Summer Of Code 2022 alongside the Liquid Galaxy organization.\n\nThe idea behind this tool is to visualize BIM 3D models on the\nLiquid Galaxy rig system using an android device.\n\nUsers can open their own uploaded 3D models or use the demo models. When a model is opened\ninto the galaxy a controller is showed with some transform movements (rotation, translation and scale).\n\nThe house demo model can be found on the revit samples and\nthe truck at the ',
                       ),
                       TextSpan(
                         text: 'bimobject platform',
@@ -120,19 +144,19 @@ class About extends StatelessWidget {
                       )
                     ]
                   ),
-                )
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 100 * 0.05, vertical: 30),
+                    padding: const EdgeInsets.all(20.0),
                     child: SizedBox(
                       child:  Image.asset(
                         'assets/images/unity.png',
                         fit: BoxFit.contain,
                       ),
-                      width: screenSize.width / 3,
+                      width: screenSize.width / 6,
                     ),
                   ),
                 ]
