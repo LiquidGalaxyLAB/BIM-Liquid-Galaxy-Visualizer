@@ -5,6 +5,7 @@ import 'package:bim_visualizer_flutter/data/repositories/node_api_repository.dar
 import 'package:bim_visualizer_flutter/data/repositories/galaxy_repository.dart';
 import 'package:bim_visualizer_flutter/presentation/widgets/bottom_sheet.dart';
 import 'package:bim_visualizer_flutter/business_logic/bloc/bim/bim_bloc.dart';
+import 'package:bim_visualizer_flutter/presentation/widgets/empty_home.dart';
 import 'package:bim_visualizer_flutter/presentation/widgets/home_card.dart';
 import 'package:bim_visualizer_flutter/presentation/pages/settings.dart';
 import 'package:bim_visualizer_flutter/data/models/server_model.dart';
@@ -371,6 +372,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                         ]
                                       );
                                     }
+                                  } else if (state is BimGetFailure) {
+                                    return TabBarView(
+                                      controller: _tabController,
+                                      children: const <Widget>[
+                                        EmptyHome(),
+                                        EmptyHome()
+                                      ]
+                                    );
                                   }
 
                                   return const Center(child: CircularProgressIndicator());
