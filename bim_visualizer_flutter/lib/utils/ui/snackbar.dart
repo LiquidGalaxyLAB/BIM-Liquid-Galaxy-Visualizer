@@ -4,18 +4,32 @@ import 'package:flutter/material.dart';
 
 // class that implements a global snackbar alert
 class CustomSnackbar {
-  static show({required BuildContext context, required String title, required String message, bool error = false}) {
-    Flushbar(
+  final BuildContext context;
+  final String title;
+  final String message;
+  final bool error;
+
+  late Flushbar flush;
+
+  CustomSnackbar({ required this.context, required this.title, required this.message, this.error = false }) {
+    flush = Flushbar<void>(
+      maxWidth: MediaQuery.of(context).size.width / 2,
       backgroundColor: error ? errorColor : successColor,
       title: title,
       isDismissible: true,
       titleSize: 20.0,
       message: message,
       messageSize: 16.0,
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 3),
       flushbarPosition: FlushbarPosition.TOP,
-      margin: const EdgeInsets.all(8.0),
+      mainButton: IconButton(
+        icon: const Icon(Icons.close, color: primaryColor),
+        onPressed: () {
+          flush.dismiss(true);
+        },
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 100.0),
       borderRadius: BorderRadius.circular(8.0),
-    ).show(context);
+    )..show(context);
   }
 }

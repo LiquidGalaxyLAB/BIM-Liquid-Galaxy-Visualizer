@@ -63,7 +63,7 @@ class _MetaState extends State<Meta> {
                       label: const Text('OPEN ON LG', style: TextStyle(color: primaryColor)),
                       onPressed: () {
                         final String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'open.sh ' + widget.server.password!;
-                        widget.galaxyBloc.add(GalaxyExecute(widget.client, command));
+                        widget.galaxyBloc.add(GalaxyExecute(widget.client, command, true));
                         Navigator.push(
                           context,
                           MaterialPageRoute(

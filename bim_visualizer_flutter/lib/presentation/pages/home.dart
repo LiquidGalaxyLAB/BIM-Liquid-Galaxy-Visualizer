@@ -162,27 +162,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       } else if (state is GalaxyConnectFailure) {
                         connected = false;
                         String title = 'Something went wrong';
-                        CustomSnackbar.show(context: context,
-                          title: title,
-                          message: state.error,
-                          error: true
-                        );
+                        CustomSnackbar(context: context, title: title, message: state.error, error: true);
                       } else if (state is GalaxyCloseSuccess) {
                         connected = false;
                       } else if (state is GalaxyExecuteSuccess) {
-                        String title = 'Success';
-                        String message = 'Command successfully executed';
-                        CustomSnackbar.show(context: context,
-                          title: title,
-                          message: message
-                        );
+                        if (state.showAlert) {
+                          String title = 'Success';
+                          String message = 'Command successfully executed';
+                          CustomSnackbar(context: context, title: title, message: message);
+                        }
                       } else if (state is GalaxyExecuteFailure) {
                         String title = 'Something went wrong';
-                        CustomSnackbar.show(context: context,
-                          title: title,
-                          message: state.error,
-                          error: true
-                        );
+                        CustomSnackbar(context: context, title: title, message: state.error, error: true);
                       } else if (state is GalaxyCreateLinkSuccess) {
                         Bim data = bim.firstWhere((bim) => bim.key == state.key);
                         // navigate to meta page
@@ -199,11 +190,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         ).whenComplete(() => _bimBloc.add(BimGet()));
                       } else if (state is GalaxyCreateLinkFailure) {
                         String title = 'Something went wrong';
-                        CustomSnackbar.show(context: context,
-                          title: title,
-                          message: 'Could not find the model',
-                          error: true
-                        );
+                        String message = 'Could not find the model';
+                        CustomSnackbar(context: context, title: title, message: message, error: true);
                       }
                     },
                     builder: (blocContext, state) {
@@ -284,8 +272,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   indicatorWeight: 5.0,
                                   indicatorColor: accentColor,
                                   tabs: const [
-                                    Tab(text: 'Demos'),
-                                    Tab(text: 'Uploaded')
+                                    Tab(text: 'DEMOS'),
+                                    Tab(text: 'UPLOADED')
                                   ]
                                 )
                               )

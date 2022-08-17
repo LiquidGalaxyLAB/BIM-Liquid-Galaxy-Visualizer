@@ -77,14 +77,11 @@ class _SettingsState extends State<Settings> {
                   value: const Text('Galaxy reboot'),
                   onPressed: widget.connected ? (context) {
                     String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'reboot.sh ' + widget.server.password!;
-                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
+                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command, true));
                   } : (context) { 
                     String title = 'Something went wrong';
-                    CustomSnackbar.show(context: context,
-                      title: title,
-                      message: 'Need to be connected with the galaxy',
-                      error: true
-                    );
+                    String message = 'Need to be connected with the galaxy';
+                    CustomSnackbar(context: context, title: title, message: message, error: true);
                   },
                 ),
                 SettingsTile.navigation(
@@ -93,14 +90,11 @@ class _SettingsState extends State<Settings> {
                   value: const Text('Galaxy shutdown'),
                   onPressed: widget.connected ? (context) {
                     String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'shutdown.sh ' + widget.server.password!;
-                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
+                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command, true));
                   } : (context) { 
                     String title = 'Something went wrong';
-                    CustomSnackbar.show(context: context,
-                      title: title,
-                      message: 'Need to be connected with the galaxy',
-                      error: true
-                    );
+                    String message = 'Need to be connected with the galaxy';
+                    CustomSnackbar(context: context, title: title, message: message, error: true);
                   },
                 ),
                 SettingsTile.navigation(
@@ -109,14 +103,11 @@ class _SettingsState extends State<Settings> {
                   value: const Text('Open partners logos'),
                   onPressed: widget.connected ? (context) {
                     String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'open_logos.sh ' + widget.server.password!;
-                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
-                  } : (context) { 
+                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command, true));
+                  } : (context) {
                     String title = 'Something went wrong';
-                    CustomSnackbar.show(context: context,
-                      title: title,
-                      message: 'Need to be connected with the galaxy',
-                      error: true
-                    );
+                    String message = 'Need to be connected with the galaxy';
+                    CustomSnackbar(context: context, title: title, message: message, error: true);
                   },
                 ),
                 SettingsTile.navigation(
@@ -125,14 +116,11 @@ class _SettingsState extends State<Settings> {
                   value: const Text('Clean partners logos'),
                   onPressed: widget.connected ? (context) {
                     String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'close_logos.sh ' + widget.server.password!;
-                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command));
+                    widget.galaxyBloc.add(GalaxyExecute(widget.client!, command, true));
                   } : (context) { 
                     String title = 'Something went wrong';
-                    CustomSnackbar.show(context: context,
-                      title: title,
-                      message: 'Need to be connected with the galaxy',
-                      error: true
-                    );
+                    String message = 'Need to be connected with the galaxy';
+                    CustomSnackbar(context: context, title: title, message: message, error: true);
                   },
                 )
               ],

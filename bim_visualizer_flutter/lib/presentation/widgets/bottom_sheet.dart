@@ -78,11 +78,7 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
                   } else {
                     String title = 'Something went wrong';
                     String message = 'Please choose a name and pick a file';
-                    CustomSnackbar.show(context: context,
-                      title: title,
-                      message: message,
-                      error: true
-                    );
+                    CustomSnackbar(context: context, title: title, message: message, error: true);
                   }
                 }
               )
