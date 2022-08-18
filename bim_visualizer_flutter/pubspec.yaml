@@ -51,6 +51,7 @@ dependencies:
     git: https://github.com/snoopdoggy322/flutter_webview_plugin
   file_picker: ^5.0.1
   fast_csv: ^0.1.44
+  introduction_screen: ^3.0.2
 
 dev_dependencies:
   flutter_test:
@@ -85,9 +86,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - .env
+    - assets/images/onboarding/
     - assets/images/
     - assets/icon/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
