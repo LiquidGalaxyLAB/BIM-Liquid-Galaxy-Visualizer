@@ -5,6 +5,7 @@ using System;
 using System.Text;
 using System.Linq;
 using UnityEngine.UI;
+using RuntimeGizmos;
 
 public class BundleWebLoader : MonoBehaviour
 {
@@ -16,10 +17,10 @@ public class BundleWebLoader : MonoBehaviour
     private Quaternion originalRotation;
     private Vector3 originalScale = Vector3.zero;
     private NetworkManager networkManager;
+    private TransformGizmo transformGizmo;
+    Button moveTool, rotateTool, scaleTool, resetTool;
 
     private int MASTER_MOV_LENGTH = 9;
-
-    private Button resetTool;
 
     [Serializable]
     public class Rotation
@@ -49,13 +50,16 @@ public class BundleWebLoader : MonoBehaviour
     {
         resetTool = GameObject.Find("ResetTool").GetComponent<Button>();
         networkManager = GameObject.Find("Network Manager").GetComponent<NetworkManager>();
+        transformGizmo = GameObject.Find("ControllerCamera").GetComponent<TransformGizmo>();
+
+        moveTool = GameObject.Find("MoveTool").GetComponent<Button>();
+        rotateTool = GameObject.Find("RotateTool").GetComponent<Button>();
+        scaleTool = GameObject.Find("ScaleTool").GetComponent<Button>();
     }
 
     void Start()
     {
         StartCoroutine(GetAssetBundle());
-
-        resetTool.onClick.AddListener(() => Reset());
         
         networkManager.websocket.OnMessage += (bytes) =>
         {
@@ -132,6 +136,48 @@ public class BundleWebLoader : MonoBehaviour
         }
     }
 
+    private void Clear()
+    {
+        moveTool.image.color = new Color32(255, 255, 255, 255);
+        rotateTool.image.color = new Color32(255, 255, 255, 255);
+        scaleTool.image.color = new Color32(255, 255, 255, 255);
+    }
+
+    public void ResetBtnOnPressed()
+    {
+        transformGizmo.ClearTargets();
+        
+        Reset();
+        Clear();
+    }
+
+    public void MoveBtnOnPressed()
+    {
+        Clear();
+        moveTool.image.color = new Color32(200, 200, 200, 128);
+
+        transformGizmo.transformType = TransformType.Move;
+        transformGizmo.AddTarget(model.transform, false);
+    }
+
+    public void RotateBtnOnPressed()
+    {
+        Clear();
+        rotateTool.image.color = new Color32(200, 200, 200, 128);
+
+        transformGizmo.transformType = TransformType.Rotate;
+        transformGizmo.AddTarget(model.transform, false);
+    }
+
+    public void ScaleBtnOnPressed()
+    {
+        Clear();
+        scaleTool.image.color = new Color32(200, 200, 200, 128);
+
+        transformGizmo.transformType = TransformType.Scale;
+        transformGizmo.AddTarget(model.transform, false);
+    }
+
     IEnumerator GetAssetBundle()
     {
         UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle("https://bimlgvisualizer-server.loca.lt/tmp/current");
@@ -148,11 +194,11 @@ public class BundleWebLoader : MonoBehaviour
             GameObject obj = Instantiate(bundle.LoadAsset<GameObject>(rootAssetPath));
             obj.tag = "Selectable";
 
-            model = obj;
+            originalPosition = obj.transform.position;
+            originalRotation = obj.transform.rotation;
+            originalScale = obj.transform.localScale;
 
-            originalPosition = model.transform.position;
-            originalRotation = model.transform.rotation;
-            originalScale = model.transform.localScale;
+            model = obj;
 
             bundle.Unload(false);
         }

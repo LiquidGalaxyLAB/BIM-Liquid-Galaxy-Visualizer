@@ -125,22 +125,10 @@ namespace RuntimeGizmos
 		static Material lineMaterial;
 		static Material outlineMaterial;
 
-		Button moveTool, rotateTool, scaleTool;
-
-		private float touchZoomSpeed = 0.1f;
-		private float zoomOutMin = 0.1f;
-		private float zoomOutMax = 179.9f;
-
 		void Awake()
 		{
 			myCamera = GetComponent<Camera>();
 			SetMaterial();
-
-			moveTool = GameObject.Find("MoveTool").GetComponent<Button>();
-			moveTool.image.color = new Color32(200, 200, 200, 128);
-
-			rotateTool = GameObject.Find("RotateTool").GetComponent<Button>();
-			scaleTool = GameObject.Find("ScaleTool").GetComponent<Button>();
 		}
 
         void OnEnable()
@@ -162,28 +150,9 @@ namespace RuntimeGizmos
 
 		void Update()
 		{
-			//if (Input.touchSupported)
-			//{
-			//	if (Input.touchCount == 2)
-			//	{
-			//		Touch touchZero = Input.GetTouch(0);
-			//		Touch touchOne = Input.GetTouch(1);
+			//HandleUndoRedo();
 
-			//		Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-			//		Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-
-			//		float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-			//		float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
-
-			//		float difference = currentMagnitude - prevMagnitude;
-
-			//		Zoom(difference, touchZoomSpeed);
-			//	}
-			//}
-
-			HandleUndoRedo();
-
-			SetSpaceAndType();
+			//SetSpaceAndType();
 
 			if(manuallyHandleGizmo)
 			{
@@ -194,7 +163,7 @@ namespace RuntimeGizmos
 				SetNearAxis();
 			}
 			
-			GetTarget();
+			//GetTarget();
 
 			if(mainTargetRoot == null) return;
 			
@@ -216,12 +185,6 @@ namespace RuntimeGizmos
 			{
 				SetLines();
 			}
-		}
-
-		private void Zoom(float increment, float speed)
-		{
-			myCamera.fieldOfView += increment * speed;
-			myCamera.fieldOfView = Mathf.Clamp(myCamera.fieldOfView, zoomOutMin, zoomOutMax);
 		}
 
 		void OnPostRender()
@@ -341,26 +304,9 @@ namespace RuntimeGizmos
 			return length;
 		}
 
-		private void Clear()
-        {
-			moveTool.image.color = new Color32(255, 255, 255, 255);
-			rotateTool.image.color = new Color32(255, 255, 255, 255);
-			scaleTool.image.color = new Color32(255, 255, 255, 255);
-		}
-
 		void SetSpaceAndType()
 		{
 			if(Input.GetKey(ActionKey)) return;
-
-			moveTool.onClick.AddListener(() => { transformType = TransformType.Move; Clear(); moveTool.image.color = new Color32(200, 200, 200, 128); });
-			rotateTool.onClick.AddListener(() => { transformType = TransformType.Rotate; Clear(); rotateTool.image.color = new Color32(200, 200, 200, 128); });
-			scaleTool.onClick.AddListener(() => { transformType = TransformType.Scale; Clear(); scaleTool.image.color = new Color32(200, 200, 200, 128); });
-
-			//if(Input.GetKeyDown(SetMoveType)) transformType = TransformType.Move;
-			//else if(Input.GetKeyDown(SetRotateType)) transformType = TransformType.Rotate;
-			//else if(Input.GetKeyDown(SetScaleType)) transformType = TransformType.Scale;
-			//else if(Input.GetKeyDown(SetRectToolType)) type = TransformType.RectTool;
-			//else if(Input.GetKeyDown(SetAllTransformType)) transformType = TransformType.All;
 
 			if (!isTransforming) translatingType = transformType;
 
@@ -727,7 +673,7 @@ namespace RuntimeGizmos
 				if(addCommand) UndoRedoManager.Insert(new AddTargetCommand(this, target, targetRootsOrdered));
 
 				AddTargetRoot(target);
-				AddTargetHighlightedRenderers(target);
+				//AddTargetHighlightedRenderers(target);
 
 				SetPivotPoint();
 			}
