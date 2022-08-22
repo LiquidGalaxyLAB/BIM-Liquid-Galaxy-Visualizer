@@ -7,22 +7,24 @@
 [![GitHub release](https://img.shields.io/github/release/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer.svg)](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/releases/)
 ![Coverage](https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_flutter/coverage_badge.svg?sanitize=true)
 
-BIM Liquid Galaxy Visualizer is a tool that allows the visualization of demo or uploaded BIM models using the liquid galaxy rig system or using augmented reality, both with an android device
+BIM Liquid Galaxy Visualizer is a tool that allows the visualization of demo or uploaded BIM 3D models and metadatas on the liquid galaxy RIG system using an android device
 
 ## Table of Contents
 
-- [1. Quick Step Guide](#quick-step-guide)
+- [1. Quick Step Guide](#quick-step-guide-rocket)
     * [1.1 Clonning the Repository](#cloning-the-repository)
     * [1.2 Server Install](#server-install)
-    * [1.3 Running the App Locally](#running-the-app-locally)
+    * [1.3 Local Tunnel](#local-tunnel)
+    * [1.4 Running the App Locally](#running-the-app-locally)
         * [1.3.1 Flutter Installation on Linux](#flutter-installation-on-linux)
         * [1.3.2 Android SDK](#android-sdk)
         * [1.3.3 Running the App](#running-the-app)
     * [1.4 Running the App With APK](#running-the-app-with-apk)
-- [2. Known Issues](#known-issues)
-- [3. License](#license)
+- [2. Running Tests](#running-tests-trafficlight)
+- [3. License](#license-clipboard)
+- [4. Acknowledgements](#acknowledgements-purpleheart)
 
-## Quick Step Guide
+## Quick Step Guide :rocket:
 
 ### Cloning the Repository
 
@@ -113,17 +115,26 @@ Once the build finishes, the app should run into the connected device
 
 [(Back to Top)](#bim-liquid-galaxy-visualizer)
 
-Download, with your device, the stable version (most recent) of the [APK](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/releases/download/1.0.0/BIMLGVIS-1.0.0.apk) (can be found in the releases section), 
+Download, with your device, the stable version (most recent) of the [APK](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/releases/download/1.2.2/BIMLGVIS-1.2.2.apk) (can be found in the releases section), 
 Locate the downloaded file with an file manager (normally the downloaded file should be found into the downloads directory), open it and then follow the apk wizard installation
 
-## Known Issues
+## Running tests :traffic_light:
+To run the app tests first generate the mock files with the following command
 
-[(Back to Top)](#bim-liquid-galaxy-visualizer)
+```
+flutter pub run build_runner build
+```
 
-- Sometimes the close action of the app doesnt close in all displays, in these cases, the displays can be closed manually by runing the `close.sh` script located at the `libs` directory of the server (bim_visualizer_node). When running the close script it should be informed the system password. ie `bash close.sh [password]`
+Then run `flutter test --coverage` command to generate a test coverage report page
 
-## License
+To view the generated page run `open coverage/index.html`
+
+## License :clipboard:
 
 [(Back to Top)](#bim-liquid-galaxy-visualizer)
 
 This software is distributed under the MIT license, more information can be found in the [LICENSE](LICENSE) file
+
+## Acknowledgements :purple_heart:
+
+The experience of being a GSoC student is beyond a code and i'm very grateful to have had this opportunity. All my thanks is to the Liquid Galaxy Organization Admin Andreu Ibánez for give me this oportunity also my mentors Karine Pistili and Marc Capdevila for being helpful not only on the bonding\coding period but before the project theme definition and finally my friends and family for the support.
