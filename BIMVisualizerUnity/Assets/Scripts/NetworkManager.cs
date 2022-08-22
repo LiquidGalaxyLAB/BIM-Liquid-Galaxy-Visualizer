@@ -25,24 +25,6 @@ public class NetworkManager : MonoBehaviour
         websocket.OnOpen += () =>
         {
             Debug.Log("Connection Open");
-
-            string parameters = Application.absoluteURL.Substring(Application.absoluteURL.IndexOf("?") + 1);
-            string[] arguments = parameters.Split(new char[] { '&', '=' });
-            if (arguments[0] == "screen")
-            {
-                int screenValue = int.Parse(arguments[1]);
-                if (screenValue == 0)
-                {
-                    isMaster = true;
-                    GameObject.Find("ProjectionPlane").SetActive(false);
-                }
-                else
-                {
-                    GameObject.Find("ControllerCamera").SetActive(false);
-                    GameObject.Find("Canvas").SetActive(false);
-                    projectionPlane.screen = screenValue;
-                }
-            }
         };
 
         websocket.OnError += (e) =>

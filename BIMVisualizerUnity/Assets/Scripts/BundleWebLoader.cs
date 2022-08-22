@@ -6,6 +6,18 @@ using System.Text;
 using System.Linq;
 using UnityEngine.UI;
 using RuntimeGizmos;
+using Newtonsoft.Json;
+
+public static class ButtonExtension
+{
+    public static void AddEventListener<T>(this Button button, T param, Action<T> OnClick)
+    {
+        button.onClick.AddListener(delegate ()
+        {
+            OnClick(param);
+        });
+    }
+}
 
 public class BundleWebLoader : MonoBehaviour
 {
@@ -18,7 +30,7 @@ public class BundleWebLoader : MonoBehaviour
     private Vector3 originalScale = Vector3.zero;
     private NetworkManager networkManager;
     private TransformGizmo transformGizmo;
-    Button moveTool, rotateTool, scaleTool, resetTool;
+    Button moveTool, rotateTool, scaleTool;
 
     private int MASTER_MOV_LENGTH = 9;
 
@@ -46,11 +58,39 @@ public class BundleWebLoader : MonoBehaviour
         public float sZ { get; set; }
     }
 
+    [Serializable]
+    public class Meta
+    {
+        public int elementID { get; set; }
+        public string family { get; set; }
+        public string type { get; set; }
+        public int length { get; set; }
+        public string baseLevel { get; set; }
+        public string baseOffset { get; set; }
+        public string topLevel { get; set; }
+        public int topOffset { get; set; }
+    }
+
+    [Serializable]
+    public class BIM
+    {
+        public Meta[] meta;
+    }
+
+    [Serializable]
+    public class Body
+    {
+        public BIM[] values;
+    }
+
+    public Meta[] metas;
+    private ProjectionPlane projectionPlane;
+
     private void Awake()
     {
-        resetTool = GameObject.Find("ResetTool").GetComponent<Button>();
         networkManager = GameObject.Find("Network Manager").GetComponent<NetworkManager>();
         transformGizmo = GameObject.Find("ControllerCamera").GetComponent<TransformGizmo>();
+        projectionPlane = GameObject.Find("ProjectionPlane").GetComponent<ProjectionPlane>();
 
         moveTool = GameObject.Find("MoveTool").GetComponent<Button>();
         rotateTool = GameObject.Find("RotateTool").GetComponent<Button>();
@@ -60,7 +100,7 @@ public class BundleWebLoader : MonoBehaviour
     void Start()
     {
         StartCoroutine(GetAssetBundle());
-        
+
         networkManager.websocket.OnMessage += (bytes) =>
         {
             if (!networkManager.isMaster)
@@ -84,6 +124,10 @@ public class BundleWebLoader : MonoBehaviour
                     {
                         Scale scale = (Scale)networkManager.ParseMessage(data);
                         model.transform.localScale = new Vector3(scale.sX, scale.sY, scale.sZ);
+                    } else if (code.Equals("masterIdx"))
+                    {
+                        int idx = (int)networkManager.ParseMessage(data);
+                        SetMeta(idx);
                     }
                 }
             }
@@ -133,6 +177,24 @@ public class BundleWebLoader : MonoBehaviour
 
                 await networkManager.Send("masterScl", scale);
             }
+        }
+    }
+
+    private void SetMeta(int idx)
+    {
+        GameObject canvas = GameObject.Find("Canvas2");
+        if (canvas != null)
+        {
+            Text txt = canvas.transform.Find("Meta").GetComponentInChildren<Text>();
+            txt.text = "Metadata\n\n";
+            txt.text += "Element ID: " + metas[idx].elementID.ToString();
+            txt.text += "\nFamily: " + metas[idx].family;
+            txt.text += "\nType: " + metas[idx].type;
+            txt.text += "\nLenght: " + metas[idx].length;
+            txt.text += "\nBase Level: " + metas[idx].baseLevel;
+            txt.text += "\nBase Offset: " + metas[idx].baseOffset;
+            txt.text += "\nTop Level: " + metas[idx].topLevel;
+            txt.text += "\nTop Offset: " + metas[idx].topOffset;
         }
     }
 
@@ -193,6 +255,7 @@ public class BundleWebLoader : MonoBehaviour
             string rootAssetPath = bundle.GetAllAssetNames()[0];
             GameObject obj = Instantiate(bundle.LoadAsset<GameObject>(rootAssetPath));
             obj.tag = "Selectable";
+            obj.name = "Model";
 
             originalPosition = obj.transform.position;
             originalRotation = obj.transform.rotation;
@@ -201,7 +264,74 @@ public class BundleWebLoader : MonoBehaviour
             model = obj;
 
             bundle.Unload(false);
+
+            StartCoroutine(GetAllData());
         }
+    }
+
+    IEnumerator GetAllData()
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get("https://bimlgvisualizer-server.loca.lt/bim"))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError)
+            {
+                Debug.Log("Error on get data: " + request.error);
+            }
+            else
+            {
+                string json = request.downloadHandler.text;
+                Body body = JsonConvert.DeserializeObject<Body>(json);
+
+                Transform[] t = GameObject.Find("Model").GetComponentsInChildren<Transform>();
+
+                for (int i = 0; i < body.values.Length; i++)
+                {
+                    if (body.values[i].meta != null)
+                    {
+                        for (int j = 0; j < body.values[i].meta.Length; j++)
+                        {
+                            for (int k = 0; k < t.Length; k++)
+                            {
+                                if (t[k].name.Contains(body.values[i].meta[j].elementID.ToString()))
+                                {
+                                    metas = body.values[i].meta;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (networkManager.isMaster)
+                {
+                    GameObject panel = GameObject.Find("Sidebar").transform.Find("Panel").gameObject;
+                    if (metas.Length > 0)
+                    {
+                        GameObject btn = panel.transform.GetChild(0).gameObject;
+                        GameObject g;
+
+                        for (int i = 0; i < metas.Length; i++)
+                        {
+                            g = Instantiate(btn, panel.transform);
+                            g.transform.GetChild(0).GetComponent<Text>().text = metas[i].elementID.ToString();
+                            g.GetComponent<Button>().AddEventListener(i, ItemClicked);
+                        }
+
+                        Destroy(btn);
+                    } else
+                    {
+                        panel.SetActive(false);
+                    }
+                }
+            }
+        }
+    }
+
+    async private void ItemClicked(int itemIndex)
+    {
+        await networkManager.Send("masterIdx", itemIndex);
     }
 
     private void Reset()

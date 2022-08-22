@@ -45,7 +45,7 @@ public class ProjectionPlane : MonoBehaviour
     private NetworkManager networkManager;
 
     private int median;
-    public int screen;
+    public int screen, screens;
 
     private void OnDrawGizmos()
     {
@@ -95,12 +95,35 @@ public class ProjectionPlane : MonoBehaviour
             {
                 string code = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
                 int screensWithOffset = int.Parse(code);
-                int screens = Mathf.Abs(screensWithOffset - 10);
+                screens = Mathf.Abs(screensWithOffset - 10);
 
                 int[] clients = Enumerable.Range(1, screens).ToArray();
                 int size = clients.Length;
                 int mid = size / 2;
                 median = (size % 2 != 0) ? clients[mid] : (clients[mid] + clients[mid - 1]) / 2;
+
+                string parameters = Application.absoluteURL.Substring(Application.absoluteURL.IndexOf("?") + 1);
+                string[] arguments = parameters.Split(new char[] { '&', '=' });
+                if (arguments[0] == "screen")
+                {
+                    int screenValue = int.Parse(arguments[1]);
+                    if (screenValue == 0)
+                    {
+                        networkManager.isMaster = true;
+                        GameObject.Find("ProjectionPlane").SetActive(false);
+                        GameObject.Find("Canvas2").SetActive(false);
+                    }
+                    else
+                    {
+                        GameObject.Find("ControllerCamera").SetActive(false);
+                        GameObject.Find("Canvas").SetActive(false);
+                        if (screens == 5 && screenValue != 3 || screens == 3 && screenValue != 2)
+                        {
+                            GameObject.Find("Canvas2").SetActive(false);
+                        }
+                        screen = screenValue;
+                    }
+                }
             }
         };
 
