@@ -28,6 +28,9 @@ router.use('/', express.static(__basedir + '/public/client'));
 wss.on('connection', async (ws, req) => {
     console.log("a user connected");
 
+    const ping = function() { ws.ping(noop); }
+    setInterval(ping, 30000);
+
     const maxFrames = await FindMaxFrames();
     const maxFramesWithOffset = parseInt(maxFrames) + 10;
     const encodedMaxFrames = ByteArray(maxFramesWithOffset.toString());
@@ -45,5 +48,7 @@ wss.on('connection', async (ws, req) => {
         });
     });
 });
+
+function noop() { }
 
 module.exports = router;
