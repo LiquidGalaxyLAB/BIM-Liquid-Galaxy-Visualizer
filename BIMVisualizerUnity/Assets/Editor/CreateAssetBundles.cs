@@ -27,11 +27,11 @@ public class CreateAssetBundles
         AssetDatabase.Refresh();
 
         // move the asset bundle to public/models dir on server
-        string oldPath = "Assets/AssetBundles/" + filename;
-        string newPath = "public/models/" + filename;
-        File.Move(oldPath, newPath);
+        //string oldPath = "Assets/AssetBundles/" + filename;
+        //string newPath = "public/models/" + filename;
+        //File.Move(oldPath, newPath);
 
         // clean data
-        Directory.Delete("Assets/Models", true);
+        //Directory.Delete("Assets/Models", true);
     }
 }

@@ -257,6 +257,8 @@ public class BundleWebLoader : MonoBehaviour
             obj.tag = "Selectable";
             obj.name = "Model";
 
+            obj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
             originalPosition = obj.transform.position;
             originalRotation = obj.transform.rotation;
             originalScale = obj.transform.localScale;
@@ -322,7 +324,8 @@ public class BundleWebLoader : MonoBehaviour
                         Destroy(btn);
                     } else
                     {
-                        panel.SetActive(false);
+                        GameObject.Find("Sidebar").SetActive(false);
+                        GameObject.Find("SidebarText").SetActive(false);
                     }
                 }
             }
