@@ -79,44 +79,36 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 ),
                 elevation: 0,
                 actions: <Widget>[
-                  SizedBox(
-                    child: TextButton.icon(
-                      icon: const Icon(Icons.refresh, size: iconSize, color: primaryColor),
-                      label: const Text('LG RECONNECT', style: TextStyle(color: primaryColor)),
-                      onPressed: () {
-                        if (connected) _galaxyBloc.add(GalaxyClose(client));
-                        _galaxyBloc.add(GalaxyConnect(server, 22));
-                      },
-                    )
-                  ),
                   IconButton(
                     icon: const Icon(Icons.settings, size: iconSize, color: primaryColor),
                     onPressed: () {
                       if (connected) {
-                          Navigator.push(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => Settings(
                               preferencesBloc: _preferencesBloc,
-                              galaxyBloc: _galaxyBloc,
                               connected: connected,
                               client: client,
                               server: server
                             )
                           )
-                        ).whenComplete(() => _galaxyBloc.add(GalaxyConnect(server, 22)));
+                        ).then((value) {
+                          _galaxyBloc.add(GalaxyConnect(server, 22));
+                        });
                       } else {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => Settings(
                               preferencesBloc: _preferencesBloc,
-                              galaxyBloc: _galaxyBloc,
                               connected: connected,
                               server: server
                             )
                           )
-                        );
+                        ).then((value) {
+                          _galaxyBloc.add(GalaxyConnect(server, 22));
+                        });
                       }
                     },
                   ),

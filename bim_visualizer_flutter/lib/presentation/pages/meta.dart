@@ -133,6 +133,9 @@ class _MetaState extends State<Meta> {
                                 builder: (_) {
                                   return DraggableScrollableSheet(
                                     expand: false,
+                                    minChildSize: 0.0,
+                                    initialChildSize: 0.5,
+                                    maxChildSize: 0.85,
                                     builder: (_, controller) {
                                       return Container(
                                         color: primaryColor,
@@ -141,8 +144,14 @@ class _MetaState extends State<Meta> {
                                           child: ListView(
                                             controller: controller,
                                             children: <Widget>[
-                                              const ListTile(
-                                                title: Text(
+                                              ListTile(
+                                                trailing: IconButton(
+                                                  icon: const Icon(Icons.close, size: iconSize),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  }
+                                                ),
+                                                title: const Text(
                                                   'Specifications',
                                                   style: TextStyle(
                                                     fontSize: 20.0
@@ -154,7 +163,7 @@ class _MetaState extends State<Meta> {
                                                   'Element ID'
                                                 ),
                                                 subtitle: Text(
-                                                  element.elementID.toString()
+                                                  element.elementID != null ? element.elementID.toString() : ''
                                                 )
                                               ),
                                               ListTile(
@@ -162,7 +171,7 @@ class _MetaState extends State<Meta> {
                                                   'Family'
                                                 ),
                                                 subtitle: Text(
-                                                  element.family!
+                                                  element.family ?? ''
                                                 )
                                               ),
                                               ListTile(
@@ -170,7 +179,7 @@ class _MetaState extends State<Meta> {
                                                   'Type'
                                                 ),
                                                 subtitle: Text(
-                                                  element.type!
+                                                  element.type ?? ''
                                                 )
                                               ),
                                               ListTile(
@@ -178,7 +187,7 @@ class _MetaState extends State<Meta> {
                                                   'Lenght'
                                                 ),
                                                 subtitle: Text(
-                                                  element.length.toString()
+                                                  element.length != null ? element.length.toString() : ''
                                                 )
                                               ),
                                               ListTile(
@@ -186,7 +195,7 @@ class _MetaState extends State<Meta> {
                                                   'Base Level'
                                                 ),
                                                 subtitle: Text(
-                                                  element.baseLevel!
+                                                  element.baseLevel ?? ''
                                                 )
                                               ),
                                               ListTile(
@@ -194,7 +203,7 @@ class _MetaState extends State<Meta> {
                                                   'Top Level'
                                                 ),
                                                 subtitle: Text(
-                                                  element.topLevel!
+                                                  element.topLevel ?? ''
                                                 )
                                               ),
                                               ListTile(
@@ -202,7 +211,7 @@ class _MetaState extends State<Meta> {
                                                   'Top Offset'
                                                 ),
                                                 subtitle: Text(
-                                                  element.topOffset.toString()
+                                                  element.topOffset != null ? element.topOffset.toString() : ''
                                                 )
                                               )
                                             ]

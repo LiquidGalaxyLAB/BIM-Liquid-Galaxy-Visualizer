@@ -85,8 +85,19 @@ class OnBoarding extends StatelessWidget {
     return Scaffold(
       body: IntroductionScreen(
         showSkipButton: true,
-        skip: const Icon(Icons.skip_next, color: secondaryColor),
-        next: const Icon(Icons.forward, color: secondaryColor),
+        skip: Text(
+          'Skip'.toUpperCase(),
+          style: const TextStyle(
+            color: Colors.black
+          )
+        ),
+        next: Text(
+          'Next'.toUpperCase(),
+          style: const TextStyle(
+            color: Colors.black,
+            
+          )
+        ),
         done: Text(
           'Done'.toUpperCase(),
           style: const TextStyle(
@@ -105,6 +116,13 @@ class OnBoarding extends StatelessWidget {
             borderRadius: BorderRadius.circular(25.0)
           )
         ),
+        onSkip: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const Home()
+            )
+          );
+        },
         onDone: () {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
