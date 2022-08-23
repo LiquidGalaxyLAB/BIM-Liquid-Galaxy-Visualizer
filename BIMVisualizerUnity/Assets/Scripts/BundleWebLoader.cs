@@ -64,11 +64,11 @@ public class BundleWebLoader : MonoBehaviour
         public int elementID { get; set; }
         public string family { get; set; }
         public string type { get; set; }
-        public int length { get; set; }
+        public int? length { get; set; }
         public string baseLevel { get; set; }
         public string baseOffset { get; set; }
         public string topLevel { get; set; }
-        public int topOffset { get; set; }
+        public int? topOffset { get; set; }
     }
 
     [Serializable]
