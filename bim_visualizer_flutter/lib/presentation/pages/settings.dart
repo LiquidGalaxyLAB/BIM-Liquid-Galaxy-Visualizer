@@ -124,8 +124,31 @@ class _SettingsState extends State<Settings> {
                           title: const Text('Reboot'),
                           value: const Text('Galaxy reboot'),
                           onPressed: isConnected ? (context) {
-                            String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'reboot.sh ' + widget.server.password!;
-                            _galaxyBloc.add(GalaxyExecute(client!, command, true));
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Reboot"),
+                                  content: const Text("Do you really want to execute this task ?"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text("Close".toUpperCase(), style: const TextStyle(fontSize: 16.0, color: secondaryColor)),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      }
+                                    ),
+                                    TextButton(
+                                      child: Text("Execute".toUpperCase(), style: const TextStyle(fontSize: 16.0, color: secondaryColor)),
+                                      onPressed: () {
+                                        String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'reboot.sh ' + widget.server.password!;
+                                        _galaxyBloc.add(GalaxyExecute(client!, command, true));
+                                        Navigator.of(context).pop();
+                                      }
+                                    )
+                                  ]
+                                );
+                              }
+                            );
                           } : (context) { 
                             String title = 'Something went wrong';
                             String message = 'Need to be connected with the galaxy';
@@ -137,8 +160,67 @@ class _SettingsState extends State<Settings> {
                           title: const Text('Shutdown'),
                           value: const Text('Galaxy shutdown'),
                           onPressed: isConnected ? (context) {
-                            String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'shutdown.sh ' + widget.server.password!;
-                            _galaxyBloc.add(GalaxyExecute(client!, command, true));
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Shutdown"),
+                                  content: const Text("Do you really want to execute this task ?"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text("Close".toUpperCase(), style: const TextStyle(fontSize: 16.0, color: secondaryColor)),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      }
+                                    ),
+                                    TextButton(
+                                      child: Text("Execute".toUpperCase(), style: const TextStyle(fontSize: 16.0, color: secondaryColor)),
+                                      onPressed: () {
+                                        String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'shutdown.sh ' + widget.server.password!;
+                                        _galaxyBloc.add(GalaxyExecute(client!, command, true));
+                                        Navigator.of(context).pop();
+                                      }
+                                    )
+                                  ]
+                                );
+                              }
+                            );
+                          } : (context) { 
+                            String title = 'Something went wrong';
+                            String message = 'Need to be connected with the galaxy';
+                            CustomSnackbar(context: context, title: title, message: message, error: true);
+                          },
+                        ),
+                        SettingsTile.navigation(
+                          leading: const Icon(Icons.rocket_launch),
+                          title: const Text('Relaunch'),
+                          value: const Text('Galaxy relaunch'),
+                          onPressed: isConnected ? (context) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Relaunch"),
+                                  content: const Text("Do you really want to execute this task ?"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text("Close".toUpperCase(), style: const TextStyle(fontSize: 16.0, color: secondaryColor)),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      }
+                                    ),
+                                    TextButton(
+                                      child: Text("Execute".toUpperCase(), style: const TextStyle(fontSize: 16.0, color: secondaryColor)),
+                                      onPressed: () {
+                                        String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'relaunch.sh ' + widget.server.password!;
+                                        _galaxyBloc.add(GalaxyExecute(client!, command, true));
+                                        Navigator.of(context).pop();
+                                      }
+                                    )
+                                  ]
+                                );
+                              }
+                            );
                           } : (context) { 
                             String title = 'Something went wrong';
                             String message = 'Need to be connected with the galaxy';

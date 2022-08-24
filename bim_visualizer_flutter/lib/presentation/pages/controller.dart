@@ -65,6 +65,28 @@ class _ControllerState extends State<Controller> {
             Navigator.pop(context);
           },
         ),
+        actions: <Widget>[
+          SizedBox(
+            child: TextButton.icon(
+              icon: const Icon(Icons.open_in_new, size: iconSize, color: primaryColor),
+              label: const Text('OPEN LOGOS', style: TextStyle(color: primaryColor)),
+              onPressed: () {
+                String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'open_logos.sh ' + widget.server.password!;
+                widget.galaxyBloc.add(GalaxyExecute(widget.client, command, false));
+              },
+            )
+          ),
+          SizedBox(
+            child: TextButton.icon(
+              icon: const Icon(Icons.remove, size: iconSize, color: primaryColor),
+              label: const Text('CLEAN LOGOS', style: TextStyle(color: primaryColor)),
+              onPressed: () {
+                String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'close_logos.sh ' + widget.server.password!;
+                widget.galaxyBloc.add(GalaxyExecute(widget.client, command, false));
+              },
+            )
+          ),
+        ]
       ),
     );
   }
