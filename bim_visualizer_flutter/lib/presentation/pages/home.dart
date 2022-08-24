@@ -94,7 +94,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             )
                           )
                         ).then((value) {
-                          _galaxyBloc.add(GalaxyConnect(server, 22));
+                          if (value != null) _galaxyBloc.add(GalaxyConnect(server, 22));
                         });
                       } else {
                         Navigator.push(
@@ -107,7 +107,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             )
                           )
                         ).then((value) {
-                          _galaxyBloc.add(GalaxyConnect(server, 22));
+                          if (value != null) _galaxyBloc.add(GalaxyConnect(server, 22));
                         });
                       }
                     },

@@ -45,7 +45,7 @@ class _HomeCardState extends State<HomeCard> {
             ),
             leading: Image.asset('assets/images/3d-cube.png', height: 50.0, width: 50.0),
             title: Text(widget.bim.name!, style: const TextStyle(fontSize: 18.0)),
-            subtitle: const Text('Jun 11th 2022', style: TextStyle(fontSize: 16.0))
+            //subtitle: const Text('Jun 11th 2022', style: TextStyle(fontSize: 16.0))
           ),
         ]
       )
