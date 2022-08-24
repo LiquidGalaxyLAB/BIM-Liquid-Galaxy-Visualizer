@@ -16,7 +16,7 @@ class CustomSnackbar {
       maxWidth: MediaQuery.of(context).size.width / 2,
       backgroundColor: error ? errorColor : successColor,
       title: title,
-      isDismissible: true,
+      isDismissible: false,
       titleSize: 20.0,
       message: message,
       messageSize: 16.0,
