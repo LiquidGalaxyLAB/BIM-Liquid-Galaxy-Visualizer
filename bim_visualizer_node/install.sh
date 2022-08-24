@@ -70,6 +70,88 @@ else
   echo "[$time] Port 3220 already open." | tee -a ./logs/$filename
 fi
 
+# Creating systemd server and socket services
+
+time=$(date +%H:%M:%S)
+echo "[$time] Creating server daemon..." | tee -a ./logs/$filename
+SERVICE_NAME=bimlgvisualizer-server
+IS_ACTIVE=$(sudo systemctl is-active $SERVICE_NAME)
+if [ "$IS_ACTIVE" == "active" ]; then
+  echo "Service $SERVICE_NAME is running" | tee -a ./logs/$filename
+  echo "Restarting service" | tee -a ./logs/$filename
+  sudo systemctl restart $SERVICE_NAME
+  echo "Service restarted" | tee -a ./logs/$filename
+else
+  echo "Creating service $SERVICE_NAME"
+
+  sudo tee /etc/systemd/system/${SERVICE_NAME//'"'/}.service > /dev/null << EOM
+[Unit]
+Description=Localtunnel Daemon
+After=syslog.target network.target
+
+[Service]
+# Change the user variable here according to your needs
+User=root
+
+Type=simple
+
+ExecStart=/usr/local/bin/lt --subdomain bimlgvisualizer-server --port 3210
+TimeoutStopSec=20
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOM
+
+  # restart daemon, enable and start service
+  echo "Reloading daemon and enabling service" | tee -a ./logs/$filename
+  sudo systemctl daemon-reload 
+  sudo systemctl enable ${SERVICE_NAME//'.service'/} # remove the extension
+  sudo systemctl start ${SERVICE_NAME//'.service'/}
+  echo "Service $SERVICE_NAME Started" | tee -a ./logs/$filename
+fi
+
+time=$(date +%H:%M:%S)
+echo "[$time] Creating socket daemon..." | tee -a ./logs/$filename
+SERVICE_NAME=bimlgvisualizer-socket
+IS_ACTIVE=$(sudo systemctl is-active $SERVICE_NAME)
+if [ "$IS_ACTIVE" == "active" ]; then
+  echo "Service $SERVICE_NAME is running" | tee -a ./logs/$filename
+  echo "Restarting service" | tee -a ./logs/$filename
+  sudo systemctl restart $SERVICE_NAME
+  echo "Service restarted" | tee -a ./logs/$filename
+else
+  echo "Creating service $SERVICE_NAME file"
+
+  sudo tee /etc/systemd/system/${SERVICE_NAME//'"'/}.service > /dev/null << EOM
+[Unit]
+Description=Localtunnel Daemon
+After=syslog.target network.target
+
+[Service]
+# Change the user variable here according to your needs
+User=root
+
+Type=simple
+
+ExecStart=/usr/local/bin/lt --subdomain bimlgvisualizer-socket --port 3220
+TimeoutStopSec=20
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOM
+
+  # restart daemon, enable and start service
+  echo "Reloading daemon and enabling service" | tee -a ./logs/$filename
+  sudo systemctl daemon-reload 
+  sudo systemctl enable ${SERVICE_NAME//'.service'/} # remove the extension
+  sudo systemctl start ${SERVICE_NAME//'.service'/}
+  echo "Service $SERVICE_NAME Started" | tee -a ./logs/$filename
+fi
+
 # Install dependencies
 time=$(date +%H:%M:%S)
 echo "[$time] Installing server dependencies..." | tee -a ./logs/$filename
