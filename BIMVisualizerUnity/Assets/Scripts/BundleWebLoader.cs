@@ -328,6 +328,14 @@ public class BundleWebLoader : MonoBehaviour
                         GameObject.Find("SidebarText").SetActive(false);
                     }
                 }
+                else
+                {
+                    if(metas.Length == 0)
+                    {
+                        GameObject canvas2 = GameObject.Find("Canvas2");
+                        if (canvas2 != null) canvas2.SetActive(false);
+                    }
+                }
             }
         }
     }
