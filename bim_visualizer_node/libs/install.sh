@@ -3,7 +3,7 @@
 pass="$1"
 
 REPO="https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer"
-DEST="/home/lg/projects/BIM-Liquid-Galaxy-Visualizer2"
+DEST="/home/lg/projects/BIM-Liquid-Galaxy-Visualizer"
 SERVER_DIR="bim_visualizer_node/"
 
 # remove the directory if exists

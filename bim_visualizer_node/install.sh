@@ -157,6 +157,11 @@ time=$(date +%H:%M:%S)
 echo "[$time] Installing server dependencies..." | tee -a ./logs/$filename
 npm install 2>> ./logs/$filename
 
+# Install npm dependencies
+time=$(date +%H:%M:%S)
+echo "[$time] Installing pm2..." | tee -a ./logs/$filename
+echo $pass | sudo -S npm install -g pm2@latest > /dev/null 2>> ./logs/$filename
+
 # Add access for pm2
 echo $pass | sudo -S chown lg:lg /home/lg/.pm2/rpc.sock /home/lg/.pm2/pub.sock
 
