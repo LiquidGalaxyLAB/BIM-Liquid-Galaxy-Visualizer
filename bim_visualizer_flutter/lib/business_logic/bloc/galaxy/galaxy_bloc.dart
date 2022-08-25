@@ -40,6 +40,8 @@ class GalaxyBloc extends Bloc<GalaxyEvent, GalaxyState> {
   }
 
   Future<void> _mapGalaxyExecuteToState(GalaxyExecute event, Emitter<GalaxyState> emit) async {
+    if (event.showLoading) emit(GalaxyExecuteInProgress());
+    
     final result = await _galaxyRepo.execute(event.client, event.command);
     if (result != -1) {
       emit(GalaxyExecuteSuccess(event.showAlert));

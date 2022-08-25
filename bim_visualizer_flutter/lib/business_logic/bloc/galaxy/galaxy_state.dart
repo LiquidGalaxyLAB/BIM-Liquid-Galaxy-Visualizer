@@ -46,6 +46,8 @@ class GalaxyExecuteSuccess extends GalaxyState {
   List<Object> get props => [showAlert];
 }
 
+class GalaxyExecuteInProgress extends GalaxyState { }
+
 class GalaxyExecuteFailure extends GalaxyState {
   final String error;
 

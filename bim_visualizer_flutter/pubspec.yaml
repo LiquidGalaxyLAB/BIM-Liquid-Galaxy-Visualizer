@@ -53,6 +53,7 @@ dependencies:
   fast_csv: ^0.1.44
   introduction_screen: ^3.0.2
   change_app_package_name: ^1.1.0
+  lottie: ^1.4.2
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +89,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/onboarding/
+    - assets/animations/
     - assets/images/
     - assets/icon/
     - .env

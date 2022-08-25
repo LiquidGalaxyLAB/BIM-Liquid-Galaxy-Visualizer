@@ -61,7 +61,7 @@ class _ControllerState extends State<Controller> {
           icon: const Icon(Icons.close, size: iconSize),
           onPressed: () {
             String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'close.sh ' + widget.server.password!;
-            widget.galaxyBloc.add(GalaxyExecute(widget.client, command, true));
+            widget.galaxyBloc.add(GalaxyExecute(widget.client, command, true, false));
             Navigator.pop(context);
           },
         ),
@@ -72,7 +72,7 @@ class _ControllerState extends State<Controller> {
               label: const Text('OPEN LOGOS', style: TextStyle(color: primaryColor)),
               onPressed: () {
                 String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'open_logos.sh ' + widget.server.password!;
-                widget.galaxyBloc.add(GalaxyExecute(widget.client, command, false));
+                widget.galaxyBloc.add(GalaxyExecute(widget.client, command, false, false));
               },
             )
           ),
@@ -82,7 +82,7 @@ class _ControllerState extends State<Controller> {
               label: const Text('CLEAN LOGOS', style: TextStyle(color: primaryColor)),
               onPressed: () {
                 String command = 'bash ' + dotenv.env['SERVER_LIBS_PATH']! + 'close_logos.sh ' + widget.server.password!;
-                widget.galaxyBloc.add(GalaxyExecute(widget.client, command, false));
+                widget.galaxyBloc.add(GalaxyExecute(widget.client, command, false, false));
               },
             )
           ),
