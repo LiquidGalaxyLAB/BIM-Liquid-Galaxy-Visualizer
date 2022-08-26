@@ -13,4 +13,4 @@ if [ -d "$DEST" ]; then rm -Rf $DEST; fi
 git clone $REPO $DEST 2> /dev/null
 
 # move to server directory and execute the install script
-(cd $DEST/$SERVER_DIR && git checkout develop && bash install.sh $pass)
+(cd $DEST/$SERVER_DIR && bash install.sh $pass)

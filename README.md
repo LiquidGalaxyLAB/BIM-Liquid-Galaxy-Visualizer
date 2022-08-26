@@ -20,11 +20,17 @@ BIM Liquid Galaxy Visualizer is a tool that allows the visualization of demo or 
         * [1.3.2 Android SDK](#android-sdk)
         * [1.3.3 Running the App](#running-the-app)
     * [1.4 Running the App With APK](#running-the-app-with-apk)
-- [2. Running Tests](#running-tests-trafficlight)
+- [2. Running Tests](#running-tests-traffic_light)
 - [3. License](#license-clipboard)
-- [4. Acknowledgements](#acknowledgements-purpleheart)
+- [4. Acknowledgements](#acknowledgements-purple_heart)
 
 ## Quick Step Guide :rocket:
+
+[(Back to Top)](#bim-liquid-galaxy-visualizer)
+
+For tests purpose you can follow with the [Running the app with the APK](#running-the-app-with-apk) guideline, and then, install the server using the task inside the app settings
+
+Case you want install and run the server manually, follow with the next steps
 
 ### Cloning the Repository
 
@@ -49,8 +55,6 @@ bash install.sh
 ```
 
 The script will install some OS needed dependencies like `chromium-browser`, `sshpass` and `npm` and then it will install the project dependencies.
-
-:warning: ***Pay attention for when the system password is asked***
 
 If it is the first time running the install script into the machine, the system should be reboot
 
@@ -119,6 +123,9 @@ Download, with your device, the stable version (most recent) of the [APK](https:
 Locate the downloaded file with an file manager (normally the downloaded file should be found into the downloads directory), open it and then follow the apk wizard installation
 
 ## Running tests :traffic_light:
+
+[(Back to Top)](#bim-liquid-galaxy-visualizer)
+
 To run the app tests first generate the mock files with the following command
 
 ```
@@ -136,5 +143,7 @@ To view the generated page run `open coverage/index.html`
 This software is distributed under the MIT license, more information can be found in the [LICENSE](LICENSE) file
 
 ## Acknowledgements :purple_heart:
+
+[(Back to Top)](#bim-liquid-galaxy-visualizer)
 
 The experience of being a GSoC student is beyond a code and i'm very grateful to have had this opportunity. All my thanks is to the Liquid Galaxy Organization Admin Andreu Ibánez for give me this oportunity also my mentors Karine Pistili and Marc Capdevila for being helpful not only on the bonding\coding period but before the project theme definition and finally my friends and family for the support.

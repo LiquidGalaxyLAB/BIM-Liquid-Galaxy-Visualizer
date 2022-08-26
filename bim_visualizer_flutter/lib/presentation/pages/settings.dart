@@ -116,7 +116,7 @@ class _SettingsState extends State<Settings> {
                               title: const Text('Install'),
                               value: const Text('Install the server'),
                               onPressed: isConnected ? (context) {
-                                String command = 'bash <(curl -S https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/develop/bim_visualizer_node/libs/install.sh) ' + widget.server.password!;
+                                String command = 'bash <(curl -S https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/install.sh) ' + widget.server.password!;
                                 _galaxyBloc.add(GalaxyExecute(client!, command, true, true));
                               } : (context) { 
                                 String title = 'Something went wrong';
