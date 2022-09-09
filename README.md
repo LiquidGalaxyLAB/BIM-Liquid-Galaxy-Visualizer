@@ -1,5 +1,11 @@
-# BIM Liquid Galaxy Visualizer
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/43768274/186247822-6ffada21-7064-4c19-a650-ae1d99bc70d3.png" width="350" height="200"/>
+</p>
 
+<!-- # BIM Liquid Galaxy Visualizer -->
+
+[Project Proposal](https://docs.google.com/document/d/1D9VqPUIZyw9AP1EmuOiUzzwtjucR-83Exz9VqCdmfDE/edit?usp=sharing) |
+[App on Play Store](https://play.google.com/store/apps/details?id=com.galaxy.bim_visualizer) |
 [Releases](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/releases/) | [Wiki](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/wiki)
 
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/blob/main/LICENSE)
@@ -119,7 +125,7 @@ Once the build finishes, the app should run into the connected device
 
 [(Back to Top)](#bim-liquid-galaxy-visualizer)
 
-Download, with your device, the stable version (most recent) of the [APK](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/releases/download/1.2.2/BIMLGVIS-1.2.2.apk) (can be found in the releases section), 
+Download, with your device, the stable version (most recent) of the [APK](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/releases/download/1.3.0/BIMLGVIS-1.3.0.apk) (can be found in the releases section), 
 Locate the downloaded file with an file manager (normally the downloaded file should be found into the downloads directory), open it and then follow the apk wizard installation
 
 ## Running tests :traffic_light:
@@ -146,4 +152,4 @@ This software is distributed under the MIT license, more information can be foun
 
 [(Back to Top)](#bim-liquid-galaxy-visualizer)
 
-The experience of being a GSoC student is beyond a code and i'm very grateful to have had this opportunity. All my thanks is to the Liquid Galaxy Organization Admin Andreu Ibánez for give me this oportunity also my mentors Karine Pistili and Marc Capdevila for being helpful not only on the bonding\coding period but before the project theme definition and finally my friends and family for the support.
+The experience of being a GSoC student is beyond a code and i'm very grateful for have had this opportunity. All my thanks is to the Liquid Galaxy Organization Admin Andreu Ibánez for give me this oportunity also my mentors Karine Pistili and Marc Capdevila for being helpful not only on the bonding\coding period but before the project theme definition, the Lleida Liquid Galaxy Support Pau Francino for helping with the app test also Alejandro Illán Marcos for release the app into the Play store and finally my friends and family for the support.
