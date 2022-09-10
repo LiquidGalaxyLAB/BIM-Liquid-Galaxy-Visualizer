@@ -4,7 +4,7 @@
 
 <!-- # BIM Liquid Galaxy Visualizer -->
 
-[Project Proposal](https://docs.google.com/document/d/1D9VqPUIZyw9AP1EmuOiUzzwtjucR-83Exz9VqCdmfDE/edit?usp=sharing) |
+[Project Documentation](https://docs.google.com/document/d/1wCPtYu7jgcStSviWJShtIEqMmz0kIg7tpTtxei1VBpc/edit?usp=sharing) |
 [App on Play Store](https://play.google.com/store/apps/details?id=com.galaxy.bim_visualizer) |
 [Releases](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/releases/) | [Wiki](https://github.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/wiki)
 
